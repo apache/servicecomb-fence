@@ -59,7 +59,7 @@ public class ResourceAuthHandler implements Handler {
     Jwt jwt = JwtHelper.decode(token);
     JWTClaims claims;
     try {
-      jwt.verifySignature(BeanUtils.getBean("authSignerVerifier"));
+      jwt.verifySignature(BeanUtils.getBean("authSignatureVerifier"));
       claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
       // TODO: verify claims.
     } catch (Exception e) {

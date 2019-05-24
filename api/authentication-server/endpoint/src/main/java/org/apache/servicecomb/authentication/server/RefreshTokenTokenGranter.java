@@ -25,8 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 import org.springframework.security.jwt.crypto.sign.Signer;
-import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 import org.springframework.stereotype.Component;
 
 import com.netflix.config.DynamicPropertyFactory;
@@ -34,8 +34,8 @@ import com.netflix.config.DynamicPropertyFactory;
 @Component(value = "fefreshTokenTokenGranter")
 public class RefreshTokenTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier("authSignerVerifier")
-  private SignerVerifier signerVerifier;
+  @Qualifier("authSignatureVerifier")
+  private SignatureVerifier signerVerifier;
 
   @Autowired
   @Qualifier("authSigner")
