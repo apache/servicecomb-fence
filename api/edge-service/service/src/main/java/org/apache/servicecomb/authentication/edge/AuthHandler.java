@@ -38,7 +38,7 @@ public class AuthHandler implements Handler {
     }
     Jwt jwt = JwtHelper.decode(token);
     try {
-      jwt.verifySignature(BeanUtils.getBean("authSignerVerifier"));
+      jwt.verifySignature(BeanUtils.getBean("authSignatureVerifier"));
     } catch (InvalidSignatureException e) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;

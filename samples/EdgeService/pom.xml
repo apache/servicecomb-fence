@@ -56,10 +56,6 @@
       <artifactId>authentication-edge-api-endpoint</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
-      <artifactId>authentication-server-api-service</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apache.servicecomb</groupId>
       <artifactId>solution-basic</artifactId>
     </dependency>

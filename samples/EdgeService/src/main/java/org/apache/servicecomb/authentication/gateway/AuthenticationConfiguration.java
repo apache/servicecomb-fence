@@ -24,8 +24,8 @@ import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = "authSignerVerifier")
-  public SignerVerifier authSignerVerifier() {
+  @Bean(name = "authSignatureVerifier")
+  public SignerVerifier authSignatureVerifier() {
     return new MacSigner("Please change this key.");
   }
 }

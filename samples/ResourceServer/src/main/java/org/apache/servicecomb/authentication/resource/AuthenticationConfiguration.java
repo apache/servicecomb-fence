@@ -20,12 +20,12 @@ package org.apache.servicecomb.authentication.resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
-import org.springframework.security.jwt.crypto.sign.SignerVerifier;
+import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = "authSignerVerifier")
-  public SignerVerifier authSignerVerifier() {
+  @Bean(name = "authSignatureVerifier")
+  public SignatureVerifier authSignatureVerifier() {
     return new MacSigner("Please change this key.");
   }
 }
