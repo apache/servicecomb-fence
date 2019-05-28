@@ -23,7 +23,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BootEventListener implements BootListener {
   public static GateRestTemplate authenticationServerTokenEndpoint;
-  public static GateRestTemplate gateEndpoint;
+  public static GateRestTemplate edgeService;
+  public static GateRestTemplate edgeServiceTokenEndpoint;
   public static GateRestTemplate resouceServerHandlerAuthEndpoint;
   public static GateRestTemplate resouceServerMethodAuthEndpoint;
   
@@ -32,8 +33,10 @@ public class BootEventListener implements BootListener {
     if (EventType.AFTER_REGISTRY.equals(event.getEventType())) {
       authenticationServerTokenEndpoint =
           GateRestTemplate.createEdgeRestTemplate("edge-service", "authentication-server", "TokenEndpoint").init();
-      gateEndpoint =
+      edgeService =
           GateRestTemplate.createEdgeRestTemplate("edge-service", null, null).init();
+      edgeServiceTokenEndpoint =
+          GateRestTemplate.createEdgeRestTemplate("edge-service", "edge-service", "TokenEndpoint").init();
       resouceServerHandlerAuthEndpoint =
           GateRestTemplate.createEdgeRestTemplate("edge-service", "resource-server", "HandlerAuthEndpoint").init();
       resouceServerMethodAuthEndpoint =

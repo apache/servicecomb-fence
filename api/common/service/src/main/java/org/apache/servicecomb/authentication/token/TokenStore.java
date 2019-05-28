@@ -15,15 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.token;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import org.springframework.security.core.userdetails.UserDetails;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
-
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
-
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
-
+public interface TokenStore {
+  <T extends Token> T createToken(UserDetails userDetails);
+  
+  <T extends Token> T readTokenByValue(String value);
 }

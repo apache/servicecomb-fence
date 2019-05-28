@@ -28,4 +28,12 @@
   <artifactId>authentication-server-api-service</artifactId>
   <packaging>jar</packaging>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.servicecomb.authentication</groupId>
+      <artifactId>authentication-common-api-service</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

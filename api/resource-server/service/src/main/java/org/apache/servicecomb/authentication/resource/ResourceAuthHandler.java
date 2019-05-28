@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.servicecomb.authentication.jwt.JWTClaims;
-import org.apache.servicecomb.authentication.jwt.JsonParser;
+import org.apache.servicecomb.authentication.token.JWTToken;
+import org.apache.servicecomb.authentication.token.JWTTokenStore;
 import org.apache.servicecomb.authentication.util.Constants;
 import org.apache.servicecomb.core.Handler;
 import org.apache.servicecomb.core.Invocation;
@@ -35,8 +35,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
 
 public class ResourceAuthHandler implements Handler {
 
@@ -56,23 +54,19 @@ public class ResourceAuthHandler implements Handler {
       return;
     }
     // verify tokens
-    Jwt jwt = JwtHelper.decode(token);
-    JWTClaims claims;
-    try {
-      jwt.verifySignature(BeanUtils.getBean("authSignatureVerifier"));
-      claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
-      // TODO: verify claims.
-    } catch (Exception e) {
+    JWTTokenStore store = BeanUtils.getBean("authIDTokenStore");
+    JWTToken t = store.readTokenByValue(token);
+    if(t == null) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
-
+    
     // check roles
     if (!StringUtils.isEmpty(config.roles)) {
       String[] roles = config.roles.split(",");
       if (roles.length > 0) {
         boolean valid = false;
-        Set<String> authorities = claims.getAuthorities();
+        Set<String> authorities = t.getClaims().getAuthorities();
         for (String role : roles) {
           if (authorities.contains(role)) {
             valid = true;
@@ -87,8 +81,8 @@ public class ResourceAuthHandler implements Handler {
     }
 
     // pre method authentiation
-    Set<GrantedAuthority> grantedAuthorities = new HashSet<>(claims.getAuthorities().size());
-    claims.getAuthorities().forEach(v -> grantedAuthorities.add(new SimpleGrantedAuthority(v)));
+    Set<GrantedAuthority> grantedAuthorities = new HashSet<>(t.getClaims().getAuthorities().size());
+    t.getClaims().getAuthorities().forEach(v -> grantedAuthorities.add(new SimpleGrantedAuthority(v)));
     SecurityContext sc = new SecurityContextImpl();
     Authentication authentication = new SimpleAuthentication(true, grantedAuthorities);
     sc.setAuthentication(authentication);

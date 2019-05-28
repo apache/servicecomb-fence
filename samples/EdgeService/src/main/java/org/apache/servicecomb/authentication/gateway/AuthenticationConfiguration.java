@@ -17,15 +17,15 @@
 
 package org.apache.servicecomb.authentication.gateway;
 
+import org.apache.servicecomb.authentication.edge.EdgeTokenStore;
+import org.apache.servicecomb.authentication.edge.InMemoryEdgeTokenStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.jwt.crypto.sign.MacSigner;
-import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = "authSignatureVerifier")
-  public SignerVerifier authSignatureVerifier() {
-    return new MacSigner("Please change this key.");
+  @Bean(name = "authEdgeTokenStore")
+  public EdgeTokenStore authEdgeTokenStore() {
+    return new InMemoryEdgeTokenStore();
   }
 }

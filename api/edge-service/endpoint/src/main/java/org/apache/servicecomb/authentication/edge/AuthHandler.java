@@ -17,32 +17,35 @@
 
 package org.apache.servicecomb.authentication.edge;
 
+import org.apache.servicecomb.authentication.server.TokenResponse;
 import org.apache.servicecomb.authentication.util.Constants;
 import org.apache.servicecomb.core.Handler;
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.foundation.common.utils.BeanUtils;
 import org.apache.servicecomb.swagger.invocation.AsyncResponse;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.InvalidSignatureException;
 
 
 public class AuthHandler implements Handler {
   @Override
   public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
+    EdgeTokenStore edgeTokenStore = BeanUtils.getBean("authEdgeTokenStore");
+
     String token = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION);
     if (token == null) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
-    Jwt jwt = JwtHelper.decode(token);
-    try {
-      jwt.verifySignature(BeanUtils.getBean("authSignatureVerifier"));
-    } catch (InvalidSignatureException e) {
+
+    TokenResponse tokenResonse = edgeTokenStore.readTokenResponse(token);
+    if (tokenResonse == null) {
+      // TODO : check token validity by expiration time
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
+
+    // send id_token to services to apply state less validation
+    invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION, tokenResonse.getId_token());
     invocation.next(asyncResponse);
   }
 }

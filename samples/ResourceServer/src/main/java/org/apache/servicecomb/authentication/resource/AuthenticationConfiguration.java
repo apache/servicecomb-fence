@@ -17,15 +17,30 @@
 
 package org.apache.servicecomb.authentication.resource;
 
+import org.apache.servicecomb.authentication.token.JWTTokenStore;
+import org.apache.servicecomb.authentication.token.TokenStore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
+import org.springframework.security.jwt.crypto.sign.Signer;
+import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = "authSignatureVerifier")
-  public SignatureVerifier authSignatureVerifier() {
+  @Bean(name = {"authSigner", "authSignatureVerifier"})
+  public SignerVerifier authSignerVerifier() {
+    // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
+    // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
+
+  @Bean(name = "authIDTokenStore")
+  public TokenStore authIDTokenStore(@Autowired @Qualifier("authSigner") Signer signer,
+      @Autowired @Qualifier("authSignatureVerifier") SignatureVerifier signerVerifier) {
+    return new JWTTokenStore(signer, signerVerifier);
+  }
+
 }

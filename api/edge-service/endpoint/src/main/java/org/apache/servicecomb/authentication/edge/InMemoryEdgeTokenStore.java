@@ -15,15 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.edge;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import java.util.HashMap;
+import java.util.Map;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+import org.apache.servicecomb.authentication.server.TokenResponse;
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
+public class InMemoryEdgeTokenStore implements EdgeTokenStore {
+  private Map<String, TokenResponse> tokens = new HashMap<>();
 
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
+  @Override
+  public TokenResponse readTokenResponse(String accessTokenValue) {
+    return tokens.get(accessTokenValue);
+  }
+
+  @Override
+  public void saveTokenResponse(String accessTokenValue, TokenResponse tokenResponse) {
+    tokens.put(accessTokenValue, tokenResponse);
+  }
 
 }

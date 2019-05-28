@@ -11,15 +11,37 @@
 ```
 ** HTTP Request **
 
-POST http://localhost:9090/api/authentication-server/v1/oauth/token HTTP/1.1
+POST http://localhost:9090/v1/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&username=admin&password=changeMyPassword
+
+** HTTP Response **
+
+{
+    "token_type": "bearer",
+    "access_token": "SlAV32hkKG",
+    "refresh_token": "8xLOxBtZp8",
+    "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlOWdkazcifQ.ewogImlzc
+     yI6ICJodHRwOi8vc2VydmVyLmV4YW1wbGUuY29tIiwKICJzdWIiOiAiMjQ4Mjg5
+     NzYxMDAxIiwKICJhdWQiOiAiczZCaGRSa3F0MyIsCiAibm9uY2UiOiAibi0wUzZ
+     fV3pBMk1qIiwKICJleHAiOiAxMzExMjgxOTcwLAogImlhdCI6IDEzMTEyODA5Nz
+     AKfQ.ggW8hZ1EuVLuxNuuIJKX_V8a_OMXzR0EHR9R6jgdqrOOF4daGU96Sr_P6q
+     Jp6IcmD3HP99Obi1PRs-cwh3LO-p146waJ8IhehcwL7F09JdijmBqkvPeB2T9CJ
+     NqeGpe-gccMg4vfKjkM8FcGvnzZUN4_KSP0aAp1tOJ1zZwgjxqGByKHiOtX7Tpd
+     QyHE5lcMiKPXfEIQILVq0pc_E2DzL7emopWoaoZTF_m0_N0YzFC6g6EJbOEoRoS
+     K5hoDalrcvRYLSrQAZZKflyuVCyixEoV9GfNQC3_osjzw2PAithfubEEBLuVVk4
+     XUVrWOLrLl0nx7RkKU8NXNHq-rvKMzqg",
+    "expires_in": 600,
+    "scope": null,
+    "jti": null,
+    "additionalInformation": null
+}
 ```
 
   * Authentication Server 发送 Token 给 Client 。
 
-  * Client 携带 Token 请求 Resource Server 。
+  * Client 携带  Access Token 请求 Edge Service 。
 
 ```
 ** HTTP Request **
@@ -29,6 +51,7 @@ Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer czZCaGRSa3F0MzpnWDFmQmF0M2JW
 ```
 
+  * Edge Service 将 Access Token 转换为对应的 ID Token ， 然后将请求转发给Resource Server。
   * Resource Server 返回对应的资源给 Client 。 
 
 ## 开发 Authentication Server
@@ -48,31 +71,38 @@ Authentication Server 主要提供认证和授权等接口。
 
 * 配置
 
-Authentication Server 需要配置 PasswordEncoder、Signer、SignerVerifier、UserDetailsService 等。这些对象和 Spring Security的概念一样。
+Authentication Server 需要配置 PasswordEncoder、Signer、SignerVerifier、TokenStore、UserDetailsService 等。
 ```
 @Configuration
 public class AuthenticationConfiguration {
-  @Autowired
-  @Qualifier("authPasswordEncoder")
-  private PasswordEncoder passwordEncoder;
-
   @Bean(name = "authPasswordEncoder")
   public PasswordEncoder authPasswordEncoder() {
     return new Pbkdf2PasswordEncoder();
   }
 
-  @Bean(name = "authSigner")
-  public Signer authSigner() {
-    return authSignerVerifier();
-  }
-  
-  @Bean(name = "authSignerVerifier")
+  @Bean(name = {"authSigner", "authSignatureVerifier"})
   public SignerVerifier authSignerVerifier() {
+    // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
+    // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
 
+  @Bean(name = {"authAccessTokenStore", "authRefreshTokenStore"})
+  public TokenStore sessionIDTokenStore() {
+    // Use in memory store for testing. Need to implement JDBC or Redis SessionIDTokenStore in product. 
+    return new InMemorySessionIDTokenStore();
+  }
+
+  @Bean(name = "authIDTokenStore")
+  public TokenStore authIDTokenStore(@Autowired @Qualifier("authSigner") Signer signer,
+      @Autowired @Qualifier("authSignatureVerifier") SignatureVerifier signerVerifier) {
+    return new JWTTokenStore(signer, signerVerifier);
+  }
+
   @Bean(name = "authUserDetailsService")
-  public UserDetailsService authUserDetailsService() {
+  public UserDetailsService authUserDetailsService(
+      @Autowired @Qualifier("authPasswordEncoder") PasswordEncoder passwordEncoder) {
+    // Use in memory UserDetails, need to implement JDBC or others in product
     InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
     UserDetails uAdmin = new User("admin", passwordEncoder.encode("changeMyPassword"),
         Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
@@ -92,6 +122,9 @@ public class AuthenticationConfiguration {
 * Signer 和  SignatureVerifier 
 
 生成 Token 和对 Token 进行校验。Singer 和  SignatureVerifier 是配套使用的， 在 Authentication Server ， 生成 Token 的时候，需要使用 Singer 。 验证 Token 的有效性 （比如查询 userDetails 等场景）， 需要使用  SignatureVerifier 。 通常有两种方式进行签名和校验， 一种是基于对称秘钥的机制，比如MacSigner，即是 Singer， 也是 SignatureVerifier （SignerVerifier）; 一种是基于非对称秘钥的机制， 比如 RsaSigner 和  RsaVerifier , 生成 Token 和校验 Token 的秘钥是不同的。
+
+* TokenStore
+在Authentication Server，TokenStore主要用来生成Access Token, Refresh Token和ID Token， 默认情况下， Access Token和Refresh Token都使用AbstractSessionIDTokenStore（本例子使用了InMemorySessionIDTokenStore，业务代码通常需要换为JDBC、Redis等实现）， ID Token使用JWTTokenStore。 JWTTokenStore是一个无状态的会话机制，Authentication Server的任何一个实例都可以独立生成。
 
 * PasswordEncoder 
 
@@ -114,16 +147,29 @@ Resource Server 对 Client 的访问进行认证， 并进行权限控制。
 
 * 配置
 
-Resource Server 需要配置 SignatureVerifier 等， 对用户会话进行认证。 
+Resource Server 需要配置 Signer、SignatureVerifier、TokenStore 等， 对用户会话进行认证。 
+
 ```
-@Configuration
-public class AuthenticationConfiguration {
-  @Bean(name = "authSignatureVerifier")
-  public SignerVerifier authSignatureVerifier() {
+  @Bean(name = {"authSigner", "authSignatureVerifier"})
+  public SignerVerifier authSignerVerifier() {
+    // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
+    // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
-}
+
+  @Bean(name = "authIDTokenStore")
+  public TokenStore authIDTokenStore(@Autowired @Qualifier("authSigner") Signer signer,
+      @Autowired @Qualifier("authSignatureVerifier") SignatureVerifier signerVerifier) {
+    return new JWTTokenStore(signer, signerVerifier);
+  }
 ```
+
+* Signer、SignatureVerifier
+对Token进行校验需要，实际上Resource Server只需要使用SignatureVerifier。
+
+* TokenStore
+默认情况下， Edge Service将ID Token传递给Resource Server，所以只需要配置authIDTokenStore。
+
 
 * 权限配置
 
@@ -205,15 +251,14 @@ Edge Service 是微服务接入层。 在[单体应用微服务改造](https://b
 
 * 配置
 
-Edge Service 需要配置 SignatureVerifier 等， 对用户会话进行认证。 
-```
+Edge Service 需要配置 EdgeTokenStore 等， 对用户会话进行认证。Edge Service 从HTTP头里面读取Access Token， 然后通过 EdgeTokenStore比对是否Access Token有效，如果有效，将对应的 ID Token传递到 Resource Server。 这里使用了 InMemoryEdgeTokenStore， 产品代码会多实例部署 Edge Service， 需要将其替换为 JDBC 或者 Redis 等实现。 
 
+```
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = "authSignatureVerifier")
-  public SignerVerifier authSignatureVerifier() {
-    return new MacSigner("Please change this key.");
+  @Bean(name = "authEdgeTokenStore")
+  public EdgeTokenStore authEdgeTokenStore() {
+    return new InMemoryEdgeTokenStore();
   }
 }
-
 ```
