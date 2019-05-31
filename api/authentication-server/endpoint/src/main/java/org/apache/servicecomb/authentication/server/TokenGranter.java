@@ -29,12 +29,12 @@ public interface TokenGranter {
 
   String grantType();
 
-  default Token grant(String grantType, Map<String, String> parameters) {
+  default TokenResponse grant(String grantType, Map<String, String> parameters) {
     if (grantType().equals(grantType)) {
       return grant(parameters);
     }
     return null;
   }
 
-  Token grant(Map<String, String> parameters);
+  TokenResponse grant(Map<String, String> parameters);
 }

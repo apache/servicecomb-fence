@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.edge;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+import org.apache.servicecomb.authentication.server.TokenResponse;
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
 
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
-
+public interface TokenService {
+  CompletableFuture<TokenResponse> getToken(Map<String, String> parameters);
 }

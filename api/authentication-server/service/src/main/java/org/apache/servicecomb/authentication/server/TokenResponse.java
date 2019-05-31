@@ -20,13 +20,16 @@ package org.apache.servicecomb.authentication.server;
 import java.util.Map;
 import java.util.Set;
 
-public class Token {
+public class TokenResponse {
   // Naming conventions https://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-00#section-3.1
   private String token_type;
 
   private String access_token;
 
   private String refresh_token;
+
+  // Naming conventions https://openid.net/specs/openid-connect-basic-1_0.html#ObtainingTokens
+  private String id_token;
 
   private int expires_in;
 
@@ -67,6 +70,14 @@ public class Token {
 
   public void setExpires_in(int expires_in) {
     this.expires_in = expires_in;
+  }
+
+  public String getId_token() {
+    return id_token;
+  }
+
+  public void setId_token(String id_token) {
+    this.id_token = id_token;
   }
 
   public Set<String> getScope() {

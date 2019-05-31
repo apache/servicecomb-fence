@@ -15,15 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.edge;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
-
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
-
+public interface AuthenticationServerTokenEndpoint {
+  @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters);
 }

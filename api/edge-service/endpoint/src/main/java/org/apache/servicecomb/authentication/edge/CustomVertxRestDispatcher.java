@@ -63,6 +63,7 @@ public class CustomVertxRestDispatcher extends AbstractVertxHttpDispatcher {
 
   @Override
   public void init(Router router) {
+    // TODO: regex configuration
     String regex = "(/v1/log|/inspector|/v1/auth)/(.*)";
     router.routeWithRegex(regex).handler(CookieHandler.create());
     router.routeWithRegex(regex).handler(createBodyHandler());

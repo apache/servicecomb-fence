@@ -15,15 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.edge;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import org.apache.servicecomb.authentication.server.TokenResponse;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+public interface EdgeTokenStore {
+  TokenResponse readTokenResponse(String accessTokenValue);
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
-
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
-
+  void saveTokenResponse(String accessTokenValue, TokenResponse tokenResponse);
 }

@@ -20,5 +20,5 @@ package org.apache.servicecomb.authentication.server;
 import java.util.Map;
 
 public interface TokenService {
-  Token getAccessToken(Map<String, String> parameters);
+  TokenResponse getToken(Map<String, String> parameters);
 }

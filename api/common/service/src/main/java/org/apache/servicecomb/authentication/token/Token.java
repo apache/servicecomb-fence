@@ -15,15 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.token;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import java.util.Map;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+public interface Token {
+  String username();
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
+  boolean isExpired();
 
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
+  long getIssueAt();
 
+  long getExpiration();
+
+  long getNotBefore();
+
+  String getValue();
+
+  Map<String, Object> getAdditionalInformation();
 }

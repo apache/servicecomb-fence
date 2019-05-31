@@ -19,14 +19,12 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
-import org.apache.servicecomb.authentication.jwt.JWTClaims;
-import org.apache.servicecomb.authentication.jwt.JsonParser;
+import org.apache.servicecomb.authentication.token.Token;
+import org.apache.servicecomb.authentication.token.TokenStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
-import org.springframework.security.jwt.crypto.sign.Signer;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import com.netflix.config.DynamicPropertyFactory;
@@ -34,12 +32,20 @@ import com.netflix.config.DynamicPropertyFactory;
 @Component(value = "fefreshTokenTokenGranter")
 public class RefreshTokenTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier("authSignatureVerifier")
-  private SignatureVerifier signerVerifier;
+  @Qualifier("authUserDetailsService")
+  private UserDetailsService userDetailsService;
 
   @Autowired
-  @Qualifier("authSigner")
-  private Signer signer;
+  @Qualifier("authAccessTokenStore")
+  private TokenStore accessTokenStore;
+
+  @Autowired
+  @Qualifier("authRefreshTokenStore")
+  private TokenStore refreshTokenStore;
+
+  @Autowired
+  @Qualifier("authIDTokenStore")
+  private TokenStore idTokenStore;
 
   @Override
   public boolean enabled() {
@@ -54,42 +60,27 @@ public class RefreshTokenTokenGranter implements TokenGranter {
   }
 
   @Override
-  public Token grant(Map<String, String> parameters) {
-    String refreshToken = parameters.get(TokenConst.PARAM_REFRESH_TOKEN);
-    String accessToken = parameters.get(TokenConst.PARAM_ACCESS_TOKEN);
+  public TokenResponse grant(Map<String, String> parameters) {
+    String refreshTokenValue = parameters.get(TokenConst.PARAM_REFRESH_TOKEN);
 
-    // verify refresh tokens
-    Jwt jwt = JwtHelper.decode(refreshToken);
-    JWTClaims claims;
-    try {
-      jwt.verifySignature(signerVerifier);
-      claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
-      // TODO: verify claims.
-    } catch (Exception e) {
-      return null;
+    Token refreshToken = refreshTokenStore.readTokenByValue(refreshTokenValue);
+
+    if (refreshToken != null && !refreshToken.isExpired()) {
+      UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.username());
+
+      TokenResponse token = new TokenResponse();
+      token.setAccess_token(accessTokenStore.createToken(userDetails).getValue());
+      // refresh token is not generated 
+      token.setRefresh_token(refreshTokenValue);
+      token.setId_token(idTokenStore.createToken(userDetails).getValue());
+
+      //TODO add parameters.
+      token.setScope(null);
+      token.setExpires_in(10 * 60);
+      token.setToken_type("bearer");
+      return token;
     }
-
-    // verify access tokens
-    jwt = JwtHelper.decode(accessToken);
-    claims = null;
-    try {
-      jwt.verifySignature(signerVerifier);
-      claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
-      // TODO: verify claims.
-    } catch (Exception e) {
-      return null;
-    }
-
-    claims.setIat(System.currentTimeMillis());
-    String content = JsonParser.unparse(claims);
-    Jwt newAccessToken = JwtHelper.encode(content, signer);
-
-    Token token = new Token();
-    token.setScope(claims.getScope());
-    token.setExpires_in(10 * 60);
-    token.setToken_type("bearer");
-    token.setAccess_token(newAccessToken.getEncoded());
-    return token;
+    return null;
   }
 
 }

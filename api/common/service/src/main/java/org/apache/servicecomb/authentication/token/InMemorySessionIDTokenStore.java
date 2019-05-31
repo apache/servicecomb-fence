@@ -15,15 +15,28 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.util;
+package org.apache.servicecomb.authentication.token;
 
-public final class Constants {
-  public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+import java.util.HashMap;
+import java.util.Map;
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
+import org.springframework.security.core.userdetails.UserDetails;
 
-  public static final String CONTEXT_HEADER_CLAIMS = "Claims";
+public class InMemorySessionIDTokenStore extends AbstractSessionIDTokenStore {
+  private Map<String, SessionIDToken> tokens = new HashMap<>();
 
-  public static final String TOKEN_TYPE_BEARER = "Bearer";
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T extends Token> T createToken(UserDetails userDetails) {
+    SessionIDToken token = new SessionIDToken(userDetails.getUsername());
+    tokens.put(token.getValue(), token);
+    return (T) token;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T extends Token> T readTokenByValue(String value) {
+    return (T) tokens.get(value);
+  }
 
 }

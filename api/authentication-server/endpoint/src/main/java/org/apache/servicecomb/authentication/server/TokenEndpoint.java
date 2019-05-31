@@ -29,19 +29,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestSchema(schemaId = "TokenEndpoint")
-@RequestMapping(path = "/v1/oauth/token")
+@RequestMapping(path = "/v1/token")
 public class TokenEndpoint implements TokenService {
   @Autowired
   private List<TokenGranter> granters;
 
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED)
-  public Token getAccessToken(@RequestBody Map<String, String> parameters) {
+  public TokenResponse getToken(@RequestBody Map<String, String> parameters) {
     String grantType = parameters.get(TokenConst.PARAM_GRANT_TYPE);
 
     for (TokenGranter granter : granters) {
       if (granter.enabled()) {
-        Token token = granter.grant(grantType, parameters);
+        TokenResponse token = granter.grant(grantType, parameters);
         if (token != null) {
           return token;
         }

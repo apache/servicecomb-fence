@@ -100,6 +100,15 @@ public class GateRestTemplate extends RestTemplate {
             DefinitionConst.VERSION_RULE_ALL);
     MicroserviceVersionMeta microserviceVersionMeta = microserviceVersionRule.getLatestMicroserviceVersion();
     SchemaMeta schemaMeta = microserviceVersionMeta.getMicroserviceMeta().ensureFindSchemaMeta(schemaId);
+
+    if(producerName.equals(gateName)) {
+      return String
+          .format("%s://%s:%d/%s",
+              urlSchema,
+              edgeAddress.getHostOrIp(),
+              edgeAddress.getPort(),
+              schemaMeta.getSwagger().getBasePath());
+    }
     return String
         .format("%s://%s:%d/api/%s%s",
             urlSchema,
