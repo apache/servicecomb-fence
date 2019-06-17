@@ -18,29 +18,29 @@
 package org.apache.servicecomb.authentication.resource;
 
 import org.apache.servicecomb.authentication.token.JWTTokenStore;
-import org.apache.servicecomb.authentication.token.TokenStore;
+import org.apache.servicecomb.authentication.token.JWTTokenStoreImpl;
+import org.apache.servicecomb.authentication.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
-import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
 import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = {"authSigner", "authSignatureVerifier"})
+  @Bean(name = {Constants.BEAN_AUTH_SIGNER, Constants.BEAN_AUTH_SIGNATURE_VERIFIER})
   public SignerVerifier authSignerVerifier() {
     // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
     // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
 
-  @Bean(name = "authIDTokenStore")
-  public TokenStore authIDTokenStore(@Autowired @Qualifier("authSigner") Signer signer,
-      @Autowired @Qualifier("authSignatureVerifier") SignatureVerifier signerVerifier) {
-    return new JWTTokenStore(signer, signerVerifier);
+  @Bean(name = Constants.BEAN_AUTH_ID_TOKEN_STORE)
+  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(Constants.BEAN_AUTH_SIGNER) Signer signer, 
+      @Autowired @Qualifier(Constants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
+    return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 
 }

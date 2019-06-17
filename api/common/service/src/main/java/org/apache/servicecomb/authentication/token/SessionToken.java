@@ -17,20 +17,5 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import java.util.Map;
-
-public interface Token {
-  String username();
-
-  boolean isExpired();
-
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
+public interface SessionToken extends Token {
 }

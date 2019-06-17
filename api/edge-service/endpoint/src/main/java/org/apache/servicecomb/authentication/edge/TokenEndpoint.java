@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.servicecomb.authentication.util.Constants;
 import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,8 @@ public class TokenEndpoint implements TokenService {
   private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
 
   @Autowired
-  @Qualifier("authEdgeTokenStore")
-  private EdgeTokenStore edgeTokenStore;
-
+  @Qualifier(Constants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR)
+  private EdgeTokenResponseProcessor edgeTokenResponseProcessor;
 
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -55,7 +55,7 @@ public class TokenEndpoint implements TokenService {
     response.whenComplete((tokenResonse, ex) -> {
       if (!response.isCompletedExceptionally()) {
         result.complete(tokenResonse);
-        edgeTokenStore.saveTokenResponse(tokenResonse.getAccess_token(), tokenResonse);
+        edgeTokenResponseProcessor.process(tokenResonse);
       } else {
         result.completeExceptionally(ex);
       }

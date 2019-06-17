@@ -18,6 +18,7 @@
 package org.apache.servicecomb.authentication;
 
 import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.servicecomb.authentication.util.Constants;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,16 +31,16 @@ import org.springframework.web.client.HttpClientErrorException;
 public class AuthenticationTestCase implements TestCase {
   @Override
   public void run() {
-    String accessToken = accessToken();
-    testHanlderAuth(accessToken);
-    testMethodAuth(accessToken);
+    String idToken = idToken();
+    testHanlderAuth(idToken);
+    testMethodAuth(idToken);
 
-    accessToken = accessTokenByRefreshToken();
-    testHanlderAuth(accessToken);
-    testMethodAuth(accessToken);
+    idToken = idTokenByRefreshToken();
+    testHanlderAuth(idToken);
+    testMethodAuth(idToken);
   }
 
-  private String accessToken() {
+  private String idToken() {
     // get token
     MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
@@ -52,12 +53,12 @@ public class AuthenticationTestCase implements TestCase {
         BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
             new HttpEntity<>(map, headers),
             TokenResponse.class);
-    TestMgr.check("bearer", token.getToken_type());
-    TestMgr.check(true, token.getAccess_token().length() > 10);
-    return token.getAccess_token();
+    TestMgr.check(Constants.TOKEN_TYPE_BEARER, token.getToken_type());
+    TestMgr.check(true, token.getId_token().length() > 10);
+    return token.getId_token();
   }
 
-  private String accessTokenByRefreshToken() {
+  private String idTokenByRefreshToken() {
     // get token
     MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
@@ -70,7 +71,7 @@ public class AuthenticationTestCase implements TestCase {
         BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
             new HttpEntity<>(map, headers),
             TokenResponse.class);
-    TestMgr.check("bearer", token.getToken_type());
+    TestMgr.check(Constants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getAccess_token().length() > 10);
 
     // refresh token
@@ -83,11 +84,11 @@ public class AuthenticationTestCase implements TestCase {
             new HttpEntity<>(map, headers),
             TokenResponse.class);
     TestMgr.check(token.getToken_type(), tokenNew.getToken_type());
-    TestMgr.check(token.getRefresh_token(), tokenNew.getRefresh_token());
+    TestMgr.check(token.getRefresh_token().equals(tokenNew.getRefresh_token()), false);
     TestMgr.check(token.getAccess_token().equals(tokenNew.getAccess_token()), false);
     TestMgr.check(token.getId_token().equals(tokenNew.getId_token()), false);
 
-    return tokenNew.getAccess_token();
+    return tokenNew.getId_token();
   }
 
   private void testHanlderAuth(String accessToken) {

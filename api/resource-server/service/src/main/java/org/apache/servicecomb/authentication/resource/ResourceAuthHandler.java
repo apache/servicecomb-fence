@@ -48,25 +48,25 @@ public class ResourceAuthHandler implements Handler {
       return;
     }
 
-    String token = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION);
-    if (token == null) {
+    String idTokenValue = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION);
+    if (idTokenValue == null) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
     // verify tokens
-    JWTTokenStore store = BeanUtils.getBean("authIDTokenStore");
-    JWTToken t = store.readTokenByValue(token);
-    if(t == null) {
+    JWTTokenStore store = BeanUtils.getBean(Constants.BEAN_AUTH_ID_TOKEN_STORE);
+    JWTToken idToken = store.createTokenByValue(idTokenValue);
+    if (idToken == null) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
-    
+
     // check roles
     if (!StringUtils.isEmpty(config.roles)) {
       String[] roles = config.roles.split(",");
       if (roles.length > 0) {
         boolean valid = false;
-        Set<String> authorities = t.getClaims().getAuthorities();
+        Set<String> authorities = idToken.getClaims().getAuthorities();
         for (String role : roles) {
           if (authorities.contains(role)) {
             valid = true;
@@ -81,8 +81,8 @@ public class ResourceAuthHandler implements Handler {
     }
 
     // pre method authentiation
-    Set<GrantedAuthority> grantedAuthorities = new HashSet<>(t.getClaims().getAuthorities().size());
-    t.getClaims().getAuthorities().forEach(v -> grantedAuthorities.add(new SimpleGrantedAuthority(v)));
+    Set<GrantedAuthority> grantedAuthorities = new HashSet<>(idToken.getClaims().getAuthorities().size());
+    idToken.getClaims().getAuthorities().forEach(v -> grantedAuthorities.add(new SimpleGrantedAuthority(v)));
     SecurityContext sc = new SecurityContextImpl();
     Authentication authentication = new SimpleAuthentication(true, grantedAuthorities);
     sc.setAuthentication(authentication);

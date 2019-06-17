@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.edge;
+package org.apache.servicecomb.authentication.token;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public interface EdgeTokenStore {
-  TokenResponse readTokenResponse(String accessTokenValue);
+public class SessionTokenStore implements TokenStore<SessionToken> {
 
-  void saveTokenResponse(String accessTokenValue, TokenResponse tokenResponse);
+  @Override
+  public SessionToken createToken(UserDetails userDetails) {
+    return new SessionTokenImpl(userDetails.getUsername());
+  }
+
 }

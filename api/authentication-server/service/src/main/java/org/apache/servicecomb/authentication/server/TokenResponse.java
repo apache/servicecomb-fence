@@ -20,6 +20,8 @@ package org.apache.servicecomb.authentication.server;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.servicecomb.authentication.token.OpenIDToken;
+
 public class TokenResponse {
   // Naming conventions https://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-00#section-3.1
   private String token_type;
@@ -31,12 +33,9 @@ public class TokenResponse {
   // Naming conventions https://openid.net/specs/openid-connect-basic-1_0.html#ObtainingTokens
   private String id_token;
 
-  private int expires_in;
+  private long expires_in;
 
   private Set<String> scope;
-
-  // JWT id
-  private String jti;
 
   private Map<String, Object> additionalInformation;
 
@@ -64,11 +63,11 @@ public class TokenResponse {
     this.refresh_token = refresh_token;
   }
 
-  public int getExpires_in() {
+  public long getExpires_in() {
     return expires_in;
   }
 
-  public void setExpires_in(int expires_in) {
+  public void setExpires_in(long expires_in) {
     this.expires_in = expires_in;
   }
 
@@ -88,14 +87,6 @@ public class TokenResponse {
     this.scope = scope;
   }
 
-  public String getJti() {
-    return jti;
-  }
-
-  public void setJti(String jti) {
-    this.jti = jti;
-  }
-
   public Map<String, Object> getAdditionalInformation() {
     return additionalInformation;
   }
@@ -104,4 +95,17 @@ public class TokenResponse {
     this.additionalInformation = additionalInformation;
   }
 
+  public static TokenResponse fromOpenIDToken(OpenIDToken openIDToken) {
+    TokenResponse token = new TokenResponse();
+    token.setAccess_token(openIDToken.getAccessToken().getValue());
+    token.setRefresh_token(openIDToken.getRefreshToken().getValue());
+    token.setId_token(openIDToken.getIdToken().getValue());
+
+    token.setAdditionalInformation(openIDToken.getAdditionalInformation());
+    token.setScope(openIDToken.getScope());
+    token.setExpires_in(openIDToken.getExpiresIn());
+    token.setToken_type(openIDToken.getTokenType());
+
+    return token;
+  }
 }

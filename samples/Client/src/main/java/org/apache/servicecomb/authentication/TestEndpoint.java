@@ -32,19 +32,25 @@ public class TestEndpoint {
 
   @GetMapping(path = "/start")
   public String start() {
-    tests.forEach(test -> test.run());
+    tests.forEach(test -> {
+      try {
+        test.run();
+      } catch (Throwable e) {
+        TestMgr.failed(e.getMessage(), e);
+      }
+    });
+
+    TestMgr.summary();
 
     List<Throwable> errors = TestMgr.errors();
     if (TestMgr.isSuccess()) {
       return TestMgr.successMessage();
     } else {
-      TestMgr.summary();
-
       StringBuilder sb = new StringBuilder();
       sb.append("Failed count : " + errors.size());
       sb.append("\n");
       errors.forEach(t -> sb.append(t.getMessage() + "\n"));
-      
+
       TestMgr.reset();
       return sb.toString();
     }

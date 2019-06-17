@@ -19,8 +19,10 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
+import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.authentication.token.Token;
-import org.apache.servicecomb.authentication.token.TokenStore;
+import org.apache.servicecomb.authentication.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,23 +31,15 @@ import org.springframework.stereotype.Component;
 
 import com.netflix.config.DynamicPropertyFactory;
 
-@Component(value = "fefreshTokenTokenGranter")
+@Component
 public class RefreshTokenTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier("authUserDetailsService")
+  @Qualifier(Constants.BEAN_AUTH_USER_DETAILS_SERVICE)
   private UserDetailsService userDetailsService;
 
   @Autowired
-  @Qualifier("authAccessTokenStore")
-  private TokenStore accessTokenStore;
-
-  @Autowired
-  @Qualifier("authRefreshTokenStore")
-  private TokenStore refreshTokenStore;
-
-  @Autowired
-  @Qualifier("authIDTokenStore")
-  private TokenStore idTokenStore;
+  @Qualifier(Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  private AbstractOpenIDTokenStore openIDTokenStore;
 
   @Override
   public boolean enabled() {
@@ -63,22 +57,12 @@ public class RefreshTokenTokenGranter implements TokenGranter {
   public TokenResponse grant(Map<String, String> parameters) {
     String refreshTokenValue = parameters.get(TokenConst.PARAM_REFRESH_TOKEN);
 
-    Token refreshToken = refreshTokenStore.readTokenByValue(refreshTokenValue);
+    Token refreshToken = openIDTokenStore.readTokenByRefreshTokenValue(refreshTokenValue);
 
     if (refreshToken != null && !refreshToken.isExpired()) {
       UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.username());
-
-      TokenResponse token = new TokenResponse();
-      token.setAccess_token(accessTokenStore.createToken(userDetails).getValue());
-      // refresh token is not generated 
-      token.setRefresh_token(refreshTokenValue);
-      token.setId_token(idTokenStore.createToken(userDetails).getValue());
-
-      //TODO add parameters.
-      token.setScope(null);
-      token.setExpires_in(10 * 60);
-      token.setToken_type("bearer");
-      return token;
+      OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
+      return TokenResponse.fromOpenIDToken(openIDToken);
     }
     return null;
   }

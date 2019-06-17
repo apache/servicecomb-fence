@@ -22,16 +22,7 @@ grant_type=password&username=admin&password=changeMyPassword
     "token_type": "bearer",
     "access_token": "SlAV32hkKG",
     "refresh_token": "8xLOxBtZp8",
-    "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlOWdkazcifQ.ewogImlzc
-     yI6ICJodHRwOi8vc2VydmVyLmV4YW1wbGUuY29tIiwKICJzdWIiOiAiMjQ4Mjg5
-     NzYxMDAxIiwKICJhdWQiOiAiczZCaGRSa3F0MyIsCiAibm9uY2UiOiAibi0wUzZ
-     fV3pBMk1qIiwKICJleHAiOiAxMzExMjgxOTcwLAogImlhdCI6IDEzMTEyODA5Nz
-     AKfQ.ggW8hZ1EuVLuxNuuIJKX_V8a_OMXzR0EHR9R6jgdqrOOF4daGU96Sr_P6q
-     Jp6IcmD3HP99Obi1PRs-cwh3LO-p146waJ8IhehcwL7F09JdijmBqkvPeB2T9CJ
-     NqeGpe-gccMg4vfKjkM8FcGvnzZUN4_KSP0aAp1tOJ1zZwgjxqGByKHiOtX7Tpd
-     QyHE5lcMiKPXfEIQILVq0pc_E2DzL7emopWoaoZTF_m0_N0YzFC6g6EJbOEoRoS
-     K5hoDalrcvRYLSrQAZZKflyuVCyixEoV9GfNQC3_osjzw2PAithfubEEBLuVVk4
-     XUVrWOLrLl0nx7RkKU8NXNHq-rvKMzqg",
+    "id_token": "eyJ...hbGciOiJSU...zI1NiIsImtpZCI6Ij",
     "expires_in": 600,
     "scope": null,
     "jti": null,
@@ -48,7 +39,7 @@ grant_type=password&username=admin&password=changeMyPassword
 
 POST http://localhost:9090/api/resource-server/v1/auth/handler/adminSayHello?name=Hi HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer czZCaGRSa3F0MzpnWDFmQmF0M2JW
+Authorization: Bearer SlAV32hkKG
 ```
 
   * Edge Service 将 Access Token 转换为对应的 ID Token ， 然后将请求转发给Resource Server。

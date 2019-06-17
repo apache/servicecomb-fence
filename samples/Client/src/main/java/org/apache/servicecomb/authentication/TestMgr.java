@@ -71,9 +71,9 @@ public class TestMgr {
   }
 
   public static void failed(String desc, Throwable e) {
-    Error error = new Error(msg + " | " + desc + ", method is " + getCaller());
+    Error error = new Error(msg + " | " + desc + ", method is " + getCaller() + " , error type is " + e.getClass().toString());
     if (e != null) {
-      error.setStackTrace(error.getStackTrace());
+      error.setStackTrace(e.getStackTrace());
     }
     errorList.add(error);
   }

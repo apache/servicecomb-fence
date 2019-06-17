@@ -17,22 +17,8 @@
 
 package org.apache.servicecomb.authentication.edge;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.servicecomb.authentication.server.TokenResponse;
 
-public class InMemoryEdgeTokenStore implements EdgeTokenStore {
-  private Map<String, TokenResponse> tokens = new HashMap<>();
-
-  @Override
-  public TokenResponse readTokenResponse(String accessTokenValue) {
-    return tokens.get(accessTokenValue);
-  }
-
-  @Override
-  public void saveTokenResponse(String accessTokenValue, TokenResponse tokenResponse) {
-    tokens.put(accessTokenValue, tokenResponse);
-  }
-
+public interface EdgeTokenResponseProcessor {
+  void process(TokenResponse tokenResponse);
 }

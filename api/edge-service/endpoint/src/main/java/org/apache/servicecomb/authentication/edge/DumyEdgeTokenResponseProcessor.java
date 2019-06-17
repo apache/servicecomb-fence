@@ -15,7 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.token;
+package org.apache.servicecomb.authentication.edge;
 
-public abstract class AbstractSessionIDTokenStore implements TokenStore {
+import org.apache.servicecomb.authentication.server.TokenResponse;
+
+public class DumyEdgeTokenResponseProcessor implements EdgeTokenResponseProcessor {
+  public DumyEdgeTokenResponseProcessor() {
+  }
+
+  @Override
+  public void process(TokenResponse tokenResponse) {
+  }
+
 }

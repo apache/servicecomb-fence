@@ -19,7 +19,9 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
-import org.apache.servicecomb.authentication.token.TokenStore;
+import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
+import org.apache.servicecomb.authentication.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,27 +31,19 @@ import org.springframework.stereotype.Component;
 
 import com.netflix.config.DynamicPropertyFactory;
 
-@Component(value = "passwordTokenGranter")
+@Component
 public class PasswordTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier("authUserDetailsService")
+  @Qualifier(Constants.BEAN_AUTH_USER_DETAILS_SERVICE)
   private UserDetailsService userDetailsService;
 
   @Autowired
-  @Qualifier("authPasswordEncoder")
+  @Qualifier(Constants.BEAN_AUTH_PASSWORD_ENCODER)
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  @Qualifier("authAccessTokenStore")
-  private TokenStore accessTokenStore;
-
-  @Autowired
-  @Qualifier("authRefreshTokenStore")
-  private TokenStore refreshTokenStore;
-
-  @Autowired
-  @Qualifier("authIDTokenStore")
-  private TokenStore idTokenStore;
+  @Qualifier(Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  private AbstractOpenIDTokenStore openIDTokenStore;
 
   @Override
   public TokenResponse grant(Map<String, String> parameters) {
@@ -58,17 +52,9 @@ public class PasswordTokenGranter implements TokenGranter {
 
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     if (passwordEncoder.matches(password, userDetails.getPassword())) {
-      TokenResponse token = new TokenResponse();
-      token.setAccess_token(accessTokenStore.createToken(userDetails).getValue());
-      token.setRefresh_token(refreshTokenStore.createToken(userDetails).getValue());
-      token.setId_token(idTokenStore.createToken(userDetails).getValue());
-
-      //TODO add parameters.
-      token.setScope(null);
-      token.setExpires_in(10 * 60);
-      token.setToken_type("bearer");
-
-      return token;
+      OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
+      openIDTokenStore.saveToken(openIDToken);
+      return TokenResponse.fromOpenIDToken(openIDToken);
     } else {
       return null;
     }
@@ -82,7 +68,7 @@ public class PasswordTokenGranter implements TokenGranter {
   @Override
   public boolean enabled() {
     return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty("servicecomb.authentication.granter.password.enabled", true)
+        .getBooleanProperty(Constants.CONFIG_GRANTER_PASSWORD_ENABLED, true)
         .get();
   }
 

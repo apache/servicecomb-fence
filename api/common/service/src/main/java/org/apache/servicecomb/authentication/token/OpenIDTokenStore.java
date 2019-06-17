@@ -17,20 +17,15 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import java.util.Map;
+public interface OpenIDTokenStore extends TokenStore<OpenIDToken> {
 
-public interface Token {
-  String username();
+  OpenIDToken readTokenByValue(String value);
 
-  boolean isExpired();
+  OpenIDToken readTokenByRefreshTokenValue(String refreshTokenValue);
 
-  long getIssueAt();
+  OpenIDToken readTokenByIDTokenValue(String idTokenValue);
+  
+  JWTToken createIDTokenByValue(String jwtTokenValue);
 
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
+  void saveToken(OpenIDToken token);
 }
