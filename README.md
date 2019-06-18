@@ -2,6 +2,15 @@
 
 This project is servicecomb-java-chassis security support. The main architecture is based on [The OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749) and [OpenID Connect](https://openid.net/connect/). And provides APIs for developers based on [Spring Security](https://spring.io/projects/spring-security). Please see [developers guide](docs/zh_CN/developersGuide.md) for details.
 
+## Authentication diagram
+
+![](docs/authentication.png)
+
+
+## Authorization diagram
+
+![](docs/authorization.png)
+
 ## Project description
 
 This project contains two folders api and samples. Api folder contains components used in Authentication Server, Edge Service and Resource Server. And samples folder gives a working example showing how to use these apis. 

@@ -19,8 +19,6 @@ package org.apache.servicecomb.authentication.token;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface TokenStore {
-  <T extends Token> T createToken(UserDetails userDetails);
-  
-  <T extends Token> T readTokenByValue(String value);
+public interface TokenStore<T extends Token> {
+  T createToken(UserDetails userDetails);
 }

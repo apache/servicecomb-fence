@@ -17,55 +17,6 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import java.util.UUID;
-
-import org.apache.servicecomb.authentication.jwt.JWTClaims;
-import org.apache.servicecomb.authentication.jwt.JsonParser;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
-import org.springframework.security.jwt.crypto.sign.Signer;
-
-public class JWTTokenStore implements TokenStore {
-  private Signer signer;
-
-  private SignatureVerifier signerVerifier;
-
-  public JWTTokenStore(Signer signer, SignatureVerifier signerVerifier) {
-    this.signer = signer;
-    this.signerVerifier = signerVerifier;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T extends Token> T createToken(UserDetails userDetails) {
-    JWTClaims claims = new JWTClaims();
-    claims.setSub(userDetails.getUsername());
-    if (userDetails.getAuthorities() != null) {
-      userDetails.getAuthorities().forEach(authority -> claims.addAuthority(authority.getAuthority()));
-    }
-
-    // TODO : set other parameters.
-    claims.setJti(UUID.randomUUID().toString());
-    claims.setIat(System.currentTimeMillis());
-    claims.setExp(5 * 60);
-
-    return (T) new JWTToken(claims, signer);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T extends Token> T readTokenByValue(String value) {
-    Jwt jwt = JwtHelper.decode(value);
-    JWTClaims claims;
-    try {
-      jwt.verifySignature(signerVerifier);
-      claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
-    } catch (Exception e) {
-      return null;
-    }
-    return (T) new JWTToken(claims, signer);
-  }
-
+public interface JWTTokenStore extends TokenStore<JWTToken> {
+  public JWTToken createTokenByValue(String value);
 }

@@ -22,8 +22,35 @@ public final class Constants {
 
   public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
 
+  public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE = "Authorization-TYPE";
+  
+  public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN = "ID_TOKEN";
+  
+  public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN = "SESSION_TOKEN";
+  
   public static final String CONTEXT_HEADER_CLAIMS = "Claims";
 
   public static final String TOKEN_TYPE_BEARER = "Bearer";
 
+  public static final int BEAN_DEFAULT_ORDER = 100;
+
+  public static final String BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR = "edgeTokenResponseProcessor";
+
+  public static final String BEAN_AUTH_SIGNER = "authSigner";
+
+  public static final String BEAN_AUTH_SIGNATURE_VERIFIER = "authSignatureVerifier";
+
+  public static final String BEAN_AUTH_PASSWORD_ENCODER = "authPasswordEncoder";
+
+  public static final String BEAN_AUTH_ACCESS_TOKEN_STORE = "authAccessTokenStore";
+
+  public static final String BEAN_AUTH_REFRESH_TOKEN_STORE = "authRefreshTokenStore";
+
+  public static final String BEAN_AUTH_ID_TOKEN_STORE = "authIDTokenStore";
+
+  public static final String BEAN_AUTH_OPEN_ID_TOKEN_STORE = "authOpenIDTokenStore";
+  
+  public static final String BEAN_AUTH_USER_DETAILS_SERVICE = "authUserDetailsService";
+  
+  public static final String CONFIG_GRANTER_PASSWORD_ENABLED = "servicecomb.authentication.granter.password.enabled";
 }

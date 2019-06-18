@@ -18,59 +18,68 @@
 package org.apache.servicecomb.authentication.token;
 
 import java.util.Map;
-import java.util.UUID;
 
-public class SessionIDToken implements Token {
+import org.apache.servicecomb.authentication.jwt.JWTClaims;
+import org.apache.servicecomb.authentication.jwt.JsonParser;
+import org.springframework.security.jwt.Jwt;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.Signer;
+
+public class JWTTokenImpl implements JWTToken {
+  private JWTClaims claims;
+
+  private boolean valueCalculated = false;
+
   private String value;
 
-  private long issueAt;
+  private Signer signer;
 
-  // in seconds
-  private long expiration;
-
-  private String username;
-
-  public SessionIDToken(String username) {
-    this.value = UUID.randomUUID().toString();
-    this.issueAt = System.currentTimeMillis();
-    // TODO add a configuration
-    this.expiration = 600;
-    this.username = username;
+  public JWTTokenImpl(JWTClaims claims, Signer signer) {
+    this.claims = claims;
+    this.signer = signer;
   }
 
   @Override
   public boolean isExpired() {
-    return System.currentTimeMillis() - this.issueAt > this.expiration * 1000;
+    return System.currentTimeMillis() - this.getIssueAt() > this.getExpiresIn() * 1000;
   }
 
   @Override
   public long getIssueAt() {
-    return this.issueAt;
+    return this.claims.getIat();
   }
 
   @Override
-  public long getExpiration() {
-    return this.expiration;
+  public long getExpiresIn() {
+    return this.claims.getExp();
   }
 
   @Override
   public long getNotBefore() {
-    // TODO add a configuration
-    return 0;
+    return this.claims.getNbf();
   }
 
   @Override
   public String getValue() {
+    if (!this.valueCalculated) {
+      String content = JsonParser.unparse(claims);
+      Jwt jwtToken = JwtHelper.encode(content, signer);
+      this.value = jwtToken.getEncoded();
+    }
     return this.value;
   }
 
   @Override
   public Map<String, Object> getAdditionalInformation() {
-    // TODO add a configuration
-    return null;
+    return this.claims.getAdditionalInformation();
   }
 
+  @Override
   public String username() {
-    return this.username;
+    return this.claims.getSub();
+  }
+  
+  public JWTClaims getClaims() {
+    return this.claims;
   }
 }

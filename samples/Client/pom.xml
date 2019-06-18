@@ -33,11 +33,6 @@
     <dependencies>
       <dependency>
         <groupId>org.apache.servicecomb.authentication</groupId>
-        <artifactId>authentication-common-api-endpoint</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.servicecomb.authentication</groupId>
         <artifactId>authentication-server-api-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
@@ -67,10 +62,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
-      <artifactId>authentication-common-api-endpoint</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.servicecomb.authentication</groupId>
       <artifactId>authentication-server-api-service</artifactId>

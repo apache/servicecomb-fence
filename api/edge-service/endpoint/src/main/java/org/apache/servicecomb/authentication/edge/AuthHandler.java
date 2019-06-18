@@ -17,7 +17,10 @@
 
 package org.apache.servicecomb.authentication.edge;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.servicecomb.authentication.token.JWTToken;
+import org.apache.servicecomb.authentication.token.JWTTokenStore;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
+import org.apache.servicecomb.authentication.token.OpenIDTokenStore;
 import org.apache.servicecomb.authentication.util.Constants;
 import org.apache.servicecomb.core.Handler;
 import org.apache.servicecomb.core.Invocation;
@@ -25,27 +28,43 @@ import org.apache.servicecomb.foundation.common.utils.BeanUtils;
 import org.apache.servicecomb.swagger.invocation.AsyncResponse;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 
-
 public class AuthHandler implements Handler {
   @Override
   public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
-    EdgeTokenStore edgeTokenStore = BeanUtils.getBean("authEdgeTokenStore");
-
     String token = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION);
+    String tokenType = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION_TYPE);
     if (token == null) {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
 
-    TokenResponse tokenResonse = edgeTokenStore.readTokenResponse(token);
-    if (tokenResonse == null) {
-      // TODO : check token validity by expiration time
+    if (Constants.CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
+      JWTTokenStore jwtTokenStore = BeanUtils.getBean(Constants.BEAN_AUTH_ID_TOKEN_STORE);
+      JWTToken jwtToken = jwtTokenStore.createTokenByValue(token);
+      if (jwtToken == null || jwtToken.isExpired()) {
+        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+        return;
+      }
+
+      // send id_token to services to apply state less validation
+      invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION, jwtToken.getValue());
+      invocation.next(asyncResponse);
+    } else if (Constants.CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN.equals(tokenType)) {
+      OpenIDTokenStore openIDTokenStore = BeanUtils.getBean(Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE);
+
+
+      OpenIDToken tokenResonse = openIDTokenStore.readTokenByValue(token);
+      if (tokenResonse == null || tokenResonse.isExpired()) {
+        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+        return;
+      }
+
+      // send id_token to services to apply state less validation
+      invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION, tokenResonse.getIdToken().getValue());
+      invocation.next(asyncResponse);
+    } else {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;
     }
-
-    // send id_token to services to apply state less validation
-    invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION, tokenResonse.getId_token());
-    invocation.next(asyncResponse);
   }
 }

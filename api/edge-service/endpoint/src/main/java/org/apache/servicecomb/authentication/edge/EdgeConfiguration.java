@@ -15,28 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.token;
+package org.apache.servicecomb.authentication.edge;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.servicecomb.authentication.util.Constants;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
-public class InMemorySessionIDTokenStore extends AbstractSessionIDTokenStore {
-  private Map<String, SessionIDToken> tokens = new HashMap<>();
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T extends Token> T createToken(UserDetails userDetails) {
-    SessionIDToken token = new SessionIDToken(userDetails.getUsername());
-    tokens.put(token.getValue(), token);
-    return (T) token;
+@Configuration
+public class EdgeConfiguration {
+  @Bean(name = {Constants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR})
+  @Order(Constants.BEAN_DEFAULT_ORDER)
+  public EdgeTokenResponseProcessor edgeTokenResponseProcessor() {
+    return new DumyEdgeTokenResponseProcessor();
   }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T extends Token> T readTokenByValue(String value) {
-    return (T) tokens.get(value);
-  }
-
 }
