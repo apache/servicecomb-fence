@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.InMemoryOpenIDTokenStore;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -38,27 +38,27 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = Constants.BEAN_AUTH_PASSWORD_ENCODER)
+  @Bean(name = CommonConstants.BEAN_AUTH_PASSWORD_ENCODER)
   public PasswordEncoder authPasswordEncoder() {
     return new Pbkdf2PasswordEncoder();
   }
 
-  @Bean(name = {Constants.BEAN_AUTH_SIGNER, Constants.BEAN_AUTH_SIGNATURE_VERIFIER})
+  @Bean(name = {CommonConstants.BEAN_AUTH_SIGNER, CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER})
   public SignerVerifier authSignerVerifier() {
     // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
     // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
 
-  @Bean(name = Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  @Bean(name = CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
   public AbstractOpenIDTokenStore openIDTokenStore() {
     // TODO: Use in memory store for testing. Need to implement JDBC or Redis SessionIDTokenStore in product. 
     return new InMemoryOpenIDTokenStore();
   }
 
-  @Bean(name = Constants.BEAN_AUTH_USER_DETAILS_SERVICE)
+  @Bean(name = CommonConstants.BEAN_AUTH_USER_DETAILS_SERVICE)
   public UserDetailsService authUserDetailsService(
-      @Autowired @Qualifier(Constants.BEAN_AUTH_PASSWORD_ENCODER) PasswordEncoder passwordEncoder) {
+      @Autowired @Qualifier(CommonConstants.BEAN_AUTH_PASSWORD_ENCODER) PasswordEncoder passwordEncoder) {
     // TODO: Use in memory UserDetails, need to implement JDBC or others in product
     InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
     UserDetails uAdmin = new User("admin", passwordEncoder.encode("changeMyPassword"),

@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.edge;
+package org.apache.servicecomb.authentication.resource;
 
-import org.apache.servicecomb.authentication.util.CommonConstants;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.apache.servicecomb.core.Handler;
+import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.swagger.invocation.AsyncResponse;
 
-@Configuration
-public class EdgeConfiguration {
-  @Bean(name = {CommonConstants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR})
-  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
-  public EdgeTokenResponseProcessor edgeTokenResponseProcessor() {
-    return new DumyEdgeTokenResponseProcessor();
+public class ResourceAuthHandler implements Handler {
+
+  @Override
+  public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
+    AuthFiltersBean.getAuthFilters().forEach(authFilter -> authFilter.doFilter(invocation));
+    invocation.next(asyncResponse);
   }
+
 }

@@ -17,7 +17,7 @@
 
 package org.apache.servicecomb.authentication.edge;
 
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.apache.servicecomb.common.rest.filter.HttpServerFilter;
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.foundation.vertx.http.HttpServletRequestEx;
@@ -34,14 +34,14 @@ public class AuthenticationFilter implements HttpServerFilter {
   public Response afterReceiveRequest(Invocation invocation, HttpServletRequestEx requestEx) {
     // Now support bearer id tokens authentication
     // TODO : add support for Cookies session tokens. 
-    String authentication = requestEx.getHeader(Constants.HTTP_HEADER_AUTHORIZATION);
+    String authentication = requestEx.getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION);
     if (authentication != null) {
       String[] tokens = authentication.split(" ");
       if (tokens.length == 2) {
-        if (tokens[0].equals(Constants.TOKEN_TYPE_BEARER)) {
-          invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION, tokens[1]);
-          invocation.addContext(Constants.CONTEXT_HEADER_AUTHORIZATION_TYPE,
-              Constants.CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN);
+        if (tokens[0].equals(CommonConstants.TOKEN_TYPE_BEARER)) {
+          invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, tokens[1]);
+          invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE,
+              CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN);
         }
       }
     }

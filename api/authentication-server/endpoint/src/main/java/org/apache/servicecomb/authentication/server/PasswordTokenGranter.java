@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,21 +34,21 @@ import com.netflix.config.DynamicPropertyFactory;
 @Component
 public class PasswordTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_USER_DETAILS_SERVICE)
+  @Qualifier(CommonConstants.BEAN_AUTH_USER_DETAILS_SERVICE)
   private UserDetailsService userDetailsService;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_PASSWORD_ENCODER)
+  @Qualifier(CommonConstants.BEAN_AUTH_PASSWORD_ENCODER)
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  @Qualifier(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
   private AbstractOpenIDTokenStore openIDTokenStore;
 
   @Override
   public TokenResponse grant(Map<String, String> parameters) {
-    String username = parameters.get(TokenConst.PARAM_USERNAME);
-    String password = parameters.get(TokenConst.PARAM_PASSWORD);
+    String username = parameters.get(AuthenticationServerConstants.PARAM_USERNAME);
+    String password = parameters.get(AuthenticationServerConstants.PARAM_PASSWORD);
 
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     if (passwordEncoder.matches(password, userDetails.getPassword())) {
@@ -62,13 +62,13 @@ public class PasswordTokenGranter implements TokenGranter {
 
   @Override
   public String grantType() {
-    return TokenConst.GRANT_TYPE_PASSWORD;
+    return AuthenticationServerConstants.GRANT_TYPE_PASSWORD;
   }
 
   @Override
   public boolean enabled() {
     return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty(Constants.CONFIG_GRANTER_PASSWORD_ENABLED, true)
+        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_PASSWORD_ENABLED, true)
         .get();
   }
 

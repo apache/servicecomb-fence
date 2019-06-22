@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.authentication.token.Token;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,34 +34,35 @@ import com.netflix.config.DynamicPropertyFactory;
 @Component
 public class RefreshTokenTokenGranter implements TokenGranter {
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_USER_DETAILS_SERVICE)
+  @Qualifier(CommonConstants.BEAN_AUTH_USER_DETAILS_SERVICE)
   private UserDetailsService userDetailsService;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  @Qualifier(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
   private AbstractOpenIDTokenStore openIDTokenStore;
 
   @Override
   public boolean enabled() {
     return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty("servicecomb.authentication.granter.refreshToken.enabled", true)
+        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_REFRESH_TOKEN_ENABLED, true)
         .get();
   }
 
   @Override
   public String grantType() {
-    return TokenConst.GRANT_TYPE_REFRESH_TOKEN;
+    return AuthenticationServerConstants.GRANT_TYPE_REFRESH_TOKEN;
   }
 
   @Override
   public TokenResponse grant(Map<String, String> parameters) {
-    String refreshTokenValue = parameters.get(TokenConst.PARAM_REFRESH_TOKEN);
+    String refreshTokenValue = parameters.get(AuthenticationServerConstants.PARAM_REFRESH_TOKEN);
 
     Token refreshToken = openIDTokenStore.readTokenByRefreshTokenValue(refreshTokenValue);
 
     if (refreshToken != null && !refreshToken.isExpired()) {
       UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.username());
       OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
+      openIDTokenStore.saveToken(openIDToken);
       return TokenResponse.fromOpenIDToken(openIDToken);
     }
     return null;

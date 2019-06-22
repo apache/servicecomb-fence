@@ -18,6 +18,7 @@
 package org.apache.servicecomb.authentication.jwt;
 
 public class JWTHeader {
+  //see: https://tools.ietf.org/html/rfc7519
   private String typ;
 
   private String alg;

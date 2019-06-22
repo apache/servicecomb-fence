@@ -37,7 +37,7 @@ public class TokenEndpoint implements TokenService {
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED)
   public TokenResponse getToken(@RequestBody Map<String, String> parameters) {
-    String grantType = parameters.get(TokenConst.PARAM_GRANT_TYPE);
+    String grantType = parameters.get(AuthenticationServerConstants.PARAM_GRANT_TYPE);
 
     for (TokenGranter granter : granters) {
       if (granter.enabled()) {

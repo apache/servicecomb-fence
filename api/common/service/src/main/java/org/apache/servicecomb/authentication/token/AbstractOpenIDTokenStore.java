@@ -17,22 +17,22 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public abstract class AbstractOpenIDTokenStore implements OpenIDTokenStore {
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_ACCESS_TOKEN_STORE)
+  @Qualifier(CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE)
   private TokenStore<SessionToken> accessTokenStore;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_REFRESH_TOKEN_STORE)
+  @Qualifier(CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE)
   private TokenStore<SessionToken> refreshTokenStore;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_ID_TOKEN_STORE)
+  @Qualifier(CommonConstants.BEAN_AUTH_ID_TOKEN_STORE)
   private JWTTokenStore idTokenStore;
 
   @Override
@@ -43,7 +43,7 @@ public abstract class AbstractOpenIDTokenStore implements OpenIDTokenStore {
   @Override
   public OpenIDToken createToken(UserDetails userDetails) {
     OpenIDToken token = new OpenIDToken();
-    token.setTokenType(Constants.TOKEN_TYPE_BEARER);
+    token.setTokenType(CommonConstants.TOKEN_TYPE_BEARER);
     token.setAccessToken(accessTokenStore.createToken(userDetails));
     token.setRefreshToken(refreshTokenStore.createToken(userDetails));
     token.setIdToken(idTokenStore.createToken(userDetails));

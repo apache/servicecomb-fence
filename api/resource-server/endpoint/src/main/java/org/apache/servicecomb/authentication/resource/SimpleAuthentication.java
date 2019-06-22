@@ -23,10 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 public class SimpleAuthentication implements Authentication {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = 6077733273349249822L;
 
   private boolean authenticated;
