@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.servicecomb.authentication.server.TokenResponse;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class TokenEndpoint implements TokenService {
   private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
 
   @Autowired
-  @Qualifier(Constants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR)
+  @Qualifier(CommonConstants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR)
   private EdgeTokenResponseProcessor edgeTokenResponseProcessor;
 
   @Override

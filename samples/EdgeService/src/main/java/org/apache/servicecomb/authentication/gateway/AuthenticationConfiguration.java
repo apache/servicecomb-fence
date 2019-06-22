@@ -19,7 +19,7 @@ package org.apache.servicecomb.authentication.gateway;
 
 import org.apache.servicecomb.authentication.token.JWTTokenStore;
 import org.apache.servicecomb.authentication.token.JWTTokenStoreImpl;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -30,16 +30,16 @@ import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class AuthenticationConfiguration {
-  @Bean(name = {Constants.BEAN_AUTH_SIGNER, Constants.BEAN_AUTH_SIGNATURE_VERIFIER})
+  @Bean(name = {CommonConstants.BEAN_AUTH_SIGNER, CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER})
   public SignerVerifier authSignerVerifier() {
     // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
     // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
   }
 
-  @Bean(name = Constants.BEAN_AUTH_ID_TOKEN_STORE)
-  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(Constants.BEAN_AUTH_SIGNER) Signer signer, 
-      @Autowired @Qualifier(Constants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
+  @Bean(name = CommonConstants.BEAN_AUTH_ID_TOKEN_STORE)
+  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer, 
+      @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
     return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 

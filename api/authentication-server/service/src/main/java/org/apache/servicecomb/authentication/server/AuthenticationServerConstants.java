@@ -17,7 +17,7 @@
 
 package org.apache.servicecomb.authentication.server;
 
-public class TokenConst {
+public class AuthenticationServerConstants {
   public static final String PARAM_GRANT_TYPE = "grant_type";
 
   public static final String PARAM_USERNAME = "username";
@@ -31,4 +31,8 @@ public class TokenConst {
   public static final String GRANT_TYPE_PASSWORD = "password";
   
   public static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+  
+  public static final String CONFIG_GRANTER_PASSWORD_ENABLED = "servicecomb.authentication.granter.password.enabled";
+  
+  public static final String CONFIG_GRANTER_REFRESH_TOKEN_ENABLED = "servicecomb.authentication.granter.refreshToken.enabled";
 }

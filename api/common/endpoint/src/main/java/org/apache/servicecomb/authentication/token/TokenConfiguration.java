@@ -17,7 +17,7 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,17 +28,17 @@ import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
 public class TokenConfiguration {
-  @Bean(name = {Constants.BEAN_AUTH_ACCESS_TOKEN_STORE,
-      Constants.BEAN_AUTH_REFRESH_TOKEN_STORE})
-  @Order(Constants.BEAN_DEFAULT_ORDER)
+  @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
+      CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
+  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
   public SessionTokenStore sessionTokenStore() {
     return new SessionTokenStore();
   }
 
-  @Bean(name = {Constants.BEAN_AUTH_ID_TOKEN_STORE})
-  @Order(Constants.BEAN_DEFAULT_ORDER)
-  public JWTTokenStore jwtTokenStore(@Autowired @Qualifier(Constants.BEAN_AUTH_SIGNER) Signer signer,
-      @Autowired @Qualifier(Constants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
+  @Bean(name = {CommonConstants.BEAN_AUTH_ID_TOKEN_STORE})
+  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
+  public JWTTokenStore jwtTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer,
+      @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
     return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 }

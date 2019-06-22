@@ -17,7 +17,7 @@
 
 package org.apache.servicecomb.authentication.util;
 
-public final class Constants {
+public final class CommonConstants {
   public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
 
   public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
@@ -52,5 +52,5 @@ public final class Constants {
   
   public static final String BEAN_AUTH_USER_DETAILS_SERVICE = "authUserDetailsService";
   
-  public static final String CONFIG_GRANTER_PASSWORD_ENABLED = "servicecomb.authentication.granter.password.enabled";
+  public static final String BEAN_AUTH_AUTH_FILTER = "authAuthFilter";
 }

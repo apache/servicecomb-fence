@@ -20,76 +20,57 @@ package org.apache.servicecomb.authentication.resource;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.authentication.token.JWTToken;
 import org.apache.servicecomb.authentication.token.JWTTokenStore;
-import org.apache.servicecomb.authentication.util.Constants;
-import org.apache.servicecomb.core.Handler;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.foundation.common.utils.BeanUtils;
-import org.apache.servicecomb.swagger.invocation.AsyncResponse;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.stereotype.Component;
 
-public class ResourceAuthHandler implements Handler {
+@Component
+@Order(0)
+public class AuthenticationAuthFilter implements AuthFilter {
 
   @Override
-  public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
+  public void doFilter(Invocation invocation) throws InvocationException {
     AccessConfiguration config = AccessConfigurationManager.getAccessConfiguration(invocation);
 
     // by pass authentication
     if (!config.needAuth) {
-      invocation.next(asyncResponse);
+      // TODO : shall we do authorization without authenticated? 
+      createSecurityContext(new HashSet<>());
       return;
     }
 
-    String idTokenValue = invocation.getContext(Constants.CONTEXT_HEADER_AUTHORIZATION);
+    String idTokenValue = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION);
     if (idTokenValue == null) {
-      asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-      return;
+      throw new InvocationException(403, "forbidden", "not authenticated");
     }
+
     // verify tokens
-    JWTTokenStore store = BeanUtils.getBean(Constants.BEAN_AUTH_ID_TOKEN_STORE);
+    JWTTokenStore store = BeanUtils.getBean(CommonConstants.BEAN_AUTH_ID_TOKEN_STORE);
     JWTToken idToken = store.createTokenByValue(idTokenValue);
     if (idToken == null) {
-      asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-      return;
+      throw new InvocationException(403, "forbidden", "not authenticated");
     }
 
-    // check roles
-    if (!StringUtils.isEmpty(config.roles)) {
-      String[] roles = config.roles.split(",");
-      if (roles.length > 0) {
-        boolean valid = false;
-        Set<String> authorities = idToken.getClaims().getAuthorities();
-        for (String role : roles) {
-          if (authorities.contains(role)) {
-            valid = true;
-            break;
-          }
-        }
-        if (!valid) {
-          asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-          return;
-        }
-      }
-    }
-
-    // pre method authentiation
     Set<GrantedAuthority> grantedAuthorities = new HashSet<>(idToken.getClaims().getAuthorities().size());
     idToken.getClaims().getAuthorities().forEach(v -> grantedAuthorities.add(new SimpleGrantedAuthority(v)));
+    createSecurityContext(grantedAuthorities);
+  }
+
+  private void createSecurityContext(Set<GrantedAuthority> grantedAuthorities) {
     SecurityContext sc = new SecurityContextImpl();
     Authentication authentication = new SimpleAuthentication(true, grantedAuthorities);
     sc.setAuthentication(authentication);
     SecurityContextHolder.setContext(sc);
-
-    // next
-    invocation.next(asyncResponse);
   }
-
 }

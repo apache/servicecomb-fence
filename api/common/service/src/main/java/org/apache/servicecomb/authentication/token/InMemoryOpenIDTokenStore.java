@@ -20,6 +20,9 @@ package org.apache.servicecomb.authentication.token;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * In memory store, only used for testing or samples only. DO NOT use it in product.
+ */
 public class InMemoryOpenIDTokenStore extends AbstractOpenIDTokenStore {
   private static final Map<String, OpenIDToken> TOKENS = new ConcurrentHashMap<>();
 

@@ -18,7 +18,7 @@
 package org.apache.servicecomb.authentication;
 
 import org.apache.servicecomb.authentication.server.TokenResponse;
-import org.apache.servicecomb.authentication.util.Constants;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -53,7 +53,7 @@ public class AuthenticationTestCase implements TestCase {
         BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
             new HttpEntity<>(map, headers),
             TokenResponse.class);
-    TestMgr.check(Constants.TOKEN_TYPE_BEARER, token.getToken_type());
+    TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getId_token().length() > 10);
     return token.getId_token();
   }
@@ -71,7 +71,7 @@ public class AuthenticationTestCase implements TestCase {
         BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
             new HttpEntity<>(map, headers),
             TokenResponse.class);
-    TestMgr.check(Constants.TOKEN_TYPE_BEARER, token.getToken_type());
+    TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getAccess_token().length() > 10);
 
     // refresh token
