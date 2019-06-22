@@ -51,6 +51,4 @@ public final class CommonConstants {
   public static final String BEAN_AUTH_OPEN_ID_TOKEN_STORE = "authOpenIDTokenStore";
   
   public static final String BEAN_AUTH_USER_DETAILS_SERVICE = "authUserDetailsService";
-  
-  public static final String BEAN_AUTH_AUTH_FILTER = "authAuthFilter";
 }
