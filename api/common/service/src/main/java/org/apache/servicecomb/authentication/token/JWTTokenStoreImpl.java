@@ -45,10 +45,12 @@ public class JWTTokenStoreImpl implements JWTTokenStore {
       userDetails.getAuthorities().forEach(authority -> claims.addAuthority(authority.getAuthority()));
     }
 
-    // TODO : set other parameters.
+    TokenDynamicProperties config = TokenDynamicPropertiesManager.getTokenConfiguration(userDetails.getUsername());
     claims.setJti(UUID.randomUUID().toString());
     claims.setIat(System.currentTimeMillis());
-    claims.setExp(5 * 60);
+    claims.setExp(config.expiresIn);
+    claims.setNbf(config.notBefore);
+    // Maybe some other properties in future
 
     return new JWTTokenImpl(claims, signer);
   }

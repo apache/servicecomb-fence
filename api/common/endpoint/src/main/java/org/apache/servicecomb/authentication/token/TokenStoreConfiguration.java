@@ -27,7 +27,7 @@ import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
-public class TokenConfiguration {
+public class TokenStoreConfiguration {
   @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
       CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
   @Order(CommonConstants.BEAN_DEFAULT_ORDER)

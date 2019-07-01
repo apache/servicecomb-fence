@@ -163,12 +163,14 @@ servicecomb:
   authencation:
     access:
       needAuth: true
-      roles:
-        HandlerAuthEndpoint:
-          adminSayHello: ADMIN
-          guestSayHello: GUEST
-          guestOrAdminSayHello: ADMIN,GUEST
-          # everyoneSayHello: all can
+      HandlerAuthEndpoint:
+        adminSayHello: 
+          roles: ADMIN
+        guestSayHello: 
+          roles: GUEST
+        guestOrAdminSayHello: 
+          roles: ADMIN,GUEST
+        # everyoneSayHello: all can
 ```
 
 还可以统一配置Schema

@@ -52,21 +52,24 @@ public class AuthenticationConfiguration {
 
   @Bean(name = CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
   public AbstractOpenIDTokenStore openIDTokenStore() {
-    // TODO: Use in memory store for testing. Need to implement JDBC or Redis SessionIDTokenStore in product. 
+    // NOTICE: Use in memory store for testing. Need to implement JDBC or Redis SessionIDTokenStore in product. 
     return new InMemoryOpenIDTokenStore();
   }
 
   @Bean(name = CommonConstants.BEAN_AUTH_USER_DETAILS_SERVICE)
   public UserDetailsService authUserDetailsService(
       @Autowired @Qualifier(CommonConstants.BEAN_AUTH_PASSWORD_ENCODER) PasswordEncoder passwordEncoder) {
-    // TODO: Use in memory UserDetails, need to implement JDBC or others in product
+    // NOTICE: Use in memory UserDetails, need to implement JDBC or others in product
     InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
     UserDetails uAdmin = new User("admin", passwordEncoder.encode("changeMyPassword"),
         Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
     UserDetails uGuest = new User("guest", passwordEncoder.encode("changeMyPassword"),
         Arrays.asList(new SimpleGrantedAuthority("GUEST")));
+    UserDetails uGuestExpiresQuickly = new User("guestExpiresQuickly", passwordEncoder.encode("changeMyPassword"),
+        Arrays.asList(new SimpleGrantedAuthority("GUEST")));
     manager.createUser(uAdmin);
     manager.createUser(uGuest);
+    manager.createUser(uGuestExpiresQuickly);
     return manager;
   }
 }

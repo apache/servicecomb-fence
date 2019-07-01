@@ -41,7 +41,7 @@ public class AuthenticationAuthFilter implements AuthFilter {
 
   @Override
   public void doFilter(Invocation invocation) throws InvocationException {
-    AccessConfiguration config = AccessConfigurationManager.getAccessConfiguration(invocation);
+    AccessDynamicProperties config = AccessDynamicPropertiesManager.getAccessConfiguration(invocation);
 
     // by pass authentication
     if (!config.needAuth) {

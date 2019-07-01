@@ -38,12 +38,14 @@ servicecomb:
   authencation:
     access:
       needAuth: true
-      roles:
-        HandlerAuthEndpoint:
-          adminSayHello: ADMIN
-          guestSayHello: GUEST
-          guestOrAdminSayHello: ADMIN,GUEST
-          # everyoneSayHello: all can
+      HandlerAuthEndpoint:
+        adminSayHello: 
+          roles: ADMIN
+        guestSayHello: 
+          roles: GUEST
+        guestOrAdminSayHello: 
+          roles: ADMIN,GUEST
+        # everyoneSayHello: all can
 
   handler:
     chain:
