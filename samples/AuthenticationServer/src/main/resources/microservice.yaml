@@ -34,3 +34,9 @@ servicecomb:
 
   rest:
     address: 0.0.0.0:9091
+
+  authentication:
+    token:
+      expiresIn: 600
+      guestExpiresQuickly:
+        expiresIn: 3

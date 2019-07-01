@@ -19,21 +19,17 @@ package org.apache.servicecomb.authentication.token;
 
 import java.util.Map;
 
-public interface Token {
-  String username();
+import org.apache.servicecomb.config.inject.ConfigObjectFactory;
+import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
+public class TokenDynamicPropertiesManager {
+  private static final Map<String, TokenDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
+
+  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
+
+  public static TokenDynamicProperties getTokenConfiguration(String username) {
+    return CONFIGURATIONS.computeIfAbsent(username, key -> {
+      return FACTORY.create(TokenDynamicProperties.class, "username", username);
+    });
   }
-
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
 }

@@ -17,23 +17,20 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import java.util.Map;
+import org.apache.servicecomb.config.inject.InjectProperties;
+import org.apache.servicecomb.config.inject.InjectProperty;
 
-public interface Token {
-  String username();
+@InjectProperties(prefix = "servicecomb.authentication")
+public class TokenDynamicProperties {
+  @InjectProperty(keys = {
+      "token.${username}.expiresIn",
+      "expiresIn"},
+      defaultValue = "600")
+  public long expiresIn;
 
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
-  }
-
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
+  @InjectProperty(keys = {
+      "token.${username}.notBefore",
+      "notBefore"},
+      defaultValue = "0")
+  public long notBefore;
 }

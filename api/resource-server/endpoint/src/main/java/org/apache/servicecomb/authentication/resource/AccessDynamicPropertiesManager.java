@@ -17,21 +17,20 @@
 
 package org.apache.servicecomb.authentication.resource;
 
-import org.apache.servicecomb.config.inject.InjectProperties;
-import org.apache.servicecomb.config.inject.InjectProperty;
+import java.util.Map;
 
-@InjectProperties(prefix = "servicecomb.authencation.access")
-public class AccessConfiguration {
-  @InjectProperty(keys = {
-      "needAuth.${schemaId}.${operationId}",
-      "needAuth.${schemaId}",
-      "needAuth"},
-      defaultValue = "true")
-  public boolean needAuth;
+import org.apache.servicecomb.config.inject.ConfigObjectFactory;
+import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
-  @InjectProperty(keys = {
-      "roles.${schemaId}.${operationId}",
-      "roles.${schemaId}",
-      "roles"})
-  public String roles;
+public class AccessDynamicPropertiesManager {
+  private static final Map<String, AccessDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
+
+  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
+
+  public static AccessDynamicProperties getAccessConfiguration(Invocation invocation) {
+    return CONFIGURATIONS.computeIfAbsent(invocation.getOperationMeta().getSchemaQualifiedName(), key -> {
+      return FACTORY.create(AccessDynamicProperties.class, "schemaId", invocation.getSchemaId(), "operationId", invocation.getOperationName());
+    });
+  }
 }

@@ -40,11 +40,6 @@ public class JWTTokenImpl implements JWTToken {
   }
 
   @Override
-  public boolean isExpired() {
-    return System.currentTimeMillis() - this.getIssueAt() > this.getExpiresIn() * 1000;
-  }
-
-  @Override
   public long getIssueAt() {
     return this.claims.getIat();
   }
@@ -78,7 +73,7 @@ public class JWTTokenImpl implements JWTToken {
   public String username() {
     return this.claims.getSub();
   }
-  
+
   public JWTClaims getClaims() {
     return this.claims;
   }

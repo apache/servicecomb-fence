@@ -35,7 +35,7 @@ public class ConfigBasedAuthoriaztionAuthFilter implements AuthFilter {
 
   @Override
   public void doFilter(Invocation invocation) throws InvocationException {
-    AccessConfiguration config = AccessConfigurationManager.getAccessConfiguration(invocation);
+    AccessDynamicProperties config = AccessDynamicPropertiesManager.getAccessConfiguration(invocation);
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     // check roles
     if (!StringUtils.isEmpty(config.roles)) {

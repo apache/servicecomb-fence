@@ -23,6 +23,7 @@ import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestSchema(schemaId = "TestEndpoint")
 @RequestMapping(path = "/v1/test")
@@ -43,16 +44,15 @@ public class TestEndpoint {
     TestMgr.summary();
 
     List<Throwable> errors = TestMgr.errors();
+    StringBuilder sb = new StringBuilder();
     if (TestMgr.isSuccess()) {
-      return TestMgr.successMessage();
+      sb.append(TestMgr.successMessage());
     } else {
-      StringBuilder sb = new StringBuilder();
       sb.append("Failed count : " + errors.size());
       sb.append("\n");
       errors.forEach(t -> sb.append(t.getMessage() + "\n"));
-
-      TestMgr.reset();
-      return sb.toString();
     }
+    TestMgr.reset();
+    return sb.toString();
   }
 }

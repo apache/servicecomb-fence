@@ -42,7 +42,7 @@ public class AuthHandler implements Handler {
       JWTTokenStore jwtTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_ID_TOKEN_STORE);
       JWTToken jwtToken = jwtTokenStore.createTokenByValue(token);
       if (jwtToken == null || jwtToken.isExpired()) {
-        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "token expired or not valid."));
         return;
       }
 

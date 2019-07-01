@@ -25,22 +25,15 @@ public class SessionTokenImpl implements SessionToken {
 
   private long issueAt;
 
-  // in seconds
-  private long expiresIn;
-
   private String username;
+
+  private TokenDynamicProperties config;
 
   public SessionTokenImpl(String username) {
     this.value = UUID.randomUUID().toString();
     this.issueAt = System.currentTimeMillis();
-    // TODO add a configuration
-    this.expiresIn = 600;
     this.username = username;
-  }
-
-  @Override
-  public boolean isExpired() {
-    return System.currentTimeMillis() - this.issueAt > this.expiresIn * 1000;
+    this.config = TokenDynamicPropertiesManager.getTokenConfiguration(username);
   }
 
   @Override
@@ -50,13 +43,12 @@ public class SessionTokenImpl implements SessionToken {
 
   @Override
   public long getExpiresIn() {
-    return this.expiresIn;
+    return this.config.expiresIn;
   }
 
   @Override
   public long getNotBefore() {
-    // TODO add a configuration
-    return 0;
+    return this.config.notBefore;
   }
 
   @Override
@@ -66,7 +58,7 @@ public class SessionTokenImpl implements SessionToken {
 
   @Override
   public Map<String, Object> getAdditionalInformation() {
-    // TODO add a configuration
+    // TODO additional information is not used now
     return null;
   }
 

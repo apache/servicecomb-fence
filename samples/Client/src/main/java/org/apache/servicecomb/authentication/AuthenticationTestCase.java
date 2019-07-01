@@ -55,6 +55,7 @@ public class AuthenticationTestCase implements TestCase {
             TokenResponse.class);
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getId_token().length() > 10);
+    TestMgr.check(600, token.getExpires_in());
     return token.getId_token();
   }
 
@@ -118,6 +119,7 @@ public class AuthenticationTestCase implements TestCase {
       name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestSayHello?name=Hi",
           new HttpEntity<>(headers),
           String.class);
+      TestMgr.check("must fail", "not fail");
     } catch (HttpClientErrorException e) {
       TestMgr.check(403, e.getStatusCode().value());
     }
@@ -150,6 +152,7 @@ public class AuthenticationTestCase implements TestCase {
       name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/guestSayHello?name=Hi",
           new HttpEntity<>(headers),
           String.class);
+      TestMgr.check("must fail", "not fail");
     } catch (HttpClientErrorException e) {
       TestMgr.check(403, e.getStatusCode().value());
     }
