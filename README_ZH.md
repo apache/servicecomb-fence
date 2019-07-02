@@ -25,6 +25,14 @@ mvn clean install
 
 编译完成后，会生成Authentication Server, Resource Server, Edge Service and Testing Client可执行jar包，运行这四个服务。
 
+* 使用演示界面
+
+进入页面，使用admin/changeMyPassword登录
+```
+http://localhost:9090/ui/login.html
+```
+
+
 * 运行测试用例
 
 当四个服务都运行起来后，访问：

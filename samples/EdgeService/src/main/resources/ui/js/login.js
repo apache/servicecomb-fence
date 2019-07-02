@@ -19,20 +19,21 @@ function loginAction() {
      var username = document.getElementById("username").value;
      var password = document.getElementById("paasword").value;
      var formData = {};
-     formData.userName = username;
+     formData.username = username;
      formData.password = password;
+     formData.grant_type = "password";
 
      $.ajax({
         type: 'POST',
-        url: "/api/user-service/v1/user/login",
+        url: "/v1/token",
         data: formData,
         success: function (data) {
-            console.log(data);
-            setCookie("session-id", data.sessiondId, 1);
-            window.location = "/ui/upload.html";
+            console.log(JSON.stringify(data));
+            window.localStorage.setItem("token", JSON.stringify(data));
+            window.location = "/ui/operation.html";
         },
         error: function(data) {
-            console.log(data);
+            console.log(JSON.stringify(data));
             var error = document.getElementById("error");
             error.textContent="Login failed";
             error.hidden=false;
@@ -41,12 +42,3 @@ function loginAction() {
     });
 }
 
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
