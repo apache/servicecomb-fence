@@ -24,6 +24,13 @@ mvn clean install
 
 After build, the Authentication Server, Resource Server, Edge Service and Testing Client runnable jar are generated, start and run the four services.
 
+* Demo web pages
+
+Using admin/changeMyPassword login to the demo pages, and try operations. 
+```
+http://localhost:9090/ui/login.html
+```
+
 * Run tests
 
 After services are started, try

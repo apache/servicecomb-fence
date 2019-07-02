@@ -64,8 +64,8 @@ servicecomb:
         default:
           enabled: false # overriden by ApiDispatcher
       rest:
-        eanbled: false # overriden by CustomVertxRestDispatcher
+        enabled: false # overriden by CustomVertxRestDispatcher
 
 # StaticWebpageDispatcher checking file exists is async, and will mark request status to ended, and VertxRestDispatcher read 
 # body will print exception. 
-#gateway.webroot: /code/servicecomb-samples/porter_lightweight/gateway-service/src/main/resources
+gateway.webroot: /code/servicecomb-fence/samples/EdgeService/src/main/resources

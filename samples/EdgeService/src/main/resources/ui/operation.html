@@ -22,37 +22,43 @@
         <title>PORTER</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="js/upload.js"></script>
+        <script type="text/javascript" src="js/operation.js"></script>
     </head>
 
     <body>
-    <div class="header">
-        <h2>Upload</h2>
-    </div>
+
     <div class="section">
-        <form id="upload_form" method="POST">
+        <form id="everyoneSayHello" method="POST">
             <p>
-                File Name: <input type="file" name="fileName"/>
-            </p>
-            <p>
-                <input type="button" value="Upload" onclick="uploadAction()">
+                <input type="button" value="everyoneSayHello" onclick="everyoneSayHello()">
             </p>
         </form>
     </div>
 
-    <div class="header">
-        <h2>Delete file</h2>
-    </div>
     <div class="section">
-        <form id="delete_form" method="DELETE">
+        <form id="adminSayHello" method="POST">
             <p>
-                File ID: <input id="fileID" type="text"/>
-            </p>
-            <p>
-                <input type="button" value="Delete" onclick="deleteAction()">
+                <input type="button" value="adminSayHello" onclick="adminSayHello()">
             </p>
         </form>
     </div>
+
+    <div class="section">
+        <form id="guestOrAdminSayHello" method="POST">
+            <p>
+                <input type="button" value="guestOrAdminSayHello" onclick="guestOrAdminSayHello()">
+            </p>
+        </form>
+    </div>
+
+    <div class="section">
+        <form id="guestSayHello" method="POST">
+            <p>
+                <input type="button" value="guestSayHello" onclick="guestSayHello()">
+            </p>
+        </form>
+    </div>
+
     <div class="footer">
         <p id="error" hidden="true" class="error"/>
     </div>
