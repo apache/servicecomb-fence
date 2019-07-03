@@ -26,7 +26,6 @@ import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,9 +45,6 @@ public class TokenEndpoint implements TokenService {
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters) {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
-
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
     CompletableFuture<TokenResponse> response =
         authenticationSererTokenEndpoint.getToken(parameters);

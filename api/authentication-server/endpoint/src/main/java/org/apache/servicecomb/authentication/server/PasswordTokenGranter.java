@@ -19,6 +19,7 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.authentication.util.CommonConstants;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -50,12 +52,20 @@ public class PasswordTokenGranter implements TokenGranter {
     String username = parameters.get(AuthenticationServerConstants.PARAM_USERNAME);
     String password = parameters.get(AuthenticationServerConstants.PARAM_PASSWORD);
 
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    if (passwordEncoder.matches(password, userDetails.getPassword())) {
-      OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
-      openIDTokenStore.saveToken(openIDToken);
-      return TokenResponse.fromOpenIDToken(openIDToken);
-    } else {
+    if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+      return null;
+    }
+
+    try {
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      if (passwordEncoder.matches(password, userDetails.getPassword())) {
+        OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
+        openIDTokenStore.saveToken(openIDToken);
+        return TokenResponse.fromOpenIDToken(openIDToken);
+      } else {
+        return null;
+      }
+    } catch (UsernameNotFoundException e) {
       return null;
     }
   }

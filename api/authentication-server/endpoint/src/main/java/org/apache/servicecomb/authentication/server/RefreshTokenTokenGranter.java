@@ -19,6 +19,7 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.authentication.token.Token;
@@ -56,6 +57,10 @@ public class RefreshTokenTokenGranter implements TokenGranter {
   @Override
   public TokenResponse grant(Map<String, String> parameters) {
     String refreshTokenValue = parameters.get(AuthenticationServerConstants.PARAM_REFRESH_TOKEN);
+
+    if (StringUtils.isEmpty(refreshTokenValue)) {
+      return null;
+    }
 
     Token refreshToken = openIDTokenStore.readTokenByRefreshTokenValue(refreshTokenValue);
 
