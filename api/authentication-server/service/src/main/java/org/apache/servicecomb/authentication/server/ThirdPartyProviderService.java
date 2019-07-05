@@ -15,27 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.token;
+package org.apache.servicecomb.authentication.server;
 
-import java.util.Map;
-
-public interface Token {
-  String username();
-
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
-  }
-
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
-  
-  void addAdditionalInformation(String key, Object value);
+/**
+ * Connecting third party oAuth providers
+ *
+ */
+public interface ThirdPartyProviderService {
+  String providerInfo(String provider, String redirectURI, String login, String scope, String initialState);
 }

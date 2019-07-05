@@ -17,6 +17,7 @@
 
 package org.apache.servicecomb.authentication.token;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,6 +29,8 @@ public class SessionTokenImpl implements SessionToken {
   private String username;
 
   private TokenDynamicProperties config;
+
+  private Map<String, Object> additionalInformation;
 
   public SessionTokenImpl(String username) {
     this.value = UUID.randomUUID().toString();
@@ -58,12 +61,19 @@ public class SessionTokenImpl implements SessionToken {
 
   @Override
   public Map<String, Object> getAdditionalInformation() {
-    // TODO additional information is not used now
-    return null;
+    return additionalInformation;
   }
 
   @Override
   public String username() {
     return this.username;
+  }
+
+  @Override
+  public void addAdditionalInformation(String key, Object value) {
+    if (additionalInformation == null) {
+      additionalInformation = new HashMap<>();
+    }
+    additionalInformation.put(key, value);
   }
 }

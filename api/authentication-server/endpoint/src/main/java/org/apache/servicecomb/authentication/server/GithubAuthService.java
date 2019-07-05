@@ -15,27 +15,25 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.token;
+package org.apache.servicecomb.authentication.server;
 
-import java.util.Map;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
-public interface Token {
-  String username();
+import org.springframework.http.MediaType;
 
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
-  }
+import io.swagger.annotations.Api;
 
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
-  
-  void addAdditionalInformation(String key, Object value);
+//see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
+@Path("/login/oauth")
+@Api(produces = MediaType.APPLICATION_JSON_VALUE)
+public interface GithubAuthService {
+  @POST
+  @Path("/access_token")
+  public GithubAccessTokenResponse accessToken(@FormParam("client_id") String client_id,
+      @FormParam("client_secret") String client_secret,
+      @FormParam("code") String code,
+      @FormParam("state") String state,
+      @FormParam("redirect_uri") String redirect_uri);
 }

@@ -42,3 +42,58 @@ function loginAction() {
     });
 }
 
+function loginWithGithubAction() {
+    setCookie("initialState", Math.floor(100000000 + Math.random() * 900000000), 1);
+    var redirectURI = window.location.protocol + "//" 
+      + window.location.hostname + ":" + window.location.port
+      + "/ui/githubLoginCallback.html";
+    redirectURI = encodeURIComponent(redirectURI);
+    
+    $.ajax({
+        type: 'GET',
+        url: "/api/authentication-server/v1/thirdParty/providerInfo/github?redirectURI=" + redirectURI,
+        success: function (data) {
+            console.log(JSON.stringify(data));
+            window.location = data;
+        },
+        error: function(data) {
+            console.log(JSON.stringify(data));
+            var error = document.getElementById("error");
+            error.textContent="Login failed";
+            error.hidden=false;
+        },
+        async: true
+    });
+}
+
+/*
+*  https://www.w3schools.com/js/js_cookies.asp 
+*/
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+/*
+*  https://www.w3schools.com/js/js_cookies.asp 
+*/
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}

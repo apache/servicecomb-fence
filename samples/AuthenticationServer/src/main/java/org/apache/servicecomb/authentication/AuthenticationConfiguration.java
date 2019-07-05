@@ -67,9 +67,18 @@ public class AuthenticationConfiguration {
         Arrays.asList(new SimpleGrantedAuthority("GUEST")));
     UserDetails uGuestExpiresQuickly = new User("guestExpiresQuickly", passwordEncoder.encode("changeMyPassword"),
         Arrays.asList(new SimpleGrantedAuthority("GUEST")));
+
+    // Third party users
+    UserDetails githubAnonymous = new User("github:anonymous", "",
+        Arrays.asList(new SimpleGrantedAuthority("GUEST")));
+    UserDetails githubLiubao68 = new User("github:liubao68", "",
+        Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
+
     manager.createUser(uAdmin);
     manager.createUser(uGuest);
     manager.createUser(uGuestExpiresQuickly);
+    manager.createUser(githubAnonymous);
+    manager.createUser(githubLiubao68);
     return manager;
   }
 }

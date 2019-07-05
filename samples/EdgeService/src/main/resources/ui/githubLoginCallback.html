@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html>
+
+    <head>
+        <title>Github Login in progress ...</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+
+        <script> 
+             var executed = false;
+            (document.onready = function () {
+                if(executed) {
+                  return;
+                }
+                executed = true;
+                
+                <!-- getting query params -->
+                <!-- -->
+                var match,
+                    pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                    search = /([^&=]+)=?([^&]*)/g,
+                    decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                    query  = window.location.search.substring(1);
+
+                var urlParams = {};
+                while (match = search.exec(query))
+                   urlParams[decode(match[1])] = decode(match[2]);
+                
+                if(getCookie("initialState") != urlParams["state"]) {
+                    window.alert("CSRF attack!");
+                    return;
+                }
+
+                if(!urlParams["code"]) {
+                    window.alert("Access denied!");
+                    return;
+                }
+                
+                var formData = {};
+                formData.code = urlParams["code"];
+                formData.state = urlParams["state"];
+                formData.provider = "github";
+                formData.grant_type = "third_party";
+
+                <!-- send code to backgroupd processing -->
+                 $.ajax({
+                    type: 'POST',
+                    url: "/v1/token",
+                    data: formData,
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        window.localStorage.setItem("token", JSON.stringify(data));
+                        window.location = "/ui/operation.html";
+                    },
+                    error: function(data) {
+                        console.log(JSON.stringify(data));
+                        var error = document.getElementById("error");
+                        error.textContent="Login failed";
+                        error.hidden=false;
+                    },
+                    async: true
+                });
+            })();
+        </script>
+    </head>
+
+    <body>
+
+    <div class="header">
+        <h2>Login With Github</h2>
+    </div>
+    <div class="section">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="button" value="Login With Github" onclick="loginWithGithubAction()">
+        </form>
+    </div>
+    <div class="footer">
+        <p id="error" hidden="true" class="error"/>
+    </div>
+    </body>
+
+</html>
+
+

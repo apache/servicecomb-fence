@@ -15,27 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.token;
+package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
-public interface Token {
-  String username();
+import org.apache.servicecomb.config.inject.ConfigObjectFactory;
+import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
+public class GithubDynamicPropertiesManager {
+  private static final Map<String, GithubDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
+
+  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
+
+  public static GithubDynamicProperties getGithubConfiguration() {
+    return CONFIGURATIONS.computeIfAbsent("key", key -> {
+      return FACTORY.create(GithubDynamicProperties.class);
+    });
   }
-
-  long getIssueAt();
-
-  long getExpiresIn();
-
-  long getNotBefore();
-
-  String getValue();
-
-  Map<String, Object> getAdditionalInformation();
-  
-  void addAdditionalInformation(String key, Object value);
 }
