@@ -40,3 +40,8 @@ servicecomb:
       expiresIn: 600
       guestExpiresQuickly:
         expiresIn: 3
+
+    github:
+      clientId: ? # change to your github client id
+      clientSecret: ? # change to your github client secret
+

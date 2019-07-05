@@ -105,4 +105,9 @@ public class OpenIDToken implements Token {
   public Map<String, Object> getAdditionalInformation() {
     return accessToken.getAdditionalInformation();
   }
+
+  @Override
+  public void addAdditionalInformation(String key, Object value) {
+    accessToken.addAdditionalInformation(key, value);
+  }
 }

@@ -77,4 +77,9 @@ public class JWTTokenImpl implements JWTToken {
   public JWTClaims getClaims() {
     return this.claims;
   }
+
+  @Override
+  public void addAdditionalInformation(String key, Object value) {
+    this.claims.addAdditionalInformation(key, value);
+  }
 }

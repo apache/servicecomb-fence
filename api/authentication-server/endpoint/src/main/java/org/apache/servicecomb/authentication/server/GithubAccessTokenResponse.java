@@ -14,28 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.servicecomb.authentication.server;
 
-package org.apache.servicecomb.authentication.token;
+// see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
+public class GithubAccessTokenResponse {
+  private String access_token;
 
-import java.util.Map;
+  private String scope;
 
-public interface Token {
-  String username();
+  private String token_type;
 
-  default boolean isExpired() {
-    return (System.currentTimeMillis() < getNotBefore()) ||
-        (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
+  public String getAccess_token() {
+    return access_token;
   }
 
-  long getIssueAt();
+  public void setAccess_token(String access_token) {
+    this.access_token = access_token;
+  }
 
-  long getExpiresIn();
+  public String getScope() {
+    return scope;
+  }
 
-  long getNotBefore();
+  public void setScope(String scope) {
+    this.scope = scope;
+  }
 
-  String getValue();
+  public String getToken_type() {
+    return token_type;
+  }
 
-  Map<String, Object> getAdditionalInformation();
-  
-  void addAdditionalInformation(String key, Object value);
+  public void setToken_type(String token_type) {
+    this.token_type = token_type;
+  }
+
+
 }

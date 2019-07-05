@@ -28,11 +28,29 @@ public class AuthenticationServerConstants {
 
   public static final String PARAM_ACCESS_TOKEN = "access_token";
 
+  public static final String PARAM_PROVIDER = "provider";
+
+  public static final String PARAM_CODE = "code";
+
+  public static final String PARAM_STATE = "state";
+
+  public static final String PARAM_LOGIN = "login";
+  
   public static final String GRANT_TYPE_PASSWORD = "password";
+
+  public static final String GRANT_TYPE_THIRD_PARTY = "third_party";
+
+  public static final String GRANT_TYPE_THIRD_PARTY_GITHUB = "github";
   
   public static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
-  
+
   public static final String CONFIG_GRANTER_PASSWORD_ENABLED = "servicecomb.authentication.granter.password.enabled";
+
+  public static final String CONFIG_GRANTER_THIRD_GITHUB_ENABLED =
+      "servicecomb.authentication.granter.thirdParty.github.enabled";
+
+  public static final String CONFIG_GRANTER_REFRESH_TOKEN_ENABLED =
+      "servicecomb.authentication.granter.refreshToken.enabled";
   
-  public static final String CONFIG_GRANTER_REFRESH_TOKEN_ENABLED = "servicecomb.authentication.granter.refreshToken.enabled";
+  public static final String TOKEN_ADDTIONAL_INFORMATION_GITHUB_TOKEN = "github-token";
 }
