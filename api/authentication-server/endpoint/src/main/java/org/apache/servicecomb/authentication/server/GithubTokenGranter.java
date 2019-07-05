@@ -92,11 +92,15 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
       LOGGER.error("Call github error. ", e);
     }
 
+    if (response == null || StringUtils.isEmpty(response.getAccess_token())) {
+      return null;
+    }
+
     if (StringUtils.isEmpty(login)) {
       login = "anonymous";
     }
     try {
-      UserDetails userDetails = userDetailsService.loadUserByUsername("github:" + login);
+      UserDetails userDetails = userDetailsService.loadUserByUsername(name() + ":" + login);
 
       OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
       openIDToken.addAdditionalInformation(AuthenticationServerConstants.TOKEN_ADDTIONAL_INFORMATION_GITHUB_TOKEN,
