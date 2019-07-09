@@ -42,6 +42,8 @@ servicecomb:
         expiresIn: 3
 
     github:
-      clientId: ? # change to your github client id
-      clientSecret: ? # change to your github client secret
+      clientId: * # change to your github client id
+      clientSecret: * # change to your github client secret
 
+db:
+  password: *
