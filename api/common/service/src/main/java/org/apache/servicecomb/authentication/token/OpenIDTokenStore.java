@@ -23,8 +23,6 @@ public interface OpenIDTokenStore extends TokenStore<OpenIDToken> {
 
   OpenIDToken readTokenByRefreshTokenValue(String refreshTokenValue);
 
-  OpenIDToken readTokenByIDTokenValue(String idTokenValue);
-  
   JWTToken createIDTokenByValue(String jwtTokenValue);
 
   void saveToken(OpenIDToken token);

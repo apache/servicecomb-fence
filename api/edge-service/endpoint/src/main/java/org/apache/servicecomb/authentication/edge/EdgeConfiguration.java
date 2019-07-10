@@ -17,16 +17,9 @@
 
 package org.apache.servicecomb.authentication.edge;
 
-import org.apache.servicecomb.authentication.util.CommonConstants;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 @Configuration
 public class EdgeConfiguration {
-  @Bean(name = {CommonConstants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR})
-  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
-  public EdgeTokenResponseProcessor edgeTokenResponseProcessor() {
-    return new DumyEdgeTokenResponseProcessor();
-  }
+
 }

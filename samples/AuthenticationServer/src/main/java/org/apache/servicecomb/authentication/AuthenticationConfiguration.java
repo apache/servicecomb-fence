@@ -17,8 +17,6 @@
 
 package org.apache.servicecomb.authentication;
 
-import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
-import org.apache.servicecomb.authentication.token.InMemoryOpenIDTokenStore;
 import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,11 +37,5 @@ public class AuthenticationConfiguration {
     // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
     // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
-  }
-
-  @Bean(name = CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
-  public AbstractOpenIDTokenStore openIDTokenStore() {
-    // NOTICE: Use in memory store for testing. Need to implement JDBC or Redis SessionIDTokenStore in product. 
-    return new InMemoryOpenIDTokenStore();
   }
 }

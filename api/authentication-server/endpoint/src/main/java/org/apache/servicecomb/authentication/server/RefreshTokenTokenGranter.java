@@ -55,7 +55,7 @@ public class RefreshTokenTokenGranter implements TokenGranter {
   }
 
   @Override
-  public TokenResponse grant(Map<String, String> parameters) {
+  public OpenIDToken grant(Map<String, String> parameters) {
     String refreshTokenValue = parameters.get(AuthenticationServerConstants.PARAM_REFRESH_TOKEN);
 
     if (StringUtils.isEmpty(refreshTokenValue)) {
@@ -65,10 +65,10 @@ public class RefreshTokenTokenGranter implements TokenGranter {
     Token refreshToken = openIDTokenStore.readTokenByRefreshTokenValue(refreshTokenValue);
 
     if (refreshToken != null && !refreshToken.isExpired()) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.username());
+      UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.getUsername());
       OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
       openIDTokenStore.saveToken(openIDToken);
-      return TokenResponse.fromOpenIDToken(openIDToken);
+      return openIDToken;
     }
     return null;
   }

@@ -20,7 +20,14 @@ package org.apache.servicecomb.authentication.token;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class OpenIDToken implements Token {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6252768307298115467L;
+
   private String tokenType;
 
   private SessionToken accessToken;
@@ -72,41 +79,49 @@ public class OpenIDToken implements Token {
   }
 
   @Override
-  public String username() {
-    return accessToken.username();
+  @JsonIgnore
+  public String getUsername() {
+    return accessToken.getUsername();
   }
 
   @Override
+  @JsonIgnore
   public boolean isExpired() {
     return accessToken.isExpired();
   }
 
   @Override
+  @JsonIgnore
   public long getIssueAt() {
     return accessToken.getIssueAt();
   }
 
   @Override
+  @JsonIgnore
   public long getExpiresIn() {
     return accessToken.getExpiresIn();
   }
 
   @Override
+  @JsonIgnore
   public long getNotBefore() {
     return accessToken.getNotBefore();
   }
 
   @Override
+  @JsonIgnore
   public String getValue() {
     return accessToken.getValue();
   }
 
   @Override
+  @JsonIgnore
   public Map<String, Object> getAdditionalInformation() {
     return accessToken.getAdditionalInformation();
   }
 
   @Override
+  @JsonIgnore
   public void addAdditionalInformation(String key, Object value) {
     accessToken.addAdditionalInformation(key, value);
   }
