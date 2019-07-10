@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,12 +37,12 @@ public class TokenEndpoint implements TokenService {
 
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED)
-  public TokenResponse getToken(@RequestBody Map<String, String> parameters) {
+  public OpenIDToken getToken(@RequestBody Map<String, String> parameters) {
     String grantType = parameters.get(AuthenticationServerConstants.PARAM_GRANT_TYPE);
 
     for (TokenGranter granter : granters) {
       if (granter.enabled()) {
-        TokenResponse token = granter.grant(grantType, parameters);
+        OpenIDToken token = granter.grant(grantType, parameters);
         if (token != null) {
           return token;
         }

@@ -17,7 +17,7 @@
 
 package org.apache.servicecomb.authentication;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.servicecomb.authentication.edge.TokenResponse;
 import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

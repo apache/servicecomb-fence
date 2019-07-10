@@ -38,5 +38,9 @@
       value="org.apache.servicecomb.authentication.user.UserMapper" />
     <property name="sqlSessionFactory" ref="sqlSessionFactory" />
   </bean>
-
+  <bean id="tokenMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    <property name="mapperInterface"
+      value="org.apache.servicecomb.authentication.user.TokenMapper" />
+    <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+  </bean>
 </beans>

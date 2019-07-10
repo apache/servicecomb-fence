@@ -23,7 +23,7 @@ public class SessionTokenStore implements TokenStore<SessionToken> {
 
   @Override
   public SessionToken createToken(UserDetails userDetails) {
-    return new SessionTokenImpl(userDetails.getUsername());
+    return new SessionToken(userDetails.getUsername());
   }
 
 }

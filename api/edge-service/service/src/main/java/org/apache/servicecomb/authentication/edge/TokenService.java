@@ -20,8 +20,6 @@ package org.apache.servicecomb.authentication.edge;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
-
 
 public interface TokenService {
   CompletableFuture<TokenResponse> getToken(Map<String, String> parameters);

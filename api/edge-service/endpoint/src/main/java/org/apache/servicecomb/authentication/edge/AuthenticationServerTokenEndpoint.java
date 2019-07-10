@@ -20,12 +20,12 @@ package org.apache.servicecomb.authentication.edge;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface AuthenticationServerTokenEndpoint {
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters);
+  public CompletableFuture<OpenIDToken> getToken(@RequestBody Map<String, String> parameters);
 }

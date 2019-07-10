@@ -33,7 +33,7 @@
     <dependencies>
       <dependency>
         <groupId>org.apache.servicecomb.authentication</groupId>
-        <artifactId>authentication-server-api-service</artifactId>
+        <artifactId>authentication-edge-api-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
@@ -64,7 +64,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.servicecomb.authentication</groupId>
-      <artifactId>authentication-server-api-service</artifactId>
+      <artifactId>authentication-edge-api-service</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.servicecomb</groupId>

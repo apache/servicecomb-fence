@@ -41,11 +41,6 @@ public class InMemoryOpenIDTokenStore extends AbstractOpenIDTokenStore {
   }
 
   @Override
-  public OpenIDToken readTokenByIDTokenValue(String idTokenValue) {
-    return TOKENS_BY_ID_TOKEN_VALUE.get(idTokenValue);
-  }
-
-  @Override
   public void saveToken(OpenIDToken token) {
     TOKENS.put(token.getValue(), token);
     TOKENS_BY_REFRESH_TOKEN_VALUE.put(token.getRefreshToken().getValue(), token);

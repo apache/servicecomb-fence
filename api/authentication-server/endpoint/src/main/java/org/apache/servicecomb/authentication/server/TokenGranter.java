@@ -19,6 +19,8 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
+import org.apache.servicecomb.authentication.token.OpenIDToken;
+
 /**
  * Token granter is used to grant access tokens. 
  * @author Administrator
@@ -29,12 +31,12 @@ public interface TokenGranter {
 
   String grantType();
 
-  default TokenResponse grant(String grantType, Map<String, String> parameters) {
+  default OpenIDToken grant(String grantType, Map<String, String> parameters) {
     if (grantType().equals(grantType)) {
       return grant(parameters);
     }
     return null;
   }
 
-  TokenResponse grant(Map<String, String> parameters);
+  OpenIDToken grant(Map<String, String> parameters);
 }

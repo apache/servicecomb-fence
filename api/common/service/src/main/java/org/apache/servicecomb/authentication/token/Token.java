@@ -17,11 +17,15 @@
 
 package org.apache.servicecomb.authentication.token;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public interface Token {
-  String username();
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+public interface Token extends Serializable {
+  String getUsername();
+
+  @JsonIgnore
   default boolean isExpired() {
     return (System.currentTimeMillis() < getNotBefore()) ||
         (System.currentTimeMillis() - getIssueAt() > getExpiresIn() * 1000);
@@ -36,6 +40,6 @@ public interface Token {
   String getValue();
 
   Map<String, Object> getAdditionalInformation();
-  
+
   void addAdditionalInformation(String key, Object value);
 }

@@ -19,6 +19,8 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
+import org.apache.servicecomb.authentication.token.OpenIDToken;
+
 public interface TokenService {
-  TokenResponse getToken(Map<String, String> parameters);
+  OpenIDToken getToken(Map<String, String> parameters);
 }

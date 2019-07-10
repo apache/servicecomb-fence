@@ -20,12 +20,9 @@ package org.apache.servicecomb.authentication.edge;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
-import org.apache.servicecomb.authentication.util.CommonConstants;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,21 +34,16 @@ public class TokenEndpoint implements TokenService {
   @RpcReference(microserviceName = "authentication-server", schemaId = "TokenEndpoint")
   private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
 
-  @Autowired
-  @Qualifier(CommonConstants.BEAN_AUTH_EDGE_TOKEN_RESPONSE_PROCESSOR)
-  private EdgeTokenResponseProcessor edgeTokenResponseProcessor;
-
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
   public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters) {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
 
-    CompletableFuture<TokenResponse> response =
+    CompletableFuture<OpenIDToken> response =
         authenticationSererTokenEndpoint.getToken(parameters);
     response.whenComplete((tokenResonse, ex) -> {
       if (!response.isCompletedExceptionally()) {
-        result.complete(tokenResonse);
-        edgeTokenResponseProcessor.process(tokenResonse);
+        result.complete(TokenResponse.fromOpenIDToken(tokenResonse));
       } else {
         result.completeExceptionally(ex);
       }

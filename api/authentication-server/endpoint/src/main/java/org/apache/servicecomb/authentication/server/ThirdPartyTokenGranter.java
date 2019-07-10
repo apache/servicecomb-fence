@@ -20,6 +20,7 @@ package org.apache.servicecomb.authentication.server;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.servicecomb.authentication.token.OpenIDToken;
 
 public interface ThirdPartyTokenGranter extends TokenGranter {
 
@@ -29,7 +30,7 @@ public interface ThirdPartyTokenGranter extends TokenGranter {
   }
 
   @Override
-  default TokenResponse grant(Map<String, String> parameters) {
+  default OpenIDToken grant(Map<String, String> parameters) {
     String provider = parameters.get(AuthenticationServerConstants.PARAM_PROVIDER);
     String code = parameters.get(AuthenticationServerConstants.PARAM_CODE);
     String state = parameters.get(AuthenticationServerConstants.PARAM_STATE);
@@ -49,7 +50,7 @@ public interface ThirdPartyTokenGranter extends TokenGranter {
 
   String name();
 
-  TokenResponse grant(String code, String state, String login);
+  OpenIDToken grant(String code, String state, String login);
   
   /**
    * In authorization code mode, need to get authentication provider information first.

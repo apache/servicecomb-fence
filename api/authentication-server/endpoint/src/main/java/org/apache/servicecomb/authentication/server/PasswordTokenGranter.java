@@ -48,7 +48,7 @@ public class PasswordTokenGranter implements TokenGranter {
   private AbstractOpenIDTokenStore openIDTokenStore;
 
   @Override
-  public TokenResponse grant(Map<String, String> parameters) {
+  public OpenIDToken grant(Map<String, String> parameters) {
     String username = parameters.get(AuthenticationServerConstants.PARAM_USERNAME);
     String password = parameters.get(AuthenticationServerConstants.PARAM_PASSWORD);
 
@@ -61,7 +61,7 @@ public class PasswordTokenGranter implements TokenGranter {
       if (passwordEncoder.matches(password, userDetails.getPassword())) {
         OpenIDToken openIDToken = openIDTokenStore.createToken(userDetails);
         openIDTokenStore.saveToken(openIDToken);
-        return TokenResponse.fromOpenIDToken(openIDToken);
+        return openIDToken;
       } else {
         return null;
       }

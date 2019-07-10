@@ -15,10 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication.edge;
+package org.apache.servicecomb.authentication.user;
 
-import org.apache.servicecomb.authentication.server.TokenResponse;
+import org.apache.ibatis.annotations.Param;
 
-public interface EdgeTokenResponseProcessor {
-  void process(TokenResponse tokenResponse);
+public interface TokenMapper {
+  public void insertNewToken(@Param("accessTokenId") String accessTokenId,
+      @Param("refreshTokenId") String refreshTokenId,
+      @Param("tokenInfo") String tokenInfo);
+
+  public String getTokenInfoByAccessTokenId(@Param("accessTokenId") String accessTokenId);
+
+  public String getTokenInfoByRefreshTokenId(@Param("refreshTokenId") String refreshTokenId);
+
+  public String getTokenInfoByIdTokenId(@Param("idTokenId") String idTokenId);
 }

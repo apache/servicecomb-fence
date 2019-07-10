@@ -17,8 +17,78 @@
 
 package org.apache.servicecomb.authentication.token;
 
-import org.apache.servicecomb.authentication.jwt.JWTClaims;
+import java.util.Map;
 
-public interface JWTToken extends Token {
-  public JWTClaims getClaims();
+import org.apache.servicecomb.authentication.jwt.JWTClaims;
+import org.apache.servicecomb.authentication.jwt.JsonParser;
+import org.springframework.security.jwt.Jwt;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.Signer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+public class JWTToken implements Token {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8234764050908891544L;
+
+  private JWTClaims claims;
+
+  private String value;
+
+  public JWTToken() {
+
+  }
+
+  public JWTToken(JWTClaims claims, Signer signer) {
+    this.claims = claims;
+    String content = JsonParser.unparse(claims);
+    Jwt jwtToken = JwtHelper.encode(content, signer);
+    this.value = jwtToken.getEncoded();
+  }
+
+  @Override
+  @JsonIgnore
+  public long getIssueAt() {
+    return this.claims.getIat();
+  }
+
+  @Override
+  @JsonIgnore
+  public long getExpiresIn() {
+    return this.claims.getExp();
+  }
+
+  @Override
+  @JsonIgnore
+  public long getNotBefore() {
+    return this.claims.getNbf();
+  }
+
+  @Override
+  public String getValue() {
+    return this.value;
+  }
+
+  @Override
+  public Map<String, Object> getAdditionalInformation() {
+    return this.claims.getAdditionalInformation();
+  }
+
+  @Override
+  @JsonIgnore
+  public String getUsername() {
+    return this.claims.getSub();
+  }
+
+  public JWTClaims getClaims() {
+    return this.claims;
+  }
+
+  @Override
+  public void addAdditionalInformation(String key, Object value) {
+    this.claims.addAdditionalInformation(key, value);
+  }
 }

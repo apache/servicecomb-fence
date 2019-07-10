@@ -15,7 +15,8 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <mappers>
-        <mapper resource="config/UserMapper.xml"/>
-    </mappers>
+  <mappers>
+    <mapper resource="config/UserMapper.xml" />
+    <mapper resource="config/TokenMapper.xml" />
+  </mappers>
 </configuration>

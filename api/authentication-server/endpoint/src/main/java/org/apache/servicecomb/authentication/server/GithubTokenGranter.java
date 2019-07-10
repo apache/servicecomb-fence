@@ -73,7 +73,7 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
   }
 
   @Override
-  public TokenResponse grant(String code, String state, String login) {
+  public OpenIDToken grant(String code, String state, String login) {
     GithubAccessTokenResponse response = null;
     try {
       HttpHeaders headers = new HttpHeaders();
@@ -107,7 +107,7 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
           response);
 
       openIDTokenStore.saveToken(openIDToken);
-      return TokenResponse.fromOpenIDToken(openIDToken);
+      return openIDToken;
     } catch (UsernameNotFoundException e) {
       return null;
     }

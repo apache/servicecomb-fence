@@ -52,7 +52,7 @@ public class JWTTokenStoreImpl implements JWTTokenStore {
     claims.setNbf(config.notBefore);
     // Maybe some other properties in future
 
-    return new JWTTokenImpl(claims, signer);
+    return new JWTToken(claims, signer);
   }
 
   public JWTToken createTokenByValue(String value) {
@@ -64,6 +64,6 @@ public class JWTTokenStoreImpl implements JWTTokenStore {
     } catch (Exception e) {
       return null;
     }
-    return new JWTTokenImpl(claims, signer);
+    return new JWTToken(claims, signer);
   }
 }
