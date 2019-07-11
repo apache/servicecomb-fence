@@ -17,8 +17,9 @@
 
 package org.apache.servicecomb.authentication.edge;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.servicecomb.authentication.token.JWTToken;
-import org.apache.servicecomb.authentication.token.JWTTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
 import org.apache.servicecomb.authentication.token.OpenIDTokenStore;
 import org.apache.servicecomb.authentication.util.CommonConstants;
@@ -38,9 +39,10 @@ public class AuthHandler implements Handler {
       return;
     }
 
+    OpenIDTokenStore openIDTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE);
+
     if (CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
-      JWTTokenStore jwtTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_ID_TOKEN_STORE);
-      JWTToken jwtToken = jwtTokenStore.createTokenByValue(token);
+      JWTToken jwtToken = openIDTokenStore.createIDTokenByValue(token);
       if (jwtToken == null || jwtToken.isExpired()) {
         asyncResponse.consumerFail(new InvocationException(403, "forbidden", "token expired or not valid."));
         return;
@@ -50,18 +52,22 @@ public class AuthHandler implements Handler {
       invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, jwtToken.getValue());
       invocation.next(asyncResponse);
     } else if (CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN.equals(tokenType)) {
-      // TODO: session based are not fully tested now, just code snippet
-      OpenIDTokenStore openIDTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE);
+      CompletableFuture<OpenIDToken> openIDTokenFuture = openIDTokenStore.readTokenByAccessToken(token);
+      openIDTokenFuture.whenComplete((res, ex) -> {
+        if (openIDTokenFuture.isCompletedExceptionally() || res == null || res.isExpired()) {
+          asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+          return;
+        }
 
-      OpenIDToken tokenResonse = openIDTokenStore.readTokenByValue(token);
-      if (tokenResonse == null || tokenResonse.isExpired()) {
-        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-        return;
-      }
-
-      // send id_token to services to apply state less validation
-      invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, tokenResonse.getIdToken().getValue());
-      invocation.next(asyncResponse);
+        // send id_token to services to apply state less validation
+        invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, res.getIdToken().getValue());
+        try {
+          invocation.next(asyncResponse);
+        } catch (Exception e) {
+          asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+          return;
+        }
+      });
     } else {
       asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
       return;

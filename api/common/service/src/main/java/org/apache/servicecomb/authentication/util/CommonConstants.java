@@ -18,16 +18,18 @@
 package org.apache.servicecomb.authentication.util;
 
 public final class CommonConstants {
+  public static final String ACCESS_CONTROL_INTERNAL = "INTERNAL";
+
   public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
 
   public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
 
   public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE = "Authorization-TYPE";
-  
+
   public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN = "ID_TOKEN";
-  
+
   public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN = "SESSION_TOKEN";
-  
+
   public static final String CONTEXT_HEADER_CLAIMS = "Claims";
 
   public static final String TOKEN_TYPE_BEARER = "Bearer";
@@ -49,6 +51,6 @@ public final class CommonConstants {
   public static final String BEAN_AUTH_ID_TOKEN_STORE = "authIDTokenStore";
 
   public static final String BEAN_AUTH_OPEN_ID_TOKEN_STORE = "authOpenIDTokenStore";
-  
+
   public static final String BEAN_AUTH_USER_DETAILS_SERVICE = "authUserDetailsService";
 }

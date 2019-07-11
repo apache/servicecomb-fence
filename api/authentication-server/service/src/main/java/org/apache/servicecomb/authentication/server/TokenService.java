@@ -22,5 +22,7 @@ import java.util.Map;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
 
 public interface TokenService {
-  OpenIDToken getToken(Map<String, String> parameters);
+  OpenIDToken grantToken(Map<String, String> parameters);
+
+  OpenIDToken queryToken(String accessToken);
 }

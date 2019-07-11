@@ -18,6 +18,7 @@
 package org.apache.servicecomb.authentication.token;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -31,12 +32,14 @@ public class InMemoryOpenIDTokenStore extends AbstractOpenIDTokenStore {
   private static final Map<String, OpenIDToken> TOKENS_BY_ID_TOKEN_VALUE = new ConcurrentHashMap<>();
 
   @Override
-  public OpenIDToken readTokenByValue(String value) {
-    return TOKENS.get(value);
+  public CompletableFuture<OpenIDToken> readTokenByAccessToken(String value) {
+    CompletableFuture<OpenIDToken> result = new CompletableFuture<>();
+    result.complete(TOKENS.get(value));
+    return result;
   }
 
   @Override
-  public OpenIDToken readTokenByRefreshTokenValue(String refreshTokenValue) {
+  public OpenIDToken readTokenByRefreshToken(String refreshTokenValue) {
     return TOKENS_BY_REFRESH_TOKEN_VALUE.get(refreshTokenValue);
   }
 

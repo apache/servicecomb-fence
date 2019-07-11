@@ -15,49 +15,40 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.authentication;
+package org.apache.servicecomb.authentication.edge;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.servicecomb.authentication.jwt.JsonParser;
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
-import org.apache.servicecomb.authentication.user.TokenMapper;
 import org.apache.servicecomb.authentication.util.CommonConstants;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.servicecomb.provider.pojo.RpcReference;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
-public class JDBCOpenIDTokenStore extends AbstractOpenIDTokenStore {
-  @Autowired
-  private TokenMapper tokenMapper;
+public class EdgeOpenIDTokenStore extends AbstractOpenIDTokenStore {
+  @RpcReference(microserviceName = "authentication-server", schemaId = "TokenEndpoint")
+  private AuthenticationServerTokenEndpoint tokenEndpoint;
 
   @Override
-  public CompletableFuture<OpenIDToken> readTokenByAccessToken(String value) {
-    CompletableFuture<OpenIDToken> result = new CompletableFuture<>();
-
-    String tokenInfo = tokenMapper.getTokenInfoByAccessTokenId(value);
-    if (tokenInfo != null) {
-      result.complete(JsonParser.parse(tokenInfo, OpenIDToken.class));
-    }
-    result.complete(null);
-    return result;
+  public OpenIDToken createToken(UserDetails userDetails) {
+    throw new UnsupportedOperationException();
   }
 
   @Override
-  public OpenIDToken readTokenByRefreshToken(String refreshTokenValue) {
-    String tokenInfo = tokenMapper.getTokenInfoByRefreshTokenId(refreshTokenValue);
-    if (tokenInfo != null) {
-      return JsonParser.parse(tokenInfo, OpenIDToken.class);
-    }
-    return null;
+  public CompletableFuture<OpenIDToken> readTokenByAccessToken(String accessToken) {
+    return tokenEndpoint.queryToken(accessToken);
+  }
+
+  @Override
+  public OpenIDToken readTokenByRefreshToken(String refreshToken) {
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void saveToken(OpenIDToken token) {
-    tokenMapper.insertNewToken(token.getValue(),
-        token.getRefreshToken().getValue(),
-        JsonParser.unparse(token));
+    throw new UnsupportedOperationException();
   }
 
 }

@@ -19,15 +19,22 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.servicecomb.authentication.token.OpenIDToken;
+import org.apache.servicecomb.authentication.token.OpenIDTokenStore;
+import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
+import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestSchema(schemaId = "TokenEndpoint")
 @RequestMapping(path = "/v1/token")
@@ -35,9 +42,13 @@ public class TokenEndpoint implements TokenService {
   @Autowired
   private List<TokenGranter> granters;
 
+  @Autowired
+  @Qualifier(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  private OpenIDTokenStore store;
+
   @Override
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED)
-  public OpenIDToken getToken(@RequestBody Map<String, String> parameters) {
+  public OpenIDToken grantToken(@RequestBody Map<String, String> parameters) {
     String grantType = parameters.get(AuthenticationServerConstants.PARAM_GRANT_TYPE);
 
     for (TokenGranter granter : granters) {
@@ -50,6 +61,17 @@ public class TokenEndpoint implements TokenService {
     }
 
     return null;
+  }
+
+  @Override
+  @PostMapping(path = "/query")
+  public OpenIDToken queryToken(@RequestParam("access_token") String accessToken) {
+    CompletableFuture<OpenIDToken> result = store.readTokenByAccessToken(accessToken);
+    try {
+      return result.get();
+    } catch (Exception e) {
+      throw new InvocationException(Status.INTERNAL_SERVER_ERROR, "internal unexpected error.");
+    }
   }
 
 }
