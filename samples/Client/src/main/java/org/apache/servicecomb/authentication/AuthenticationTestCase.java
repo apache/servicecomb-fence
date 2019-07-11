@@ -31,16 +31,24 @@ import org.springframework.web.client.HttpClientErrorException;
 public class AuthenticationTestCase implements TestCase {
   @Override
   public void run() {
-    String idToken = idToken();
-    testHanlderAuth(idToken);
-    testMethodAuth(idToken);
+    TokenResponse token = getTokenByPassword();
+    testHanlderAuth(token.getAccess_token(), null);
+    testHanlderAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
+    testHanlderAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
+    testMethodAuth(token.getAccess_token(), null);
+    testMethodAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
+    testMethodAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
 
-    idToken = idTokenByRefreshToken();
-    testHanlderAuth(idToken);
-    testMethodAuth(idToken);
+    token = getTokenByRefreshToken();
+    testHanlderAuth(token.getAccess_token(), null);
+    testHanlderAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
+    testHanlderAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
+    testMethodAuth(token.getAccess_token(), null);
+    testMethodAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
+    testMethodAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
   }
 
-  private String idToken() {
+  private TokenResponse getTokenByPassword() {
     // get token
     MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
@@ -56,10 +64,10 @@ public class AuthenticationTestCase implements TestCase {
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getId_token().length() > 10);
     TestMgr.check(600, token.getExpires_in());
-    return token.getId_token();
+    return token;
   }
 
-  private String idTokenByRefreshToken() {
+  private TokenResponse getTokenByRefreshToken() {
     // get token
     MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
@@ -89,14 +97,17 @@ public class AuthenticationTestCase implements TestCase {
     TestMgr.check(token.getAccess_token().equals(tokenNew.getAccess_token()), false);
     TestMgr.check(token.getId_token().equals(tokenNew.getId_token()), false);
 
-    return tokenNew.getId_token();
+    return tokenNew;
   }
 
-  private void testHanlderAuth(String accessToken) {
+  private void testHanlderAuth(String token, String type) {
     // get resources
     HttpHeaders headers = new HttpHeaders();
     headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer " + accessToken);
+    headers.add("Authorization", "Bearer " + token);
+    if (type != null) {
+      headers.add("Authorization-Type", type);
+    }
     headers.setContentType(MediaType.APPLICATION_JSON);
     String name;
     name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",
@@ -126,11 +137,14 @@ public class AuthenticationTestCase implements TestCase {
     TestMgr.check(null, name);
   }
 
-  private void testMethodAuth(String accessToken) {
+  private void testMethodAuth(String token, String type) {
     // get resources
     HttpHeaders headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer " + accessToken);
+    headers.add("Authorization", "Bearer " + token);
     headers.setContentType(MediaType.APPLICATION_JSON);
+    if (type != null) {
+      headers.add("Authorization-Type", type);
+    }
     String name;
     name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",
         new HttpEntity<>(headers),
