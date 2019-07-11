@@ -31,11 +31,18 @@ import org.springframework.web.client.HttpClientErrorException;
 public class TokenExpireTestCase implements TestCase {
   @Override
   public void run() {
-    String idToken = idToken();
-    testHanlderAuth(idToken);
+    // This test case will wait expiration for 3 seconds per run. Do not give too much tests.
+    TokenResponse token = getTokenByPassword();
+    testHanlderAuth(token.getAccess_token(), null);
+    // expired. create new for next test. 
+    token = getTokenByPassword();
+    testHanlderAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
+    // expired. create new for next test. 
+    token = getTokenByPassword();
+    testHanlderAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
   }
 
-  private String idToken() {
+  private TokenResponse getTokenByPassword() {
     // get token
     MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
     map.add("grant_type", "password");
@@ -51,14 +58,17 @@ public class TokenExpireTestCase implements TestCase {
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(3, token.getExpires_in());
     TestMgr.check(true, token.getId_token().length() > 10);
-    return token.getId_token();
+    return token;
   }
 
-  private void testHanlderAuth(String accessToken) {
+  private void testHanlderAuth(String token, String type) {
     // get resources
     HttpHeaders headers = new HttpHeaders();
     headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer " + accessToken);
+    headers.add("Authorization", "Bearer " + token);
+    if (type != null) {
+      headers.add("Authorization-Type", type);
+    }
     headers.setContentType(MediaType.APPLICATION_JSON);
     String name;
     name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",

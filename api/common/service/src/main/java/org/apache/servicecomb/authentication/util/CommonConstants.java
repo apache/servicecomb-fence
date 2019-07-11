@@ -22,13 +22,15 @@ public final class CommonConstants {
 
   public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
 
+  public static final String HTTP_HEADER_AUTHORIZATION_TYPE = "Authorization-TYPE";
+
   public static final String CONTEXT_HEADER_AUTHORIZATION = "Authorization";
 
   public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE = "Authorization-TYPE";
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN = "ID_TOKEN";
+  public static final String AUTHORIZATION_TYPE_ID_TOKEN = "ID_TOKEN";
 
-  public static final String CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN = "SESSION_TOKEN";
+  public static final String AUTHORIZATION_TYPE_ACCESS_TOKEN = "ACCESS_TOKEN";
 
   public static final String CONTEXT_HEADER_CLAIMS = "Claims";
 

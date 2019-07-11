@@ -41,7 +41,7 @@ public class AuthHandler implements Handler {
 
     OpenIDTokenStore openIDTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE);
 
-    if (CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
+    if (CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
       JWTToken jwtToken = openIDTokenStore.createIDTokenByValue(token);
       if (jwtToken == null || jwtToken.isExpired()) {
         asyncResponse.consumerFail(new InvocationException(403, "forbidden", "token expired or not valid."));
@@ -51,7 +51,7 @@ public class AuthHandler implements Handler {
       // send id_token to services to apply state less validation
       invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, jwtToken.getValue());
       invocation.next(asyncResponse);
-    } else if (CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE_SESSION_TOKEN.equals(tokenType)) {
+    } else if (CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN.equals(tokenType)) {
       CompletableFuture<OpenIDToken> openIDTokenFuture = openIDTokenStore.readTokenByAccessToken(token);
       openIDTokenFuture.whenComplete((res, ex) -> {
         if (openIDTokenFuture.isCompletedExceptionally() || res == null || res.isExpired()) {
