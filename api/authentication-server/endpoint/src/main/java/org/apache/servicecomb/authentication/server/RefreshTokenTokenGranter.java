@@ -62,7 +62,7 @@ public class RefreshTokenTokenGranter implements TokenGranter {
       return null;
     }
 
-    Token refreshToken = openIDTokenStore.readTokenByRefreshTokenValue(refreshTokenValue);
+    Token refreshToken = openIDTokenStore.readTokenByRefreshToken(refreshTokenValue);
 
     if (refreshToken != null && !refreshToken.isExpired()) {
       UserDetails userDetails = userDetailsService.loadUserByUsername(refreshToken.getUsername());

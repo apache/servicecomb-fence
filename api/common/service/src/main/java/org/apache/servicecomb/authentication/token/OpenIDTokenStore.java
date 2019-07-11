@@ -17,11 +17,13 @@
 
 package org.apache.servicecomb.authentication.token;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface OpenIDTokenStore extends TokenStore<OpenIDToken> {
 
-  OpenIDToken readTokenByValue(String value);
+  CompletableFuture<OpenIDToken> readTokenByAccessToken(String accessToken);
 
-  OpenIDToken readTokenByRefreshTokenValue(String refreshTokenValue);
+  OpenIDToken readTokenByRefreshToken(String refreshToken);
 
   JWTToken createIDTokenByValue(String jwtTokenValue);
 

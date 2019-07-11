@@ -40,7 +40,7 @@ public class TokenEndpoint implements TokenService {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
 
     CompletableFuture<OpenIDToken> response =
-        authenticationSererTokenEndpoint.getToken(parameters);
+        authenticationSererTokenEndpoint.grantToken(parameters);
     response.whenComplete((tokenResonse, ex) -> {
       if (!response.isCompletedExceptionally()) {
         result.complete(TokenResponse.fromOpenIDToken(tokenResonse));

@@ -26,6 +26,11 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.servicecomb.authentication</groupId>
+      <artifactId>authentication-common-api-endpoint</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.servicecomb.authentication</groupId>
       <artifactId>authentication-edge-api-service</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
