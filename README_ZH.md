@@ -13,17 +13,19 @@
 
 ## 项目说明
 
-项目包含了api和samples两个目录。其中api目录主要提供给Authentication Server, Edge Service and Resource Server使用的api。 samples目录是基于上诉api提供的一个开发示例。
+项目包含了authentication-server，api和samples等目录。其中api目录主要提供给Authentication Server, Edge Service and Resource Server使用的api，authentication-server基于api实现， samples目录基于api提供一个完整的开发示例。
+
+* 准备
+
+Authentication Server使用了MySQL数据库，需要安装数据库，并执行authentication-server\src\main\resources\sql\user.sql脚本初始化数据库。
 
 * 编译和运行
 
-
 ```
-cd samples
-mvn clean install
+build_and_run.bat
 ```
 
-编译完成后，会生成Authentication Server, Resource Server, Edge Service and Testing Client可执行jar包，运行这四个服务。
+可以使用编辑器打开文件查询构建详情。
 
 * 使用演示界面
 
@@ -31,7 +33,6 @@ mvn clean install
 ```
 http://localhost:9090/ui/login.html
 ```
-
 
 * 运行测试用例
 
@@ -41,7 +42,7 @@ http://localhost:9090/ui/login.html
 http://localhost:9093/v1/test/start
 ```
 
-可以通过查看AuthenticationTestCase了解测试用例的详情。
+测试用例会执行十来秒钟，可以通过查看AuthenticationTestCase了解测试用例的详情。
 
 ## 联系我们
 * [提交issues](https://issues.apache.org/jira/browse/SCB)
