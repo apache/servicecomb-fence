@@ -33,7 +33,7 @@ servicecomb:
         watch: false
 
   rest:
-    address: 0.0.0.0:9091
+    address: 0.0.0.0:9061
 
   authentication:
     token:
@@ -42,8 +42,9 @@ servicecomb:
         expiresIn: 3
 
     github:
-      clientId: * # change to your github client id
-      clientSecret: * # change to your github client secret
+      clientId: 94300caee0725405fde1 # WARNING: change to your github client id
+      clientSecret: b139dbc8fe8be9153f68049bfa8387dfde33f1c9 # WARNING: change to your github client secret
 
 db:
-  password: *
+  password: root # WARNING: please change password in production environment
+
