@@ -13,16 +13,19 @@ This project is servicecomb-java-chassis security support. The main architecture
 
 ## Project description
 
-This project contains two folders api and samples. Api folder contains components used in Authentication Server, Edge Service and Resource Server. And samples folder gives a working example showing how to use these apis. 
+This project contains api, authentication-server and samples folders. Api folder contains components used in Authentication Server, Edge Service and Resource Server. Authentcation Server imeplentation is based on api. And samples folder gives a working example showing how to use these apis. 
+
+* Prepare
+
+Authentication Server uses MySql database. Install database first, and initialize it by executing authentication-server\src\main\resources\sql\user.sql .
 
 * Build and run
 
 ```
-cd samples
-mvn clean install
+build_and_run.bat
 ```
 
-After build, the Authentication Server, Resource Server, Edge Service and Testing Client runnable jar are generated, start and run the four services.
+Can open this file with a text editor to check what it is done.
 
 * Demo web pages
 
@@ -38,7 +41,7 @@ After services are started, try
 http://localhost:9093/v1/test/start
 ```
 
-see AuthenticationTestCase for testing details.
+This test will token several seconds. See AuthenticationTestCase for testing details.
 
 ## Contact Us
 * [issues](https://issues.apache.org/jira/browse/SCB)
