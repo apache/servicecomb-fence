@@ -1,7 +1,7 @@
 REM compile the code
 set HOME=%cd%
 
-mvn clean install
+call mvn clean install
 
 REM run the application locally
 

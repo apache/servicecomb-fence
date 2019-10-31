@@ -16,7 +16,7 @@
 
   <parent>
     <groupId>org.apache.servicecomb.authentication</groupId>
-    <artifactId>authentication-server-api</artifactId>
+    <artifactId>authentication-edge-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 

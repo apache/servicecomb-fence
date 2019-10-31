@@ -19,18 +19,19 @@ package org.apache.servicecomb.authentication.resource;
 
 import java.util.Map;
 
-import org.apache.servicecomb.config.inject.ConfigObjectFactory;
 import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.core.SCBEngine;
 import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
 public class AccessDynamicPropertiesManager {
   private static final Map<String, AccessDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
 
-  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
-
   public static AccessDynamicProperties getAccessConfiguration(Invocation invocation) {
     return CONFIGURATIONS.computeIfAbsent(invocation.getOperationMeta().getSchemaQualifiedName(), key -> {
-      return FACTORY.create(AccessDynamicProperties.class, "schemaId", invocation.getSchemaId(), "operationId", invocation.getOperationName());
+      return SCBEngine
+          .getInstance().getPriorityPropertyManager()
+          .createConfigObject(AccessDynamicProperties.class, "schemaId", invocation.getSchemaId(), "operationId",
+              invocation.getOperationName());
     });
   }
 }

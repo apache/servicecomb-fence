@@ -19,17 +19,15 @@ package org.apache.servicecomb.authentication.server;
 
 import java.util.Map;
 
-import org.apache.servicecomb.config.inject.ConfigObjectFactory;
+import org.apache.servicecomb.core.SCBEngine;
 import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
 public class GithubDynamicPropertiesManager {
   private static final Map<String, GithubDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
 
-  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
-
   public static GithubDynamicProperties getGithubConfiguration() {
     return CONFIGURATIONS.computeIfAbsent("key", key -> {
-      return FACTORY.create(GithubDynamicProperties.class);
+      return SCBEngine.getInstance().getPriorityPropertyManager().createConfigObject(GithubDynamicProperties.class);
     });
   }
 }
