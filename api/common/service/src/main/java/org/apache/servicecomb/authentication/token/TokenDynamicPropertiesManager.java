@@ -19,17 +19,16 @@ package org.apache.servicecomb.authentication.token;
 
 import java.util.Map;
 
-import org.apache.servicecomb.config.inject.ConfigObjectFactory;
+import org.apache.servicecomb.core.SCBEngine;
 import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
 
 public class TokenDynamicPropertiesManager {
   private static final Map<String, TokenDynamicProperties> CONFIGURATIONS = new ConcurrentHashMapEx<>();
 
-  private static final ConfigObjectFactory FACTORY = new ConfigObjectFactory();
-
   public static TokenDynamicProperties getTokenConfiguration(String username) {
     return CONFIGURATIONS.computeIfAbsent(username, key -> {
-      return FACTORY.create(TokenDynamicProperties.class, "username", username);
+      return SCBEngine.getInstance().getPriorityPropertyManager()
+          .createConfigObject(TokenDynamicProperties.class, "username", username);
     });
   }
 }
