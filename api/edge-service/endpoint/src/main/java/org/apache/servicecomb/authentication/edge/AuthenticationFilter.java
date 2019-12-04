@@ -40,7 +40,7 @@ public class AuthenticationFilter implements HttpServerFilter {
         if (tokens[0].equals(CommonConstants.TOKEN_TYPE_BEARER)) {
           invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, tokens[1]);
           invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE,
-              type == null ? CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN : type);
+              type == null ? CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN : type);
         }
       }
     }
