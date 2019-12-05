@@ -20,7 +20,8 @@ function everyoneSayHello() {
         type: 'POST',
         url: "/api/resource-server/v1/auth/handler/everyoneSayHello?name=Hi",
         headers: {
-          Authorization: "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token
+          "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
+          "Authorization-TYPE": "ID_TOKEN"
         },
         success: function (data) {
             console.log(data);
@@ -43,7 +44,8 @@ function adminSayHello() {
         type: 'POST',
         url: "/api/resource-server/v1/auth/handler/adminSayHello?name=Hi",
         headers: {
-          Authorization: "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token
+          "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
+          "Authorization-TYPE": "ID_TOKEN"
         },
         success: function (data) {
             console.log(data);
@@ -66,7 +68,8 @@ function guestOrAdminSayHello() {
         type: 'POST',
         url: "/api/resource-server/v1/auth/handler/guestOrAdminSayHello?name=Hi",
         headers: {
-          Authorization: "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token
+          "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
+          "Authorization-TYPE": "ID_TOKEN"
         },
         success: function (data) {
             console.log(data);
@@ -89,7 +92,8 @@ function guestSayHello() {
         type: 'POST',
         url: "/api/resource-server/v1/auth/handler/guestSayHello?name=Hi",
         headers: {
-          Authorization: "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token
+          "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
+          "Authorization-TYPE": "ID_TOKEN"
         },
         success: function (data) {
             console.log(data);
