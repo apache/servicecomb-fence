@@ -23,6 +23,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public interface Token extends Serializable {
+  long serialVersionUID = 8234764050908891544L;
+
   String getUsername();
 
   @JsonIgnore

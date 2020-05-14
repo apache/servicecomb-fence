@@ -17,8 +17,6 @@
 
 package org.apache.servicecomb.authentication.server;
 
-import java.io.UnsupportedEncodingException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.authentication.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.authentication.token.OpenIDToken;
@@ -118,20 +116,17 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
     StringBuilder url = new StringBuilder();
     url.append(GithubDynamicPropertiesManager.getGithubConfiguration().getOauthAuthorizeURL() + "?");
     url.append("client_id=" + GithubDynamicPropertiesManager.getGithubConfiguration().getClientId() + "&");
-    try {
-      if (login != null) {
-        url.append("login=" + UriUtils.encode(login, "utf-8") + "&");
-        redirectURI = redirectURI + "&login=" + login;
-      }
-      if (scope != null) {
-        url.append("scope=" + UriUtils.encode(scope, "utf-8") + "&");
-      }
-      url.append("redirect_uri=" + UriUtils.encode(redirectURI, "utf-8") + "&");
-    } catch (UnsupportedEncodingException e) {
-      // will not happen, ignore
+
+    if (login != null) {
+      url.append("login=" + UriUtils.encode(login, "utf-8") + "&");
+      redirectURI = redirectURI + "&login=" + login;
     }
+    if (scope != null) {
+      url.append("scope=" + UriUtils.encode(scope, "utf-8") + "&");
+    }
+    url.append("redirect_uri=" + UriUtils.encode(redirectURI, "utf-8") + "&");
+
     url.append("state=" + initialState);
     return url.toString();
   }
-
 }

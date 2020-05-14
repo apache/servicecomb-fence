@@ -18,8 +18,10 @@ package org.apache.servicecomb.authentication;
 
 import java.util.Arrays;
 
-import org.apache.servicecomb.core.definition.MicroserviceVersionMeta;
+import org.apache.servicecomb.core.SCBEngine;
+import org.apache.servicecomb.core.definition.MicroserviceMeta;
 import org.apache.servicecomb.core.definition.SchemaMeta;
+import org.apache.servicecomb.core.provider.consumer.MicroserviceReferenceConfig;
 import org.apache.servicecomb.foundation.common.net.URIEndpointObject;
 import org.apache.servicecomb.serviceregistry.RegistryUtils;
 import org.apache.servicecomb.serviceregistry.api.registry.MicroserviceInstance;
@@ -68,7 +70,7 @@ public class GateRestTemplate extends RestTemplate {
   }
 
   private String getUrlPrefix(String gateName, String producerName, String schemaId) {
-    MicroserviceVersionRule microserviceVersionRule = RegistryUtils.getServiceRegistry()
+    MicroserviceVersionRule microserviceVersionRule = RegistryUtils
         .getAppManager()
         .getOrCreateMicroserviceVersionRule(RegistryUtils.getAppId(),
             gateName,
@@ -85,23 +87,20 @@ public class GateRestTemplate extends RestTemplate {
       urlSchema = "https";
     }
 
-    if(producerName == null) {
+    if (producerName == null) {
       return String
           .format("%s://%s:%d",
               urlSchema,
               edgeAddress.getHostOrIp(),
               edgeAddress.getPort());
     }
-    
-    microserviceVersionRule = RegistryUtils.getServiceRegistry()
-        .getAppManager()
-        .getOrCreateMicroserviceVersionRule(RegistryUtils.getAppId(),
-            producerName,
-            DefinitionConst.VERSION_RULE_ALL);
-    MicroserviceVersionMeta microserviceVersionMeta = microserviceVersionRule.getLatestMicroserviceVersion();
-    SchemaMeta schemaMeta = microserviceVersionMeta.getMicroserviceMeta().ensureFindSchemaMeta(schemaId);
 
-    if(producerName.equals(gateName)) {
+    MicroserviceReferenceConfig microserviceReferenceConfig = SCBEngine.getInstance()
+        .createMicroserviceReferenceConfig(producerName);
+    MicroserviceMeta microserviceMeta = microserviceReferenceConfig.getLatestMicroserviceMeta();
+    SchemaMeta schemaMeta = microserviceMeta.ensureFindSchemaMeta(schemaId);
+
+    if (producerName.equals(gateName)) {
       return String
           .format("%s://%s:%d/%s",
               urlSchema,

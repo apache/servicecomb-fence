@@ -43,28 +43,14 @@ servicecomb:
           authentication-server: internalAccess,qps-flowcontrol-consumer,loadbalance
           authentication-client: internalAccess,qps-flowcontrol-consumer,loadbalance
 
-  uploads:
-    directory: tmp_for_upload_gateway
-
-  samples:
-    logdir: D:\code\servicecomb-samples\porter_lightweight\gateway-service
-    
-  inspector:
-    enabled: false
-
-  executors:
-   Provider:
-     log: servicecomb.samples.executor.groupThreadPool
-     inspector: servicecomb.samples.executor.groupThreadPool
-
-# disable all servicecomb difault dispatchers, all of them are overriden
   http:
     dispatcher:
       edge:
         default:
-          enabled: false # overriden by ApiDispatcher
-      rest:
-        enabled: false # overriden by CustomVertxRestDispatcher
+          enabled: true
+          prefix: api
+          withVersion: false
+          prefixSegmentCount: 2
 
 # StaticWebpageDispatcher checking file exists is async, and will mark request status to ended, and VertxRestDispatcher read 
 # body will print exception. 
