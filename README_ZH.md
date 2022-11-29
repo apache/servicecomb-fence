@@ -13,7 +13,7 @@
 
 ## 项目说明
 
-项目包含了authentication-server，api和samples等目录。其中api目录主要提供给Authentication Server, Edge Service and Resource Server使用的api，authentication-server基于api实现， samples目录基于api提供一个完整的开发示例。
+项目包含了authentication-server，resource-server和edge-service 3个子项目，分工协作完成使用微服务架构的认证鉴权方案。
 
 * 准备
 
@@ -46,5 +46,4 @@ http://localhost:9093/v1/test/start
 
 ## 联系我们
 * [提交issues](https://issues.apache.org/jira/browse/SCB)
-* [gitter聊天室](https://gitter.im/ServiceCombUsers/Lobby)
 * 邮件列表: [订阅](mailto:dev-subscribe@servicecomb.apache.org) [浏览](https://lists.apache.org/list.html?dev@servicecomb.apache.org)

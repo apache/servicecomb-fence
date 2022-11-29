@@ -32,8 +32,10 @@
 
   <modules>
     <module>api</module>
+    <module>edge-service</module>
     <module>authentication-server</module>
-    <module>samples</module>
+    <module>resource-server</module>
+    <module>integration-tests</module>
   </modules>
 
   <dependencyManagement>
