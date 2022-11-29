@@ -20,9 +20,9 @@ package org.apache.servicecomb.authentication.token;
 import org.apache.servicecomb.authentication.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
@@ -30,13 +30,13 @@ import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 public class TokenStoreConfiguration {
   @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
       CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
-  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
+  @ConditionalOnMissingBean
   public SessionTokenStore sessionTokenStore() {
     return new SessionTokenStore();
   }
 
   @Bean(name = {CommonConstants.BEAN_AUTH_ID_TOKEN_STORE})
-  @Order(CommonConstants.BEAN_DEFAULT_ORDER)
+  @ConditionalOnMissingBean
   public JWTTokenStore jwtTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer,
       @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
     return new JWTTokenStoreImpl(signer, signerVerifier);

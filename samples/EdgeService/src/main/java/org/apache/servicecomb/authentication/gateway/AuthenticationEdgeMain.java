@@ -17,10 +17,19 @@
 
 package org.apache.servicecomb.authentication.gateway;
 
-import org.apache.servicecomb.foundation.common.utils.BeanUtils;
+import org.apache.servicecomb.springboot2.starter.EnableServiceComb;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
+@SpringBootApplication
+@EnableServiceComb
 public class AuthenticationEdgeMain {
-    public static void main(String[] args) throws Exception {
-        BeanUtils.init();
+  public static void main(String[] args) {
+    try {
+      new SpringApplicationBuilder(AuthenticationEdgeMain.class).web(WebApplicationType.NONE).run(args);
+    } catch (Throwable e) {
+      e.printStackTrace();
     }
+  }
 }

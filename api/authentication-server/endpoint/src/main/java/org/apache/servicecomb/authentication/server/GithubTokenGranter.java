@@ -54,7 +54,7 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
   private AbstractOpenIDTokenStore openIDTokenStore;
 
   @RpcReference(microserviceName = "githubAuthService", schemaId = "githubAuthService")
-  GithubAuthService githubAuthService;
+  GithubOAuthService githubOAuthService;
 
   RestTemplate githubRestTemplate = RestTemplateBuilder.create();
 

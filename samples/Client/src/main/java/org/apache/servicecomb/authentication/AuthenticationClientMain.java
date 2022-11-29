@@ -17,13 +17,18 @@
 
 package org.apache.servicecomb.authentication;
 
-import org.apache.servicecomb.foundation.common.utils.BeanUtils;
+import org.apache.servicecomb.springboot2.starter.EnableServiceComb;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
+@SpringBootApplication
+@EnableServiceComb
 public class AuthenticationClientMain {
   public static void main(String[] args) {
     try {
-      BeanUtils.init();
-    } catch (Exception e) {
+      new SpringApplicationBuilder(AuthenticationClientMain.class).web(WebApplicationType.NONE).run(args);
+    } catch (Throwable e) {
       e.printStackTrace();
     }
   }

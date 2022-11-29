@@ -41,8 +41,7 @@ public class StaticWebpageDispatcher implements VertxHttpDispatcher {
   @Override
   public void init(Router router) {
     String regex = "/ui/(.*)";
-    StaticHandler webpageHandler = StaticHandler.create();
-    webpageHandler.setWebRoot(WEB_ROOT);
+    StaticHandler webpageHandler = StaticHandler.create(WEB_ROOT);
     LOGGER.info("server static web page for WEB_ROOT={}", WEB_ROOT);
     router.routeWithRegex(regex).failureHandler((context) -> {
       LOGGER.error("", context.failure());
