@@ -17,30 +17,17 @@
 
 package org.apache.servicecomb.authentication.server;
 
-import java.util.Collections;
-
-import org.apache.servicecomb.core.BootListener;
-import org.apache.servicecomb.serviceregistry.RegistryUtils;
+import org.apache.servicecomb.provider.pojo.registry.ThirdServiceWithInvokerRegister;
 import org.springframework.stereotype.Component;
 
 //see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
 @Component
-public class ThirdPartyRegisterBootListener implements BootListener {
+public class GithubOAuthServiceRegister extends ThirdServiceWithInvokerRegister {
   private static final String GITHUB_ENDPOINT = "rest://github.com:443?sslEnabled=true";
 
-  @Override
-  public void onBootEvent(BootEvent event) {
-    if (BootListener.EventType.AFTER_REGISTRY.equals(event.getEventType())) {
-      RegistryUtils.getServiceRegistry().registerMicroserviceMappingByEndpoints(
-          // 3rd party rest service name
-          "githubAuthService",
-          // service version
-          "1.0.0",
-          // list of endpoints
-          Collections.singletonList(GITHUB_ENDPOINT),
-          // java interface class to generate swagger schema
-          GithubAuthService.class);
-    }
-  }
+  public GithubOAuthServiceRegister() {
+    super("GithubOAuthService");
 
+    addSchema("GithubOAuthService", GithubOAuthService.class);
+  }
 }

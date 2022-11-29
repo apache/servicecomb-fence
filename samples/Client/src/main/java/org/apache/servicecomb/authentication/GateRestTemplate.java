@@ -23,10 +23,11 @@ import org.apache.servicecomb.core.definition.MicroserviceMeta;
 import org.apache.servicecomb.core.definition.SchemaMeta;
 import org.apache.servicecomb.core.provider.consumer.MicroserviceReferenceConfig;
 import org.apache.servicecomb.foundation.common.net.URIEndpointObject;
+import org.apache.servicecomb.registry.DiscoveryManager;
+import org.apache.servicecomb.registry.api.registry.MicroserviceInstance;
+import org.apache.servicecomb.registry.consumer.MicroserviceVersionRule;
+import org.apache.servicecomb.registry.definition.DefinitionConst;
 import org.apache.servicecomb.serviceregistry.RegistryUtils;
-import org.apache.servicecomb.serviceregistry.api.registry.MicroserviceInstance;
-import org.apache.servicecomb.serviceregistry.consumer.MicroserviceVersionRule;
-import org.apache.servicecomb.serviceregistry.definition.DefinitionConst;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -70,7 +71,7 @@ public class GateRestTemplate extends RestTemplate {
   }
 
   private String getUrlPrefix(String gateName, String producerName, String schemaId) {
-    MicroserviceVersionRule microserviceVersionRule = RegistryUtils
+    MicroserviceVersionRule microserviceVersionRule = DiscoveryManager.INSTANCE
         .getAppManager()
         .getOrCreateMicroserviceVersionRule(RegistryUtils.getAppId(),
             gateName,

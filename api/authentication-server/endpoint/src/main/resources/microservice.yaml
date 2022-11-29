@@ -17,37 +17,8 @@
 ## ---------------------------------------------------------------------------
 
 # override common configurations in common module
-servicecomb-config-order: 100
+servicecomb-config-order: -1
 
-APPLICATION_ID: authentication-application
-service_description:
-  version: 0.0.1
-  name: resource-server
-  environment: development
-  
-servicecomb:
-  service:
-    registry:
-      address: http://localhost:30100
-      instance:
-        watch: false
-
-  rest:
-    address: 0.0.0.0:9092
-
-  authencation:
-    access:
-      needAuth: true
-      HandlerAuthEndpoint:
-        adminSayHello: 
-          roles: ADMIN
-        guestSayHello: 
-          roles: GUEST
-        guestOrAdminSayHello: 
-          roles: ADMIN,GUEST
-        # everyoneSayHello: all can
-
-  handler:
-    chain:
-      Provider:
-        default: qps-flowcontrol-provider,resource-auth-provider
+GithubOAuthService:
+  urls:
+    - rest://github.com:443?sslEnabled=true

@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 //see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
 @Path("/login/oauth")
 @Api(produces = MediaType.APPLICATION_JSON_VALUE)
-public interface GithubAuthService {
+public interface GithubOAuthService {
   @POST
   @Path("/access_token")
   public GithubAccessTokenResponse accessToken(@FormParam("client_id") String client_id,
