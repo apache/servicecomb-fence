@@ -13,7 +13,7 @@ This project is servicecomb-java-chassis security support. The main architecture
 
 ## Project description
 
-This project contains api, authentication-server and samples folders. Api folder contains components used in Authentication Server, Edge Service and Resource Server. Authentcation Server imeplentation is based on api. And samples folder gives a working example showing how to use these apis. 
+This project contains authentication-server, resource server and edge service. 
 
 * Prepare
 
@@ -45,5 +45,4 @@ This test will token several seconds. See AuthenticationTestCase for testing det
 
 ## Contact Us
 * [issues](https://issues.apache.org/jira/browse/SCB)
-* [gitter](https://gitter.im/ServiceCombUsers/Lobby)
 * mailing list: [subscribe](mailto:dev-subscribe@servicecomb.apache.org) [view](https://lists.apache.org/list.html?dev@servicecomb.apache.org)
