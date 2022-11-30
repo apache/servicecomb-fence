@@ -19,6 +19,7 @@ package org.apache.servicecomb.fence.edge;
 
 import org.apache.servicecomb.fence.token.JWTTokenStore;
 import org.apache.servicecomb.fence.token.JWTTokenStoreImpl;
+import org.apache.servicecomb.fence.token.SessionTokenStore;
 import org.apache.servicecomb.fence.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,9 +39,14 @@ public class AuthenticationConfiguration {
   }
 
   @Bean(name = CommonConstants.BEAN_AUTH_ID_TOKEN_STORE)
-  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer, 
+  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer,
       @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
     return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 
+  @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
+      CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
+  public SessionTokenStore sessionTokenStore() {
+    return new SessionTokenStore();
+  }
 }

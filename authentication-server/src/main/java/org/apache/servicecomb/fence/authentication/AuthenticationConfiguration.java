@@ -17,12 +17,18 @@
 
 package org.apache.servicecomb.fence.authentication;
 
+import org.apache.servicecomb.fence.token.JWTTokenStore;
+import org.apache.servicecomb.fence.token.JWTTokenStoreImpl;
+import org.apache.servicecomb.fence.token.SessionTokenStore;
 import org.apache.servicecomb.fence.util.CommonConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
+import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
@@ -37,5 +43,17 @@ public class AuthenticationConfiguration {
     // If using RSA, need to configure authSigner and authSignatureVerifier separately. 
     // If using MacSigner, need to protect the shared key by properly encryption.
     return new MacSigner("Please change this key.");
+  }
+
+  @Bean(name = {CommonConstants.BEAN_AUTH_ID_TOKEN_STORE})
+  public JWTTokenStore jwtTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer,
+      @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
+    return new JWTTokenStoreImpl(signer, signerVerifier);
+  }
+
+  @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
+      CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
+  public SessionTokenStore sessionTokenStore() {
+    return new SessionTokenStore();
   }
 }
