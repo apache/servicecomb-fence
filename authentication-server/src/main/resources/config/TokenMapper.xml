@@ -12,7 +12,7 @@
   under the License. -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.apache.servicecomb.authentication.user.TokenMapper">
+<mapper namespace="org.apache.servicecomb.fence.authentication.user.TokenMapper">
   <insert id="insertNewToken">
     insert into
     T_TOKENS(ACCESS_TOKEN_VALUE,REFRESH_TOKEN_VALUE,TOKEN)

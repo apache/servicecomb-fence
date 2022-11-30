@@ -17,7 +17,7 @@
 
 <config>
   <handler id="auth"
-    class="org.apache.servicecomb.authentication.edge.AuthHandler" />
+    class="org.apache.servicecomb.fence.edge.AuthHandler" />
   <handler id="internalAccess"
-    class="org.apache.servicecomb.authentication.edge.InternalAccessHandler" />
+    class="org.apache.servicecomb.fence.edge.InternalAccessHandler" />
 </config>

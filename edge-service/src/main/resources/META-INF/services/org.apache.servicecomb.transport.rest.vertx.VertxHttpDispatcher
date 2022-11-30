@@ -15,4 +15,4 @@
 # limitations under the License.
 #
 
-org.apache.servicecomb.authentication.gateway.StaticWebpageDispatcher
+org.apache.servicecomb.fence.edge.StaticWebpageDispatcher
