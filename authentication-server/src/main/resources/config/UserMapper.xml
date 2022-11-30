@@ -12,9 +12,9 @@
   under the License. -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.apache.servicecomb.authentication.user.UserMapper">
+<mapper namespace="org.apache.servicecomb.fence.authentication.user.UserMapper">
   <resultMap id="userInfo"
-    type="org.apache.servicecomb.authentication.user.UserInfo">
+    type="org.apache.servicecomb.fence.authentication.user.UserInfo">
     <result column="ID" property="id" />
     <result column="USER_NAME" property="username" />
     <result column="PASSWORD" property="password" />

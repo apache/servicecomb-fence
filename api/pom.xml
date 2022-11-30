@@ -21,8 +21,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache.servicecomb.authentication</groupId>
-    <artifactId>authentication-parent</artifactId>
+    <groupId>org.apache.servicecomb.fence</groupId>
+    <artifactId>project-fence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 

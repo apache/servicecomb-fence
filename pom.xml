@@ -20,8 +20,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.apache.servicecomb.authentication</groupId>
-  <artifactId>authentication-parent</artifactId>
+  <groupId>org.apache.servicecomb.fence</groupId>
+  <artifactId>project-fence</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 

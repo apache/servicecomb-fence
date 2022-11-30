@@ -17,5 +17,5 @@
 
 <config>
   <handler id="resource-auth-provider"
-    class="org.apache.servicecomb.authentication.resource.ResourceAuthHandler" />
+    class="org.apache.servicecomb.fence.resource.ResourceAuthHandler" />
 </config>

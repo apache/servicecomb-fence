@@ -15,6 +15,6 @@ cd %HOME%\resource-server\target
 start java -jar resource-server-0.0.1-SNAPSHOT.jar
 
 cd %HOME%\integration-tests\target
-start java -jar client-0.0.1-SNAPSHOT.jar
+start java -jar integration-tests-0.0.1-SNAPSHOT.jar
 
 cd %HOME%

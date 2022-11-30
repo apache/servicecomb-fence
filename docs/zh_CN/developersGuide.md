@@ -54,7 +54,7 @@ Authentication Server 主要提供认证和授权等接口。
 
 ```
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-server-api-endpoint</artifactId>
     </dependency>
 ```
@@ -121,7 +121,7 @@ Resource Server 对 Client 的访问进行认证， 并进行权限控制。
 
 ```
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-resource-api-endpoint</artifactId>
     </dependency>
 ```
@@ -227,7 +227,7 @@ Edge Service 是微服务接入层。 在[单体应用微服务改造](https://b
 
 ```
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-edge-api-endpoint</artifactId>
     </dependency>
 ```
