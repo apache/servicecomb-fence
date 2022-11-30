@@ -34,3 +34,14 @@ servicecomb:
 
   rest:
     address: 0.0.0.0:9093
+
+  accesslog:
+    ## server 端 启用access log
+    enabled: true
+    ##  server 端 自定义 access log 日志格式
+    pattern: "%h %r %s %B %D"
+    request:
+      ## client 端开启 request log
+      enabled: true
+      ## client 端自定义 request log 日志格式
+      pattern: "%h %SCB-transport %r %s %D"
