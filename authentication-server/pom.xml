@@ -16,8 +16,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache.servicecomb.authentication</groupId>
-    <artifactId>authentication-parent</artifactId>
+    <groupId>org.apache.servicecomb.fence</groupId>
+    <artifactId>project-fence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
@@ -46,12 +46,12 @@
         <version>5.1.46</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.servicecomb.authentication</groupId>
+        <groupId>org.apache.servicecomb.fence</groupId>
         <artifactId>authentication-server-api-endpoint</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.servicecomb.authentication</groupId>
+        <groupId>org.apache.servicecomb.fence</groupId>
         <artifactId>authentication-common-api-endpoint</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
@@ -78,11 +78,11 @@
       <artifactId>spring-security-jwt</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-common-api-endpoint</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-server-api-endpoint</artifactId>
     </dependency>
     <dependency>

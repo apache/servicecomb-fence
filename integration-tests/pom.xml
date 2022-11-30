@@ -15,14 +15,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-
   <parent>
-    <groupId>org.apache.servicecomb.authentication</groupId>
-    <artifactId>authentication-samples</artifactId>
+    <groupId>org.apache.servicecomb.fence</groupId>
+    <artifactId>project-fence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>client</artifactId>
+  <artifactId>integration-tests</artifactId>
   <packaging>jar</packaging>
 
   <properties>
@@ -32,7 +31,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.apache.servicecomb.authentication</groupId>
+        <groupId>org.apache.servicecomb.fence</groupId>
         <artifactId>authentication-edge-api-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
@@ -56,7 +55,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-edge-api-service</artifactId>
     </dependency>
     <dependency>

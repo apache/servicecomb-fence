@@ -17,8 +17,8 @@
 
 
   <parent>
-    <groupId>org.apache.servicecomb.authentication</groupId>
-    <artifactId>authentication-samples</artifactId>
+    <groupId>org.apache.servicecomb.fence</groupId>
+    <artifactId>project-fence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
@@ -32,7 +32,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.apache.servicecomb.authentication</groupId>
+        <groupId>org.apache.servicecomb.fence</groupId>
         <artifactId>authentication-resource-api-endpoint</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
@@ -56,7 +56,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-resource-api-endpoint</artifactId>
     </dependency>
     <dependency>

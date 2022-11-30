@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache.servicecomb.authentication</groupId>
+    <groupId>org.apache.servicecomb.fence</groupId>
     <artifactId>authentication-server-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -30,12 +30,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-server-api-service</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.servicecomb.authentication</groupId>
+      <groupId>org.apache.servicecomb.fence</groupId>
       <artifactId>authentication-common-api-service</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
