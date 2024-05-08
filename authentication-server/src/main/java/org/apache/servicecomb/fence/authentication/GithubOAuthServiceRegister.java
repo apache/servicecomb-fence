@@ -17,17 +17,40 @@
 
 package org.apache.servicecomb.fence.authentication;
 
-import org.apache.servicecomb.provider.pojo.registry.ThirdServiceWithInvokerRegister;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.servicecomb.config.BootStrapProperties;
+import org.apache.servicecomb.localregistry.RegistryBean;
+import org.apache.servicecomb.localregistry.RegistryBean.Instance;
+import org.apache.servicecomb.localregistry.RegistryBean.Instances;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 //see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
-@Component
-public class GithubOAuthServiceRegister extends ThirdServiceWithInvokerRegister {
-  private static final String GITHUB_ENDPOINT = "rest://github.com:443?sslEnabled=true";
+@Configuration
+public class GithubOAuthServiceRegister {
+  public static final String GITHUB_ENDPOINT = "rest://github.com:443?sslEnabled=true";
 
-  public GithubOAuthServiceRegister() {
-    super("GithubOAuthService");
+  public static final String GITHUB_SERVICE_NAME = "github";
 
-    addSchema("GithubOAuthService", GithubOAuthService.class);
+  public static final String GITHUB_SERVICE_VERSION = "1.0";
+
+  @Bean
+  public RegistryBean githubOAuthServiceRegistryBean(@Autowired Environment environment) {
+    List<String> endpoints = new ArrayList<>();
+    endpoints.add(GITHUB_ENDPOINT);
+    List<Instance> instances = new ArrayList<>();
+    instances.add(new Instance().setEndpoints(endpoints));
+
+    return new RegistryBean()
+        .setServiceName(GITHUB_SERVICE_NAME)
+        .setId(GITHUB_SERVICE_NAME)
+        .setVersion(GITHUB_SERVICE_VERSION)
+        .setAppId(BootStrapProperties.readApplication(environment))
+        .addSchemaInterface("GithubOAuthService", GithubOAuthService.class)
+        .setInstances(new Instances().setInstances(instances));
   }
 }

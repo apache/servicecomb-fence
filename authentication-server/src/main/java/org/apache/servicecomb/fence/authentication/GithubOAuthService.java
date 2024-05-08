@@ -17,17 +17,16 @@
 
 package org.apache.servicecomb.fence.authentication;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
 import org.springframework.http.MediaType;
 
-import io.swagger.annotations.Api;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 
 //see: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
 @Path("/login/oauth")
-@Api(produces = MediaType.APPLICATION_JSON_VALUE)
+@Produces(MediaType.APPLICATION_JSON_VALUE)
 public interface GithubOAuthService {
   @POST
   @Path("/access_token")

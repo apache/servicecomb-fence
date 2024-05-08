@@ -17,11 +17,10 @@
 
 package org.apache.servicecomb.fence.edge;
 
+import org.apache.servicecomb.foundation.common.LegacyPropertyFactory;
 import org.apache.servicecomb.transport.rest.vertx.VertxHttpDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.netflix.config.DynamicPropertyFactory;
 
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -29,9 +28,8 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class StaticWebpageDispatcher implements VertxHttpDispatcher {
   private static final Logger LOGGER = LoggerFactory.getLogger(StaticWebpageDispatcher.class);
 
-  private static final String WEB_ROOT = DynamicPropertyFactory.getInstance()
-      .getStringProperty("gateway.webroot", "/var/static")
-      .get();
+  private static final String WEB_ROOT = LegacyPropertyFactory
+      .getStringProperty("gateway.webroot", "/var/static");
 
   @Override
   public int getOrder() {
@@ -47,5 +45,4 @@ public class StaticWebpageDispatcher implements VertxHttpDispatcher {
       LOGGER.error("", context.failure());
     }).handler(webpageHandler);
   }
-
 }

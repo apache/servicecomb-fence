@@ -21,13 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.fence.token.OpenIDTokenStore;
 import org.apache.servicecomb.fence.util.CommonConstants;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +33,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response.Status;
 
 @RestSchema(schemaId = "TokenEndpoint")
 @RequestMapping(path = "/v1/token")
@@ -70,8 +71,8 @@ public class TokenEndpoint implements TokenService {
     try {
       return result.get();
     } catch (Exception e) {
-      throw new InvocationException(Status.INTERNAL_SERVER_ERROR, "internal unexpected error.");
+      throw new InvocationException(Status.INTERNAL_SERVER_ERROR,
+          new CommonExceptionData("internal unexpected error."));
     }
   }
-
 }

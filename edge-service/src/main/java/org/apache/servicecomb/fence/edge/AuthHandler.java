@@ -19,24 +19,39 @@ package org.apache.servicecomb.fence.edge;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.EdgeFilter;
+import org.apache.servicecomb.core.filter.FilterNode;
 import org.apache.servicecomb.fence.token.JWTToken;
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.fence.token.OpenIDTokenStore;
 import org.apache.servicecomb.fence.util.CommonConstants;
-import org.apache.servicecomb.core.Handler;
-import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.foundation.common.utils.BeanUtils;
-import org.apache.servicecomb.swagger.invocation.AsyncResponse;
+import org.apache.servicecomb.swagger.invocation.Response;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 
-public class AuthHandler implements Handler {
+import jakarta.ws.rs.core.Response.Status;
+
+public class AuthHandler extends AbstractFilter implements EdgeFilter {
   @Override
-  public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
+  public int getOrder() {
+    return super.getOrder();
+  }
+
+  @Override
+  public String getName() {
+    return super.getName();
+  }
+
+  @Override
+  public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
     String token = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION);
     String tokenType = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE);
     if (token == null) {
-      asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-      return;
+      return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+          new CommonExceptionData("not authenticated")));
     }
 
     OpenIDTokenStore openIDTokenStore = BeanUtils.getBean(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE);
@@ -44,33 +59,31 @@ public class AuthHandler implements Handler {
     if (CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
       JWTToken jwtToken = openIDTokenStore.createIDTokenByValue(token);
       if (jwtToken == null || jwtToken.isExpired()) {
-        asyncResponse.consumerFail(new InvocationException(403, "forbidden", "token expired or not valid."));
-        return;
+        return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+            new CommonExceptionData("token expired or not valid")));
       }
 
       // send id_token to services to apply state less validation
       invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, jwtToken.getValue());
-      invocation.next(asyncResponse);
+      return nextNode.onFilter(invocation);
     } else if (CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN.equals(tokenType)) {
       CompletableFuture<OpenIDToken> openIDTokenFuture = openIDTokenStore.readTokenByAccessToken(token);
+      CompletableFuture<Void> result = new CompletableFuture<>();
       openIDTokenFuture.whenComplete((res, ex) -> {
         if (openIDTokenFuture.isCompletedExceptionally() || res == null || res.isExpired()) {
-          asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
+          result.completeExceptionally(new InvocationException(Status.FORBIDDEN,
+              new CommonExceptionData("not authenticated")));
           return;
         }
 
         // send id_token to services to apply state less validation
         invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, res.getIdToken().getValue());
-        try {
-          invocation.next(asyncResponse);
-        } catch (Exception e) {
-          asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-          return;
-        }
+        result.complete(null);
       });
+      return result.thenCompose((v) -> nextNode.onFilter(invocation));
     } else {
-      asyncResponse.consumerFail(new InvocationException(403, "forbidden", "not authenticated"));
-      return;
+      return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+          new CommonExceptionData("not authenticated")));
     }
   }
 }

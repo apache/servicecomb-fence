@@ -35,7 +35,7 @@ import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 public class AuthenticationConfiguration {
   @Bean(name = CommonConstants.BEAN_AUTH_PASSWORD_ENCODER)
   public PasswordEncoder authPasswordEncoder() {
-    return new Pbkdf2PasswordEncoder();
+    return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
   }
 
   @Bean(name = {CommonConstants.BEAN_AUTH_SIGNER, CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER})

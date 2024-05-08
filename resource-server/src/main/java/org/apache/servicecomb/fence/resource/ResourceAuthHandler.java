@@ -17,16 +17,28 @@
 
 package org.apache.servicecomb.fence.resource;
 
-import org.apache.servicecomb.core.Handler;
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.servicecomb.core.Invocation;
-import org.apache.servicecomb.swagger.invocation.AsyncResponse;
+import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.FilterNode;
+import org.apache.servicecomb.core.filter.ProviderFilter;
+import org.apache.servicecomb.swagger.invocation.Response;
 
-public class ResourceAuthHandler implements Handler {
-
+public class ResourceAuthHandler extends AbstractFilter implements ProviderFilter {
   @Override
-  public void handle(Invocation invocation, AsyncResponse asyncResponse) throws Exception {
-    AuthFiltersBean.getAuthFilters().forEach(authFilter -> authFilter.doFilter(invocation));
-    invocation.next(asyncResponse);
+  public int getOrder() {
+    return super.getOrder();
   }
 
+  @Override
+  public String getName() {
+    return super.getName();
+  }
+
+  @Override
+  public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
+    AuthFiltersBean.getAuthFilters().forEach(authFilter -> authFilter.doFilter(invocation));
+    return nextNode.onFilter(invocation);
+  }
 }

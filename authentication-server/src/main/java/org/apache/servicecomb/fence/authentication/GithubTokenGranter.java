@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,14 +37,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriUtils;
-
-import com.netflix.config.DynamicPropertyFactory;
 
 @Component
 public class GithubTokenGranter implements ThirdPartyTokenGranter {
   private static final Logger LOGGER = LoggerFactory.getLogger(GithubTokenGranter.class);
+
+  @Autowired
+  private Environment environment;
 
   @Autowired
   @Qualifier(CommonConstants.BEAN_AUTH_USER_DETAILS_SERVICE)
@@ -56,13 +58,12 @@ public class GithubTokenGranter implements ThirdPartyTokenGranter {
   @RpcReference(microserviceName = "githubAuthService", schemaId = "githubAuthService")
   GithubOAuthService githubOAuthService;
 
-  RestTemplate githubRestTemplate = RestTemplateBuilder.create();
+  RestOperations githubRestTemplate = RestTemplateBuilder.create();
 
   @Override
   public boolean enabled() {
-    return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_THIRD_GITHUB_ENABLED, true)
-        .get();
+    return environment.getProperty(AuthenticationServerConstants.CONFIG_GRANTER_THIRD_GITHUB_ENABLED, boolean.class,
+        true);
   }
 
   @Override
