@@ -17,21 +17,36 @@
 
 package org.apache.servicecomb.fence.edge;
 
-import org.apache.servicecomb.core.Handler;
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.servicecomb.core.Invocation;
-import org.apache.servicecomb.swagger.invocation.AsyncResponse;
+import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.EdgeFilter;
+import org.apache.servicecomb.core.filter.FilterNode;
+import org.apache.servicecomb.swagger.invocation.Response;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 
-public class InternalAccessHandler implements Handler {
+import jakarta.ws.rs.core.Response.Status;
 
+public class InternalAccessHandler extends AbstractFilter implements EdgeFilter {
   @Override
-  public void handle(Invocation invocation, AsyncResponse asyncReponse) throws Exception {
-    if (invocation.getOperationMeta().getSwaggerOperation().getTags() != null
-        && invocation.getOperationMeta().getSwaggerOperation().getTags().contains("INTERNAL")) {
-      asyncReponse.consumerFail(new InvocationException(403, "", "not allowed"));
-      return;
-    }
-    invocation.next(asyncReponse);
+  public int getOrder() {
+    return super.getOrder();
   }
 
+  @Override
+  public String getName() {
+    return super.getName();
+  }
+
+  @Override
+  public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
+    if (invocation.getOperationMeta().getSwaggerOperation().getTags() != null
+        && invocation.getOperationMeta().getSwaggerOperation().getTags().contains("INTERNAL")) {
+      return CompletableFuture.failedFuture(
+          new InvocationException(Status.FORBIDDEN, new CommonExceptionData("not allowed")));
+    }
+    return nextNode.onFilter(invocation);
+  }
 }

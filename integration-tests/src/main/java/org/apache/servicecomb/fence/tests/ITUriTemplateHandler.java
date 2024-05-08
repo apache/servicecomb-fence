@@ -19,9 +19,9 @@ package org.apache.servicecomb.fence.tests;
 import java.net.URI;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
-// TODO : upgrade to spring 5 will having warning's , we'll fix it later
-public class ITUriTemplateHandler extends org.springframework.web.util.DefaultUriTemplateHandler {
+import org.springframework.web.util.DefaultUriBuilderFactory;
+
+public class ITUriTemplateHandler extends DefaultUriBuilderFactory {
   private String urlPrefix;
 
   public ITUriTemplateHandler(String urlPrefix) {
@@ -29,13 +29,13 @@ public class ITUriTemplateHandler extends org.springframework.web.util.DefaultUr
   }
 
   @Override
-  protected URI expandInternal(String uriTemplate, Object... uriVariables) {
-    return super.expandInternal(changeUrl(uriTemplate), uriVariables);
+  public URI expand(String uriTemplate, Object... uriVariables) {
+    return super.expand(changeUrl(uriTemplate), uriVariables);
   }
 
   @Override
-  protected URI expandInternal(String uriTemplate, Map<String, ?> uriVariables) {
-    return super.expandInternal(changeUrl(uriTemplate), uriVariables);
+  public URI expand(String uriTemplate, Map<String, ?> uriVariables) {
+    return super.expand(changeUrl(uriTemplate), uriVariables);
   }
 
   private String changeUrl(String uriTemplate) {

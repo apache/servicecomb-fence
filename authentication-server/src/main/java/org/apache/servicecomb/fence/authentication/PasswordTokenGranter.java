@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.fence.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.fence.util.CommonConstants;
+import org.apache.servicecomb.foundation.common.LegacyPropertyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,8 +31,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import com.netflix.config.DynamicPropertyFactory;
 
 @Component
 public class PasswordTokenGranter implements TokenGranter {
@@ -77,9 +76,7 @@ public class PasswordTokenGranter implements TokenGranter {
 
   @Override
   public boolean enabled() {
-    return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_PASSWORD_ENABLED, true)
-        .get();
+    return LegacyPropertyFactory
+        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_PASSWORD_ENABLED, true);
   }
-
 }

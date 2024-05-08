@@ -24,13 +24,12 @@ import org.apache.servicecomb.fence.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.fence.token.Token;
 import org.apache.servicecomb.fence.util.CommonConstants;
+import org.apache.servicecomb.foundation.common.LegacyPropertyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-
-import com.netflix.config.DynamicPropertyFactory;
 
 @Component
 public class RefreshTokenTokenGranter implements TokenGranter {
@@ -44,9 +43,8 @@ public class RefreshTokenTokenGranter implements TokenGranter {
 
   @Override
   public boolean enabled() {
-    return DynamicPropertyFactory.getInstance()
-        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_REFRESH_TOKEN_ENABLED, true)
-        .get();
+    return LegacyPropertyFactory
+        .getBooleanProperty(AuthenticationServerConstants.CONFIG_GRANTER_REFRESH_TOKEN_ENABLED, true);
   }
 
   @Override
@@ -72,5 +70,4 @@ public class RefreshTokenTokenGranter implements TokenGranter {
     }
     return null;
   }
-
 }

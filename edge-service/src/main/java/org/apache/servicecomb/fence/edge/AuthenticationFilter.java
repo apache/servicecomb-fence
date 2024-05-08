@@ -17,13 +17,16 @@
 
 package org.apache.servicecomb.fence.edge;
 
-import org.apache.servicecomb.fence.util.CommonConstants;
-import org.apache.servicecomb.common.rest.filter.HttpServerFilter;
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.servicecomb.core.Invocation;
-import org.apache.servicecomb.foundation.vertx.http.HttpServletRequestEx;
+import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.EdgeFilter;
+import org.apache.servicecomb.core.filter.FilterNode;
+import org.apache.servicecomb.fence.util.CommonConstants;
 import org.apache.servicecomb.swagger.invocation.Response;
 
-public class AuthenticationFilter implements HttpServerFilter {
+public class AuthenticationFilter extends AbstractFilter implements EdgeFilter {
 
   @Override
   public int getOrder() {
@@ -31,9 +34,14 @@ public class AuthenticationFilter implements HttpServerFilter {
   }
 
   @Override
-  public Response afterReceiveRequest(Invocation invocation, HttpServletRequestEx requestEx) {
-    String authentication = requestEx.getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION);
-    String type = requestEx.getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION_TYPE);
+  public String getName() {
+    return "authentication";
+  }
+
+  @Override
+  public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
+    String authentication = invocation.getRequestEx().getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION);
+    String type = invocation.getRequestEx().getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION_TYPE);
     if (authentication != null) {
       String[] tokens = authentication.split(" ");
       if (tokens.length == 2) {
@@ -44,7 +52,6 @@ public class AuthenticationFilter implements HttpServerFilter {
         }
       }
     }
-    return null;
+    return nextNode.onFilter(invocation);
   }
-
 }
