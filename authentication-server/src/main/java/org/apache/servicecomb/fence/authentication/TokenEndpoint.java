@@ -48,7 +48,7 @@ public class TokenEndpoint implements TokenService {
   private OpenIDTokenStore store;
 
   @Override
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED)
+  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON)
   public OpenIDToken grantToken(@RequestBody Map<String, String> parameters) {
     String grantType = parameters.get(AuthenticationServerConstants.PARAM_GRANT_TYPE);
 

@@ -38,9 +38,13 @@ public class AuthenticationConfiguration {
   }
 
   @Bean(name = CommonConstants.BEAN_AUTH_ID_TOKEN_STORE)
-  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer, 
+  public JWTTokenStore authIDTokenStore(@Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNER) Signer signer,
       @Autowired @Qualifier(CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER) SignerVerifier signerVerifier) {
     return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 
+  @Bean
+  public AuthenticationProviderFilter authenticationProviderFilter() {
+    return new AuthenticationProviderFilter();
+  }
 }

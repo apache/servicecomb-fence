@@ -20,7 +20,7 @@ package org.apache.servicecomb.fence.resource;
 import org.apache.servicecomb.config.inject.InjectProperties;
 import org.apache.servicecomb.config.inject.InjectProperty;
 
-@InjectProperties(prefix = "servicecomb.authencation.access")
+@InjectProperties(prefix = "servicecomb.authentication.access")
 public class AccessDynamicProperties {
   @InjectProperty(keys = {
       "${schemaId}.${operationId}.needAuth",

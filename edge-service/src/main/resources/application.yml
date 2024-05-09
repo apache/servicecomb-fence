@@ -15,44 +15,23 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ## ---------------------------------------------------------------------------
-
-# override common configurations in common module
-servicecomb-config-order: 100
-
-APPLICATION_ID: authentication-application
-service_description:
-  version: 0.0.1
-  name: edge-service
-  environment: development
-
 servicecomb:
   service:
-    registry:
-      address: http://localhost:30100
-      instance:
-        watch: false
+    application: scb-fence
+    name: edge-service
+    version: 0.0.1
+
+  registry:
+    zk:
+      enabled: true
+      connectString: 127.0.0.1:2181
+  config:
+    zk:
+      enabled: true
+      connectString: 127.0.0.1:2181
 
   rest:
     address: 0.0.0.0:9090
-
-  handler:
-    chain:
-      Consumer:
-        default: internalAccess,auth,qps-flowcontrol-consumer,loadbalance
-        service:
-          authentication-server: internalAccess,qps-flowcontrol-consumer,loadbalance
-          authentication-client: internalAccess,qps-flowcontrol-consumer,loadbalance
-
-  accesslog:
-    ## server 端 启用access log
-    enabled: true
-    ##  server 端 自定义 access log 日志格式
-    pattern: "%h %r %s %B %D"
-    request:
-      ## client 端开启 request log
-      enabled: true
-      ## client 端自定义 request log 日志格式
-      pattern: "%h %SCB-transport %r %s %D"
 
   http:
     dispatcher:
@@ -65,4 +44,4 @@ servicecomb:
 
 # StaticWebpageDispatcher checking file exists is async, and will mark request status to ended, and VertxRestDispatcher read 
 # body will print exception. 
-gateway.webroot: /code/servicecomb-fence/samples/EdgeService/src/main/resources
+gateway.webroot: /code/servicecomb-fence/edge-service/src/main/resources

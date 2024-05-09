@@ -17,23 +17,24 @@
 
 package org.apache.servicecomb.fence.resource;
 
-import org.apache.servicecomb.swagger.invocation.Response;
-import org.apache.servicecomb.swagger.invocation.SwaggerInvocation;
-import org.apache.servicecomb.swagger.invocation.exception.ExceptionToProducerResponseConverter;
+import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.core.exception.ExceptionConverter;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.security.access.AccessDeniedException;
 
-public class AccessDeniedExceptionExceptionToProducerResponseConverter
-    implements ExceptionToProducerResponseConverter<AccessDeniedException> {
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.Response.StatusType;
 
+public class AccessDeniedExceptionExceptionConverter
+    implements ExceptionConverter<AccessDeniedException> {
   @Override
-  public Class<AccessDeniedException> getExceptionClass() {
-    return AccessDeniedException.class;
+  public boolean canConvert(Throwable throwable) {
+    return throwable instanceof AccessDeniedException;
   }
 
   @Override
-  public Response convert(SwaggerInvocation swaggerInvocation, AccessDeniedException e) {
-    return Response.failResp(new InvocationException(403, "forbidden", "not authenticated"));
+  public InvocationException convert(Invocation invocation, AccessDeniedException throwable, StatusType genericStatus) {
+    return new InvocationException(Status.FORBIDDEN, new CommonExceptionData("not authenticated"));
   }
-
 }

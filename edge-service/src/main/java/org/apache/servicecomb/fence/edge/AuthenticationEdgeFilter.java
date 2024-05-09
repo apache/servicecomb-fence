@@ -22,6 +22,7 @@ import java.util.concurrent.CompletableFuture;
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.core.filter.AbstractFilter;
 import org.apache.servicecomb.core.filter.EdgeFilter;
+import org.apache.servicecomb.core.filter.Filter;
 import org.apache.servicecomb.core.filter.FilterNode;
 import org.apache.servicecomb.fence.token.JWTToken;
 import org.apache.servicecomb.fence.token.OpenIDToken;
@@ -34,19 +35,32 @@ import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 
 import jakarta.ws.rs.core.Response.Status;
 
-public class AuthHandler extends AbstractFilter implements EdgeFilter {
+public class AuthenticationEdgeFilter extends AbstractFilter implements EdgeFilter {
   @Override
   public int getOrder() {
-    return super.getOrder();
+    return Filter.PROVIDER_SCHEDULE_FILTER_ORDER - 1996;
   }
 
   @Override
   public String getName() {
-    return super.getName();
+    return "authentication";
   }
 
   @Override
   public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
+    String authentication = invocation.getRequestEx().getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION);
+    String type = invocation.getRequestEx().getHeader(CommonConstants.HTTP_HEADER_AUTHORIZATION_TYPE);
+    if (authentication != null) {
+      String[] tokens = authentication.split(" ");
+      if (tokens.length == 2) {
+        if (tokens[0].equals(CommonConstants.TOKEN_TYPE_BEARER)) {
+          invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION, tokens[1]);
+          invocation.addContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE,
+              type == null ? CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN : type);
+        }
+      }
+    }
+
     String token = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION);
     String tokenType = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE);
     if (token == null) {

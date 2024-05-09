@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Order(100)
-public class ConfigBasedAuthoriaztionAuthFilter implements AuthFilter {
+public class ConfigBasedAuthorizationAuthFilter implements AuthFilter {
 
   @Override
   public void doFilter(Invocation invocation) throws InvocationException {
@@ -43,7 +43,7 @@ public class ConfigBasedAuthoriaztionAuthFilter implements AuthFilter {
       if (roles.length > 0) {
         boolean valid = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Collection<String> authoritiesNames = new HashSet<String>();
+        Collection<String> authoritiesNames = new HashSet<>();
         authorities.forEach(a -> authoritiesNames.add(a.getAuthority()));
         for (String role : roles) {
           if (authoritiesNames.contains(role)) {

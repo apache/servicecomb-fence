@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AuthenticationServerTokenEndpoint {
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  public CompletableFuture<OpenIDToken> grantToken(@RequestBody Map<String, String> parameters);
+  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+  CompletableFuture<OpenIDToken> grantToken(@RequestBody Map<String, String> parameters);
 
   @PostMapping(path = "/query")
-  public CompletableFuture<OpenIDToken> queryToken(@RequestParam("access_token") String accessToken);
+  CompletableFuture<OpenIDToken> queryToken(@RequestParam("access_token") String accessToken);
 }
