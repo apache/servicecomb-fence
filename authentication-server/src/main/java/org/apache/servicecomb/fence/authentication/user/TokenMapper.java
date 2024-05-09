@@ -17,16 +17,27 @@
 
 package org.apache.servicecomb.fence.authentication.user;
 
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
+@Mapper
 public interface TokenMapper {
-  public void insertNewToken(@Param("accessTokenId") String accessTokenId,
+  @Insert(" insert into\n"
+      + "    T_TOKENS(ACCESS_TOKEN_VALUE,REFRESH_TOKEN_VALUE,TOKEN)\n"
+      + "    values(#{accessTokenId},#{refreshTokenId},#{tokenInfo})")
+  void insertNewToken(@Param("accessTokenId") String accessTokenId,
       @Param("refreshTokenId") String refreshTokenId,
       @Param("tokenInfo") String tokenInfo);
 
-  public String getTokenInfoByAccessTokenId(@Param("accessTokenId") String accessTokenId);
+  @Select("    select TOKEN\n"
+      + "    from T_TOKENS where ACCESS_TOKEN_VALUE =\n"
+      + "    #{accessTokenId}")
+  String getTokenInfoByAccessTokenId(@Param("accessTokenId") String accessTokenId);
 
-  public String getTokenInfoByRefreshTokenId(@Param("refreshTokenId") String refreshTokenId);
-
-  public String getTokenInfoByIdTokenId(@Param("idTokenId") String idTokenId);
+  @Select("    select TOKEN\n"
+      + "    from T_TOKENS where REFRESH_TOKEN_VALUE =\n"
+      + "    #{refreshTokenId}")
+  String getTokenInfoByRefreshTokenId(@Param("refreshTokenId") String refreshTokenId);
 }

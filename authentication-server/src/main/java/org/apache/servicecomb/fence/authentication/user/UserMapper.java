@@ -19,8 +19,25 @@ package org.apache.servicecomb.fence.authentication.user;
 
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+
+@Mapper
 public interface UserMapper {
+  @Select("select * from T_USERS where USER_NAME = #{0,jdbcType=VARCHAR}")
+  @Results(id = "userInfo", value = {
+      @Result(property = "id", column = "ID"),
+      @Result(property = "password", column = "PASSWORD"),
+      @Result(property = "username", column = "USER_NAME"),
+      @Result(property = "accountNonExpired", column = "ACCOUNT_NON_EXPIRED"),
+      @Result(property = "accountNonLocked", column = "ACCOUNT_NON_LOCKED"),
+      @Result(property = "credentialsNonExpired", column = "CREDENTIALS_NON_EXPIRED"),
+      @Result(property = "enabled", column = "TINYINT")
+  })
   UserInfo selectUserByUsername(String username);
 
+  @Select("select ROLE_NAME from T_ROLES where USER_NAME = #{0,jdbcType=VARCHAR}")
   Set<String> selectRolesByUsername(String username);
 }

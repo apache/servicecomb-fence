@@ -35,7 +35,7 @@ public class TokenEndpoint implements TokenService {
   private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
 
   @Override
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
   public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters) {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
 

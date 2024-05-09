@@ -18,24 +18,37 @@
 package org.apache.servicecomb.fence.resource;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import org.springframework.beans.factory.InitializingBean;
+import org.apache.servicecomb.core.Invocation;
+import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.Filter;
+import org.apache.servicecomb.core.filter.FilterNode;
+import org.apache.servicecomb.core.filter.ProviderFilter;
+import org.apache.servicecomb.swagger.invocation.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
-public class AuthFiltersBean implements InitializingBean {
-  @Autowired
+public class AuthenticationProviderFilter extends AbstractFilter implements ProviderFilter {
   private List<AuthFilter> authFilters;
 
-  private static List<AuthFilter> FILTERS;
-
-  public static List<AuthFilter> getAuthFilters() {
-    return FILTERS;
+  @Autowired
+  public void setAuthFilters(List<AuthFilter> authFilters) {
+    this.authFilters = authFilters;
   }
 
   @Override
-  public void afterPropertiesSet() throws Exception {
-    FILTERS = authFilters;
+  public int getOrder() {
+    return Filter.PROVIDER_SCHEDULE_FILTER_ORDER - 1895;
+  }
+
+  @Override
+  public String getName() {
+    return "authentication";
+  }
+
+  @Override
+  public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
+    authFilters.forEach(authFilter -> authFilter.doFilter(invocation));
+    return nextNode.onFilter(invocation);
   }
 }

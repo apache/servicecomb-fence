@@ -49,4 +49,14 @@ public class AuthenticationConfiguration {
   public SessionTokenStore sessionTokenStore() {
     return new SessionTokenStore();
   }
+
+  @Bean
+  public AuthenticationEdgeFilter authenticationEdgeFilter() {
+    return new AuthenticationEdgeFilter();
+  }
+
+  @Bean
+  public InternalAccessEdgeFilter internalAccessEdgeFilter() {
+    return new InternalAccessEdgeFilter();
+  }
 }

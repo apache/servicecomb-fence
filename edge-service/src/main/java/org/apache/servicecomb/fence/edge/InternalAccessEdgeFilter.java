@@ -15,30 +15,39 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource;
+package org.apache.servicecomb.fence.edge;
 
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.core.filter.AbstractFilter;
+import org.apache.servicecomb.core.filter.EdgeFilter;
+import org.apache.servicecomb.core.filter.Filter;
 import org.apache.servicecomb.core.filter.FilterNode;
-import org.apache.servicecomb.core.filter.ProviderFilter;
 import org.apache.servicecomb.swagger.invocation.Response;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
+import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 
-public class ResourceAuthHandler extends AbstractFilter implements ProviderFilter {
+import jakarta.ws.rs.core.Response.Status;
+
+public class InternalAccessEdgeFilter extends AbstractFilter implements EdgeFilter {
   @Override
   public int getOrder() {
-    return super.getOrder();
+    return Filter.PROVIDER_SCHEDULE_FILTER_ORDER - 1998;
   }
 
   @Override
   public String getName() {
-    return super.getName();
+    return "internal-access";
   }
 
   @Override
   public CompletableFuture<Response> onFilter(Invocation invocation, FilterNode nextNode) {
-    AuthFiltersBean.getAuthFilters().forEach(authFilter -> authFilter.doFilter(invocation));
+    if (invocation.getOperationMeta().getSwaggerOperation().getTags() != null
+        && invocation.getOperationMeta().getSwaggerOperation().getTags().contains("INTERNAL")) {
+      return CompletableFuture.failedFuture(
+          new InvocationException(Status.FORBIDDEN, new CommonExceptionData("not allowed")));
+    }
     return nextNode.onFilter(invocation);
   }
 }
