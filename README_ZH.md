@@ -29,7 +29,7 @@ build_and_run.bat
 
 * 使用演示界面
 
-进入页面，使用admin/changeMyPassword登录
+进入页面，使用 `admin/changeMyPassword` 登录
 ```
 http://localhost:9090/ui/login.html
 ```

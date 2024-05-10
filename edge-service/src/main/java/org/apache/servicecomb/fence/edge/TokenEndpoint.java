@@ -23,10 +23,14 @@ import java.util.concurrent.CompletableFuture;
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
+import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
+import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.ws.rs.core.Response.Status;
 
 @RestSchema(schemaId = "TokenEndpoint")
 @RequestMapping(path = "/v1/token")
@@ -43,6 +47,11 @@ public class TokenEndpoint implements TokenService {
         authenticationSererTokenEndpoint.grantToken(parameters);
     response.whenComplete((tokenResonse, ex) -> {
       if (!response.isCompletedExceptionally()) {
+        if (tokenResonse == null) {
+          result.completeExceptionally(new InvocationException(Status.FORBIDDEN,
+              new CommonExceptionData("Invalid credentials")));
+          return;
+        }
         result.complete(TokenResponse.fromOpenIDToken(tokenResonse));
       } else {
         result.completeExceptionally(ex);
