@@ -17,22 +17,19 @@
 
 package org.apache.servicecomb.fence.resource.example;
 
-import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestSchema(schemaId = "FileEndpoint", schemaInterface = FileService.class)
-public class FileEndpoint implements FileService {
-  @Autowired
-  private FileStoreService fileService;
+@RequestMapping(path = "/v1/file")
+public interface FileService {
+  @PostMapping(path = "/upload", produces = MediaType.TEXT_PLAIN_VALUE)
+  String uploadFile(@RequestPart(name = "fileName") MultipartFile file);
 
-  @Override
-  public String uploadFile(MultipartFile file) {
-    return fileService.uploadFile(file);
-  }
-
-  @Override
-  public boolean deleteFile(String id) {
-    return fileService.deleteFile(id);
-  }
+  @DeleteMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+  boolean deleteFile(@RequestParam(name = "id") String id);
 }

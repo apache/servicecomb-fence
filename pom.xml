@@ -27,12 +27,13 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <servicecomb.version>3.1.0-SNAPSHOT</servicecomb.version>
+    <servicecomb.version>3.1.1</servicecomb.version>
     <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
     <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
   </properties>
 
   <modules>
+    <module>apis</module>
     <module>common</module>
     <module>edge-service</module>
     <module>authentication-server</module>

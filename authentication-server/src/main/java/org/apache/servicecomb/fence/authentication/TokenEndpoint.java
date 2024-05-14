@@ -29,16 +29,10 @@ import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 
-@RestSchema(schemaId = "TokenEndpoint")
-@RequestMapping(path = "/v1/token")
+@RestSchema(schemaId = "TokenEndpoint", schemaInterface = TokenService.class)
 public class TokenEndpoint implements TokenService {
   @Autowired
   private List<TokenGranter> granters;
@@ -48,8 +42,7 @@ public class TokenEndpoint implements TokenService {
   private OpenIDTokenStore store;
 
   @Override
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON)
-  public OpenIDToken grantToken(@RequestBody Map<String, String> parameters) {
+  public OpenIDToken grantToken(Map<String, String> parameters) {
     String grantType = parameters.get(AuthenticationServerConstants.PARAM_GRANT_TYPE);
 
     for (TokenGranter granter : granters) {
@@ -65,8 +58,7 @@ public class TokenEndpoint implements TokenService {
   }
 
   @Override
-  @PostMapping(path = "/query")
-  public OpenIDToken queryToken(@RequestParam("access_token") String accessToken) {
+  public OpenIDToken queryToken(String accessToken) {
     CompletableFuture<OpenIDToken> result = store.readTokenByAccessToken(accessToken);
     try {
       return result.get();

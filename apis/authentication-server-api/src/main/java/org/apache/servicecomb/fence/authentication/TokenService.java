@@ -15,24 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.authentication;
 
-import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Map;
 
-@RestSchema(schemaId = "FileEndpoint", schemaInterface = FileService.class)
-public class FileEndpoint implements FileService {
-  @Autowired
-  private FileStoreService fileService;
+import org.apache.servicecomb.fence.token.OpenIDToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-  @Override
-  public String uploadFile(MultipartFile file) {
-    return fileService.uploadFile(file);
-  }
+@RequestMapping(path = "/v1/token")
+public interface TokenService {
+  @PostMapping(path = "/")
+  OpenIDToken grantToken(@RequestBody Map<String, String> parameters);
 
-  @Override
-  public boolean deleteFile(String id) {
-    return fileService.deleteFile(id);
-  }
+  @PostMapping(path = "/query")
+  OpenIDToken queryToken(@RequestParam("access_token") String accessToken);
 }

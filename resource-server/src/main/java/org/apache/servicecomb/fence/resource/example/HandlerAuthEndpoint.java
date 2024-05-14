@@ -18,28 +18,25 @@
 package org.apache.servicecomb.fence.resource.example;
 
 import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestSchema(schemaId = "HandlerAuthEndpoint")
-@RequestMapping(path = "/v1/auth/handler")
-public class HandlerAuthEndpoint {
-  @PostMapping(path = "/adminSayHello")
+@RestSchema(schemaId = "HandlerAuthEndpoint", schemaInterface = HandlerAuthService.class)
+public class HandlerAuthEndpoint implements HandlerAuthService {
+  @Override
   public String adminSayHello(String name) {
     return name;
   }
 
-  @PostMapping(path = "/guestSayHello")
+  @Override
   public String guestSayHello(String name) {
     return name;
   }
 
-  @PostMapping(path = "/guestOrAdminSayHello")
+  @Override
   public String guestOrAdminSayHello(String name) {
     return name;
   }
 
-  @PostMapping(path = "/everyoneSayHello")
+  @Override
   public String everyoneSayHello(String name) {
     return name;
   }

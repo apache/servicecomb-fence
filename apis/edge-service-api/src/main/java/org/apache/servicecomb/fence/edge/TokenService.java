@@ -20,7 +20,13 @@ package org.apache.servicecomb.fence.edge;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping(path = "/v1/token")
 public interface TokenService {
-  CompletableFuture<TokenResponse> getToken(Map<String, String> parameters);
+  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters);
 }
