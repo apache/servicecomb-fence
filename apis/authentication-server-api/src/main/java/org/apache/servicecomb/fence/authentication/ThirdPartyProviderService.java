@@ -17,27 +17,22 @@
 
 package org.apache.servicecomb.fence.authentication;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.beans.factory.annotation.Autowired;
-
-@RestSchema(schemaId = "ThirdPartyProviderEndpoint", schemaInterface = ThirdPartyProviderService.class)
-public class ThirdPartyProviderEndpoint implements ThirdPartyProviderService {
-  @Autowired
-  private List<ThirdPartyTokenGranter> granters;
-
-  @Override
-  public String providerInfo(String provider, String login, String redirectURI, String scope, String initialState) {
-    for (ThirdPartyTokenGranter granter : granters) {
-      if (granter.enabled() && granter.name().equals(provider)) {
-        String info = granter.providerInfo(provider, redirectURI, login, scope, initialState);
-        if (info != null) {
-          return info;
-        }
-      }
-    }
-
-    return null;
-  }
+/**
+ * Connecting third party oAuth providers
+ *
+ */
+@RequestMapping(path = "/v1/thirdParty")
+public interface ThirdPartyProviderService {
+  @GetMapping(path = "/providerInfo/{provider}")
+  String providerInfo(@PathVariable(name = "provider") String provider,
+      @RequestParam(name = "login", required = false) String login,
+      @RequestParam(name = "redirectURI") String redirectURI,
+      @RequestParam(name = "scope", required = false) String scope,
+      @CookieValue(name = "initialState") String initialState);
 }

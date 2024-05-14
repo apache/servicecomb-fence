@@ -15,14 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.authentication;
+package org.apache.servicecomb.fence.resource.example;
 
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.apache.servicecomb.fence.token.OpenIDToken;
+import jakarta.ws.rs.QueryParam;
 
-public interface TokenService {
-  OpenIDToken grantToken(Map<String, String> parameters);
+@RequestMapping(path = "/v1/auth/handler")
+public interface HandlerAuthService {
+  @PostMapping(path = "/adminSayHello")
+  String adminSayHello(@QueryParam("name") String name);
 
-  OpenIDToken queryToken(String accessToken);
+  @PostMapping(path = "/guestSayHello")
+  String guestSayHello(@QueryParam("name") String name);
+
+  @PostMapping(path = "/guestOrAdminSayHello")
+  String guestOrAdminSayHello(@QueryParam("name") String name);
+
+  @PostMapping(path = "/everyoneSayHello")
+  String everyoneSayHello(@QueryParam("name") String name);
 }

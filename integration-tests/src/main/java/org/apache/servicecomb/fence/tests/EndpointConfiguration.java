@@ -14,13 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.servicecomb.fence.tests;
 
-package org.apache.servicecomb.fence.authentication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * Connecting third party oAuth providers
- *
- */
-public interface ThirdPartyProviderService {
-  String providerInfo(String provider, String redirectURI, String login, String scope, String initialState);
+@Configuration
+public class EndpointConfiguration {
+  @RequestMapping(path = "/v1/auth/handler")
+  public interface HandlerAuthEndpoint {
+    @PostMapping(path = "/adminSayHello")
+    String adminSayHello(String name);
+
+    @PostMapping(path = "/guestSayHello")
+    String guestSayHello(String name);
+
+    @PostMapping(path = "/guestOrAdminSayHello")
+    String guestOrAdminSayHello(String name);
+
+    @PostMapping(path = "/everyoneSayHello")
+    String everyoneSayHello(String name);
+  }
 }

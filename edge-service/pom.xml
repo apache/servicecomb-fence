@@ -35,6 +35,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.servicecomb.fence</groupId>
+      <artifactId>edge-service-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.servicecomb</groupId>
       <artifactId>solution-basic</artifactId>
     </dependency>

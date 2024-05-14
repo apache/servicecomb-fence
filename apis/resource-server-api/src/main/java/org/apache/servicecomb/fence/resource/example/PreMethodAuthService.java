@@ -17,22 +17,20 @@
 
 package org.apache.servicecomb.fence.resource.example;
 
-import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestSchema(schemaId = "FileEndpoint", schemaInterface = FileService.class)
-public class FileEndpoint implements FileService {
-  @Autowired
-  private FileStoreService fileService;
+@RequestMapping(path = "/v1/auth/method")
+public interface PreMethodAuthService {
+  @PostMapping(path = "/adminSayHello")
+  String adminSayHello(String name);
 
-  @Override
-  public String uploadFile(MultipartFile file) {
-    return fileService.uploadFile(file);
-  }
+  @PostMapping(path = "/guestSayHello")
+  String guestSayHello(String name);
 
-  @Override
-  public boolean deleteFile(String id) {
-    return fileService.deleteFile(id);
-  }
+  @PostMapping(path = "/guestOrAdminSayHello")
+  String guestOrAdminSayHello(String name);
+
+  @PostMapping(path = "/everyoneSayHello")
+  String everyoneSayHello(String name);
 }

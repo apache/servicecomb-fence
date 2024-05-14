@@ -25,22 +25,16 @@ import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.ws.rs.core.Response.Status;
 
-@RestSchema(schemaId = "TokenEndpoint")
-@RequestMapping(path = "/v1/token")
+@RestSchema(schemaId = "TokenEndpoint", schemaInterface = TokenService.class)
 public class TokenEndpoint implements TokenService {
   @RpcReference(microserviceName = "authentication-server", schemaId = "TokenEndpoint")
   private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
 
   @Override
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public CompletableFuture<TokenResponse> getToken(@RequestBody Map<String, String> parameters) {
+  public CompletableFuture<TokenResponse> getToken(Map<String, String> parameters) {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
 
     CompletableFuture<OpenIDToken> response =
