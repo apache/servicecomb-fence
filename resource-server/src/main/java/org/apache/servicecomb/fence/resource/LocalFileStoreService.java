@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.resource;
 
 import java.io.File;
 import java.io.FileOutputStream;

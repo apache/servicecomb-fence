@@ -15,21 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.resource;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequestMapping(path = "/v1/file")
-public interface FileService {
-  @PostMapping(path = "/upload", produces = MediaType.TEXT_PLAIN_VALUE)
-  String uploadFile(@RequestPart(name = "fileName") MultipartFile file);
+/**
+ * file storage service, can implement using file system, OBS, etc.
+ */
+public interface FileStoreService {
 
-  @DeleteMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
-  boolean deleteFile(@RequestParam(name = "id") String id);
+  String uploadFile(MultipartFile file);
+
+  boolean deleteFile(String id);
 }

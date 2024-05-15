@@ -36,11 +36,18 @@ servicecomb:
   http:
     dispatcher:
       edge:
-        default:
+        url:
           enabled: true
-          prefix: api
-          withVersion: false
-          prefixSegmentCount: 2
+          pattern: "/api/(.*)"
+          mappings:
+            resource-server:
+              prefixSegmentCount: 2
+              path: "/api/resource/.*"
+              microserviceName: resource-server
+            authentication-server:
+              prefixSegmentCount: 2
+              path: "/api/authentication/.*"
+              microserviceName: authentication-server
 
 # StaticWebpageDispatcher checking file exists is async, and will mark request status to ended, and VertxRestDispatcher read 
 # body will print exception. 

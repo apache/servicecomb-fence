@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.edge;
+package org.apache.servicecomb.fence.api.edge;
 
 import java.util.Map;
 import java.util.Set;

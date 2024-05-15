@@ -18,7 +18,7 @@
 function everyoneSayHello() {
      $.ajax({
         type: 'POST',
-        url: "/api/resource-server/v1/auth/handler/everyoneSayHello?name=Hi",
+        url: "/api/resource/v1/auth/handler/everyoneSayHello?name=Hi",
         headers: {
           "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
           "Authorization-TYPE": "ID_TOKEN"
@@ -42,7 +42,7 @@ function everyoneSayHello() {
 function adminSayHello() {
      $.ajax({
         type: 'POST',
-        url: "/api/resource-server/v1/auth/handler/adminSayHello?name=Hi",
+        url: "/api/resource/v1/auth/handler/adminSayHello?name=Hi",
         headers: {
           "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
           "Authorization-TYPE": "ID_TOKEN"
@@ -66,7 +66,7 @@ function adminSayHello() {
 function guestOrAdminSayHello() {
      $.ajax({
         type: 'POST',
-        url: "/api/resource-server/v1/auth/handler/guestOrAdminSayHello?name=Hi",
+        url: "/api/resource/v1/auth/handler/guestOrAdminSayHello?name=Hi",
         headers: {
           "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
           "Authorization-TYPE": "ID_TOKEN"
@@ -90,7 +90,7 @@ function guestOrAdminSayHello() {
 function guestSayHello() {
      $.ajax({
         type: 'POST',
-        url: "/api/resource-server/v1/auth/handler/guestSayHello?name=Hi",
+        url: "/api/resource/v1/auth/handler/guestSayHello?name=Hi",
         headers: {
           "Authorization": "Bearer " + JSON.parse(window.localStorage.getItem("token")).id_token,
           "Authorization-TYPE": "ID_TOKEN"
