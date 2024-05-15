@@ -17,20 +17,33 @@
 
 package org.apache.servicecomb.fence.tests;
 
-import org.apache.servicecomb.fence.edge.TokenResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.servicecomb.fence.api.edge.TokenResponse;
+import org.apache.servicecomb.fence.api.edge.TokenService;
+import org.apache.servicecomb.fence.tests.EndpointConfiguration.HandlerAuthService;
+import org.apache.servicecomb.fence.tests.EndpointConfiguration.PreMethodAuthService;
 import org.apache.servicecomb.fence.util.CommonConstants;
-import org.springframework.http.HttpEntity;
+import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Component
 public class TokenExpireTestCase implements TestCase {
+  @Autowired
+  private HandlerAuthService handlerAuthService;
+
+  @Autowired
+  private PreMethodAuthService preMethodAuthService;
+
+  @Autowired
+  private TokenService tokenService;
+
   @Override
-  public void run() {
+  public void run() throws Exception {
     // This test case will wait expiration for 3 seconds per run. Do not give too much tests.
     TokenResponse token = getTokenByPassword();
     testHanlderAuth(token.getAccess_token(), null);
@@ -42,19 +55,14 @@ public class TokenExpireTestCase implements TestCase {
     testHanlderAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
   }
 
-  private TokenResponse getTokenByPassword() {
+  private TokenResponse getTokenByPassword() throws Exception {
     // get token
-    MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-    map.add("grant_type", "password");
-    map.add("username", "guestExpiresQuickly");
-    map.add("password", "changeMyPassword");
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    Map<String, String> map = new HashMap<>();
+    map.put("grant_type", "password");
+    map.put("username", "guestExpiresQuickly");
+    map.put("password", "changeMyPassword");
 
-    TokenResponse token =
-        BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
-            new HttpEntity<>(map, headers),
-            TokenResponse.class);
+    TokenResponse token = tokenService.getToken(map).get();
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(3, token.getExpires_in());
     TestMgr.check(true, token.getId_token().length() > 10);
@@ -71,30 +79,22 @@ public class TokenExpireTestCase implements TestCase {
     }
     headers.setContentType(MediaType.APPLICATION_JSON);
     String name;
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.everyoneSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestOrAdminSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.guestOrAdminSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.guestSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
     // user guestExpiresQuickly token expires in 3 seconds
     try {
       Thread.sleep(3000);
-      name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestSayHello?name=Hi",
-          new HttpEntity<>(headers),
-          String.class);
+      name = handlerAuthService.guestSayHello("Hi", "Bearer " + token, type);
       TestMgr.check("must fail", "not fail");
-    } catch (HttpClientErrorException e) {
-      TestMgr.check(403, e.getStatusCode().value());
+    } catch (InvocationException e) {
+      TestMgr.check(403, e.getStatusCode());
     } catch (Exception e2) {
       TestMgr.failed("", e2);
     }

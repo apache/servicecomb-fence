@@ -19,22 +19,21 @@ package org.apache.servicecomb.fence.tests;
 
 import java.util.List;
 
-import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
-@RestSchema(schemaId = "TestEndpoint")
-@RequestMapping(path = "/v1/test")
-public class TestEndpoint {
-  private static final Logger LOGGER = LoggerFactory.getLogger(TestEndpoint.class);
+@Component
+public class StartTestCasesBean {
+  private static final Logger LOGGER = LoggerFactory.getLogger(StartTestCasesBean.class);
 
   @Autowired
   private List<TestCase> tests;
 
-  @GetMapping(path = "/start")
+  @EventListener(ApplicationReadyEvent.class)
   public String start() {
     tests.forEach(test -> {
       try {

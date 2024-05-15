@@ -33,12 +33,12 @@
   </properties>
 
   <modules>
-    <module>apis</module>
     <module>common</module>
+    <module>apis</module>
     <module>edge-service</module>
     <module>authentication-server</module>
     <module>resource-server</module>
-<!--    <module>integration-tests</module>-->
+    <module>integration-tests</module>
   </modules>
 
   <dependencyManagement>

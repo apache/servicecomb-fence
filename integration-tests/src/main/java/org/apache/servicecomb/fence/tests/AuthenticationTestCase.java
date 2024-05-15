@@ -17,20 +17,31 @@
 
 package org.apache.servicecomb.fence.tests;
 
-import org.apache.servicecomb.fence.edge.TokenResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.servicecomb.fence.api.edge.TokenResponse;
+import org.apache.servicecomb.fence.api.edge.TokenService;
+import org.apache.servicecomb.fence.tests.EndpointConfiguration.HandlerAuthService;
+import org.apache.servicecomb.fence.tests.EndpointConfiguration.PreMethodAuthService;
 import org.apache.servicecomb.fence.util.CommonConstants;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Component
 public class AuthenticationTestCase implements TestCase {
+  @Autowired
+  private HandlerAuthService handlerAuthService;
+
+  @Autowired
+  private PreMethodAuthService preMethodAuthService;
+
+  @Autowired
+  private TokenService tokenService;
+
   @Override
-  public void run() {
+  public void run() throws Exception {
     TokenResponse token = getTokenByPassword();
     testHanlderAuth(token.getAccess_token(), null);
     testHanlderAuth(token.getId_token(), CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN);
@@ -48,50 +59,37 @@ public class AuthenticationTestCase implements TestCase {
     testMethodAuth(token.getAccess_token(), CommonConstants.AUTHORIZATION_TYPE_ACCESS_TOKEN);
   }
 
-  private TokenResponse getTokenByPassword() {
+  private TokenResponse getTokenByPassword() throws Exception {
     // get token
-    MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-    map.add("grant_type", "password");
-    map.add("username", "admin");
-    map.add("password", "changeMyPassword");
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    Map<String, String> map = new HashMap<>();
+    map.put("grant_type", "password");
+    map.put("username", "admin");
+    map.put("password", "changeMyPassword");
 
-    TokenResponse token =
-        BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
-            new HttpEntity<>(map, headers),
-            TokenResponse.class);
+    TokenResponse token = tokenService.getToken(map).get();
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getId_token().length() > 10);
     TestMgr.check(600, token.getExpires_in());
     return token;
   }
 
-  private TokenResponse getTokenByRefreshToken() {
+  private TokenResponse getTokenByRefreshToken() throws Exception {
     // get token
-    MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-    map.add("grant_type", "password");
-    map.add("username", "admin");
-    map.add("password", "changeMyPassword");
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    Map<String, String> map = new HashMap<>();
+    map.put("grant_type", "password");
+    map.put("username", "admin");
+    map.put("password", "changeMyPassword");
 
-    TokenResponse token =
-        BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
-            new HttpEntity<>(map, headers),
-            TokenResponse.class);
+    TokenResponse token = tokenService.getToken(map).get();
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getAccess_token().length() > 10);
 
     // refresh token
-    map = new LinkedMultiValueMap<>();
-    map.add("grant_type", "refresh_token");
-    map.add("refresh_token", token.getRefresh_token());
+    map = map = new HashMap<>();
+    map.put("grant_type", "refresh_token");
+    map.put("refresh_token", token.getRefresh_token());
 
-    TokenResponse tokenNew =
-        BootEventListener.edgeServiceTokenEndpoint.postForObject("/",
-            new HttpEntity<>(map, headers),
-            TokenResponse.class);
+    TokenResponse tokenNew = tokenService.getToken(map).get();
     TestMgr.check(token.getToken_type(), tokenNew.getToken_type());
     TestMgr.check(token.getRefresh_token().equals(tokenNew.getRefresh_token()), false);
     TestMgr.check(token.getAccess_token().equals(tokenNew.getAccess_token()), false);
@@ -102,73 +100,44 @@ public class AuthenticationTestCase implements TestCase {
 
   private void testHanlderAuth(String token, String type) {
     // get resources
-    HttpHeaders headers = new HttpHeaders();
-    headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer " + token);
-    if (type != null) {
-      headers.add("Authorization-Type", type);
-    }
-    headers.setContentType(MediaType.APPLICATION_JSON);
     String name;
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.everyoneSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/adminSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.adminSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestOrAdminSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = handlerAuthService.guestOrAdminSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
     name = null;
     try {
-      name = BootEventListener.resouceServerHandlerAuthEndpoint.postForObject("/guestSayHello?name=Hi",
-          new HttpEntity<>(headers),
-          String.class);
+      name = handlerAuthService.guestSayHello("Hi", "Bearer " + token, type);
       TestMgr.check("must fail", "not fail");
-    } catch (HttpClientErrorException e) {
-      TestMgr.check(403, e.getStatusCode().value());
+    } catch (InvocationException e) {
+      TestMgr.check(403, e.getStatusCode());
     }
     TestMgr.check(null, name);
   }
 
   private void testMethodAuth(String token, String type) {
     // get resources
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Authorization", "Bearer " + token);
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    if (type != null) {
-      headers.add("Authorization-Type", type);
-    }
     String name;
-    name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/everyoneSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = preMethodAuthService.everyoneSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/adminSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = preMethodAuthService.adminSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
-    name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/guestOrAdminSayHello?name=Hi",
-        new HttpEntity<>(headers),
-        String.class);
+    name = preMethodAuthService.guestOrAdminSayHello("Hi", "Bearer " + token, type);
     TestMgr.check("Hi", name);
 
     name = null;
     try {
-      name = BootEventListener.resouceServerMethodAuthEndpoint.postForObject("/guestSayHello?name=Hi",
-          new HttpEntity<>(headers),
-          String.class);
+      name = preMethodAuthService.guestSayHello("Hi", "Bearer " + token, type);
       TestMgr.check("must fail", "not fail");
-    } catch (HttpClientErrorException e) {
-      TestMgr.check(403, e.getStatusCode().value());
+    } catch (InvocationException e) {
+      TestMgr.check(403, e.getStatusCode());
     }
     TestMgr.check(null, name);
   }

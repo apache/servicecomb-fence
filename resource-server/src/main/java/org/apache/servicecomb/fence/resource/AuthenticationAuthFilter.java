@@ -20,10 +20,10 @@ package org.apache.servicecomb.fence.resource;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.fence.token.JWTToken;
 import org.apache.servicecomb.fence.token.JWTTokenStore;
 import org.apache.servicecomb.fence.util.CommonConstants;
-import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.foundation.common.utils.BeanUtils;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.springframework.core.annotation.Order;

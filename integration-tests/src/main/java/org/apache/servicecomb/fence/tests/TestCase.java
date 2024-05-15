@@ -18,5 +18,5 @@
 package org.apache.servicecomb.fence.tests;
 
 public interface TestCase {
-  void run();
+  void run() throws Exception;
 }
