@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.resource;
 
+import org.apache.servicecomb.fence.api.resource.PreMethodAuthService;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.security.access.prepost.PreAuthorize;
 

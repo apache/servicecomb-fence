@@ -32,6 +32,11 @@ servicecomb:
 
   rest:
     address: 0.0.0.0:9092
+  # HTTP container url prefix, or ROOT
+  http:
+    dispatcher:
+      rest:
+        pattern: "/resource/(.*)"
 
   authentication:
     access:

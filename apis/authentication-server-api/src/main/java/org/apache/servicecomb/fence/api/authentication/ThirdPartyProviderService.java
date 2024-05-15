@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.api.authentication;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RequestMapping(path = "/v1/auth/method")
-public interface PreMethodAuthService {
-  @PostMapping(path = "/adminSayHello")
-  String adminSayHello(String name);
-
-  @PostMapping(path = "/guestSayHello")
-  String guestSayHello(String name);
-
-  @PostMapping(path = "/guestOrAdminSayHello")
-  String guestOrAdminSayHello(String name);
-
-  @PostMapping(path = "/everyoneSayHello")
-  String everyoneSayHello(String name);
+/**
+ * Connecting third party oAuth providers
+ *
+ */
+@RequestMapping(path = "/v1/thirdParty")
+public interface ThirdPartyProviderService {
+  @GetMapping(path = "/providerInfo/{provider}")
+  String providerInfo(@PathVariable(name = "provider") String provider,
+      @RequestParam(name = "login", required = false) String login,
+      @RequestParam(name = "redirectURI") String redirectURI,
+      @RequestParam(name = "scope", required = false) String scope,
+      @CookieValue(name = "initialState") String initialState);
 }

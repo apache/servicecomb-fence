@@ -20,6 +20,8 @@ package org.apache.servicecomb.fence.edge;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.servicecomb.fence.api.edge.TokenResponse;
+import org.apache.servicecomb.fence.api.edge.TokenService;
 import org.apache.servicecomb.fence.token.OpenIDToken;
 import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;

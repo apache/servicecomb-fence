@@ -15,24 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.authentication;
+package org.apache.servicecomb.fence.api.resource;
 
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Connecting third party oAuth providers
- *
- */
-@RequestMapping(path = "/v1/thirdParty")
-public interface ThirdPartyProviderService {
-  @GetMapping(path = "/providerInfo/{provider}")
-  String providerInfo(@PathVariable(name = "provider") String provider,
-      @RequestParam(name = "login", required = false) String login,
-      @RequestParam(name = "redirectURI") String redirectURI,
-      @RequestParam(name = "scope", required = false) String scope,
-      @CookieValue(name = "initialState") String initialState);
+@RequestMapping(path = "/v1/file")
+public interface FileService {
+  @PostMapping(path = "/upload", produces = MediaType.TEXT_PLAIN_VALUE)
+  String uploadFile(@RequestPart(name = "fileName") MultipartFile file);
+
+  @DeleteMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+  boolean deleteFile(@RequestParam(name = "id") String id);
 }

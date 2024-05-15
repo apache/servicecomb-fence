@@ -51,7 +51,7 @@ function loginWithGithubAction() {
     
     $.ajax({
         type: 'GET',
-        url: "/api/authentication-server/v1/thirdParty/providerInfo/github?redirectURI=" + redirectURI,
+        url: "/api/authentication/v1/thirdParty/providerInfo/github?redirectURI=" + redirectURI,
         success: function (data) {
             console.log(JSON.stringify(data));
             window.location = data;

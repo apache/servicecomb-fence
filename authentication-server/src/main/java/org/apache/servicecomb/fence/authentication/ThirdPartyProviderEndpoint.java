@@ -19,6 +19,7 @@ package org.apache.servicecomb.fence.authentication;
 
 import java.util.List;
 
+import org.apache.servicecomb.fence.api.authentication.ThirdPartyProviderService;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -15,16 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.api.authentication;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Map;
 
-/**
- * file storage service, can implement using file system, OBS, etc.
- */
-public interface FileStoreService {
+import org.apache.servicecomb.fence.token.OpenIDToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-  String uploadFile(MultipartFile file);
+@RequestMapping(path = "/v1/token")
+public interface TokenService {
+  @PostMapping(path = "/")
+  OpenIDToken grantToken(@RequestBody Map<String, String> parameters);
 
-  boolean deleteFile(String id);
+  @PostMapping(path = "/query")
+  OpenIDToken queryToken(@RequestParam("access_token") String accessToken);
 }

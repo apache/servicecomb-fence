@@ -15,24 +15,30 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.resource.example;
+package org.apache.servicecomb.fence.resource;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.apache.servicecomb.fence.api.resource.HandlerAuthService;
+import org.apache.servicecomb.provider.rest.common.RestSchema;
 
-import jakarta.ws.rs.QueryParam;
+@RestSchema(schemaId = "HandlerAuthEndpoint", schemaInterface = HandlerAuthService.class)
+public class HandlerAuthEndpoint implements HandlerAuthService {
+  @Override
+  public String adminSayHello(String name) {
+    return name;
+  }
 
-@RequestMapping(path = "/v1/auth/handler")
-public interface HandlerAuthService {
-  @PostMapping(path = "/adminSayHello")
-  String adminSayHello(@QueryParam("name") String name);
+  @Override
+  public String guestSayHello(String name) {
+    return name;
+  }
 
-  @PostMapping(path = "/guestSayHello")
-  String guestSayHello(@QueryParam("name") String name);
+  @Override
+  public String guestOrAdminSayHello(String name) {
+    return name;
+  }
 
-  @PostMapping(path = "/guestOrAdminSayHello")
-  String guestOrAdminSayHello(@QueryParam("name") String name);
-
-  @PostMapping(path = "/everyoneSayHello")
-  String everyoneSayHello(@QueryParam("name") String name);
+  @Override
+  public String everyoneSayHello(String name) {
+    return name;
+  }
 }
