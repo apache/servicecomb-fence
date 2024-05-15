@@ -20,7 +20,4 @@ start java -jar resource-server-0.0.1-SNAPSHOT.jar
 
 timeout /T 3 /NOBREAK
 
-cd %HOME%\integration-tests\target
-start java -jar integration-tests-0.0.1-SNAPSHOT.jar
-
 cd %HOME%

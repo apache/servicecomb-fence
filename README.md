@@ -38,10 +38,11 @@ http://localhost:9090/ui/login.html
 
 After services are started, try
 ```
-http://localhost:9093/v1/test/start
+cd %HOME%\integration-tests\target
+start java -jar integration-tests-0.0.1-SNAPSHOT.jar
 ```
 
-This test will token several seconds. See AuthenticationTestCase for testing details.
+This test will token several seconds. See implementations of TestCase for testing details.
 
 ## Contact Us
 * [issues](https://issues.apache.org/jira/browse/SCB)

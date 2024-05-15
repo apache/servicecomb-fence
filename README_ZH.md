@@ -36,13 +36,14 @@ http://localhost:9090/ui/login.html
 
 * 运行测试用例
 
-当四个服务都运行起来后，访问：
+当服务都运行起来后，执行：
 
 ```
-http://localhost:9093/v1/test/start
+cd %HOME%\integration-tests\target
+start java -jar integration-tests-0.0.1-SNAPSHOT.jar
 ```
 
-测试用例会执行十来秒钟，可以通过查看AuthenticationTestCase了解测试用例的详情。
+测试用例会执行十来秒钟，可以通过查看`TestCase`的各个实现类了解测试用例的详情。
 
 ## 联系我们
 * [提交issues](https://issues.apache.org/jira/browse/SCB)

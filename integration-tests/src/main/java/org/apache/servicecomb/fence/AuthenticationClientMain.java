@@ -20,8 +20,10 @@ package org.apache.servicecomb.fence;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.stereotype.Component;
 
 @SpringBootApplication
+@Component
 public class AuthenticationClientMain {
   public static void main(String[] args) {
     try {

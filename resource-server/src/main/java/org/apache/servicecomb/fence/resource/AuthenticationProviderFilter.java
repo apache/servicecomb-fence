@@ -38,7 +38,8 @@ public class AuthenticationProviderFilter extends AbstractFilter implements Prov
 
   @Override
   public int getOrder() {
-    return Filter.PROVIDER_SCHEDULE_FILTER_ORDER - 1895;
+    // spring security depends on ThreadLocal, this filter should after schedule filter.
+    return Filter.PROVIDER_SCHEDULE_FILTER_ORDER + 10;
   }
 
   @Override
