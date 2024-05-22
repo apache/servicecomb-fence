@@ -33,5 +33,7 @@
     <module>authentication-server-api</module>
     <module>resource-server-api</module>
     <module>edge-service-api</module>
+    <module>observability-api</module>
+    <module>observability-api-impl</module>
   </modules>
 </project>

@@ -22,50 +22,48 @@
 
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d [%p][%t][%c:%L] %m%n"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} [%X{SERVICECOMB_TRACE_ID}][%p][%t][%c:%L] %m%n"/>
         </Console>
 
-        <RollingFile name="AccessLog" fileName="${FILE_PATH}/access.log"
-          filePattern="${FILE_PATH}/access-%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="%d [%t] %m%n"/>
+        <RollingFile name="RootLog" fileName="${FILE_PATH}/root.log"
+          filePattern="${FILE_PATH}/root-%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%-d{yyyy-MM-dd-HH:mm:ss} [%X{SERVICECOMB_TRACE_ID}][%p][%t][%c:%L] %m%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="20MB"/>
+                <TimeBasedTriggeringPolicy interval="3"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <RollingFile name="TraceLog" fileName="${FILE_PATH}/trace.log"
+          filePattern="${FILE_PATH}/trace-%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="3"/>
             </Policies>
             <DefaultRolloverStrategy max="100"/>
         </RollingFile>
 
         <RollingFile name="MetricsLog" fileName="${FILE_PATH}/metrics.log"
-          filePattern="${FILE_PATH}/metrics-%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="%d [%t] %m%n"/>
+          filePattern="${FILE_PATH}/metrics-%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %m%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="20MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="100"/>
-        </RollingFile>
-
-        <RollingFile name="SlowLog" fileName="${FILE_PATH}/slow.log"
-          filePattern="${FILE_PATH}/slow-%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="%d [%t] %m%n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="20MB"/>
+                <TimeBasedTriggeringPolicy interval="3"/>
             </Policies>
             <DefaultRolloverStrategy max="100"/>
         </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Logger name="scb-access" level="INFO" additivity="false">
-            <AppenderRef ref="AccessLog"/>
+        <Logger name="scb-trace" level="INFO" additivity="false">
+            <AppenderRef ref="TraceLog"/>
         </Logger>
         <Logger name="scb-metrics" level="INFO" additivity="false">
             <AppenderRef ref="MetricsLog"/>
         </Logger>
-        <Logger name="scb-slow" level="INFO" additivity="false">
-            <AppenderRef ref="SlowLog"/>
-        </Logger>
 
         <Root level="INFO">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="RootLog"/>
         </Root>
     </Loggers>
 </Configuration>
