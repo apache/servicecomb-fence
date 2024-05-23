@@ -15,22 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.servicecomb.fence.token;
+package org.apache.servicecomb.fence;
 
-import org.apache.servicecomb.config.inject.InjectProperties;
-import org.apache.servicecomb.config.inject.InjectProperty;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@InjectProperties(prefix = "servicecomb.authentication")
-public class TokenDynamicProperties {
-  @InjectProperty(keys = {
-      "token.${username}.expiresIn",
-      "token.expiresIn"},
-      defaultValue = "600")
-  public long expiresIn;
-
-  @InjectProperty(keys = {
-      "token.${username}.notBefore",
-      "token.notBefore"},
-      defaultValue = "0")
-  public long notBefore;
+@SpringBootApplication
+public class AdminServiceApplication {
+  public static void main(String[] args) {
+    try {
+      new SpringApplicationBuilder(AdminServiceApplication.class).web(WebApplicationType.NONE).run(args);
+    } catch (Throwable e) {
+      e.printStackTrace();
+    }
+  }
 }

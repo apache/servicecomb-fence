@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +35,7 @@ import org.apache.servicecomb.fence.api.observability.Trace;
 import org.apache.servicecomb.foundation.common.net.NetUtils;
 import org.apache.servicecomb.foundation.common.part.FilePart;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
-import org.apache.servicecomb.registry.RegistrationManager;
+import org.apache.servicecomb.registry.RegistrationId;
 import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.slf4j.Logger;
@@ -52,8 +53,6 @@ import jakarta.ws.rs.core.Response.Status;
 public class ObservabilityEndpoint implements ObservabilityService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ObservabilityEndpoint.class);
 
-  private static final String REGISTRATION_NAME = "zookeeper-registry";
-
   private static final String FILE_SUFFIX = ".log";
 
   private static final String TRACE_FILE_PREFIX = "trace";
@@ -70,12 +69,12 @@ public class ObservabilityEndpoint implements ObservabilityService {
 
   private final Environment environment;
 
-  private final RegistrationManager registrationManager;
+  private final RegistrationId registrationId;
 
   @Autowired
-  public ObservabilityEndpoint(Environment environment, RegistrationManager registrationManager) {
+  public ObservabilityEndpoint(Environment environment, RegistrationId registrationId) {
     this.environment = environment;
-    this.registrationManager = registrationManager;
+    this.registrationId = registrationId;
     String path = environment.getProperty("servicecomb.observability.logPath", "./logs/"
         + BootStrapProperties.readServiceName(environment));
     LOGGER.info("observability log path is {}", path);
@@ -85,14 +84,15 @@ public class ObservabilityEndpoint implements ObservabilityService {
   @Override
   public SearchTraceResponse searchTrace(String timestamp, String traceId) {
     File target = findFile(TRACE_FILE_PREFIX, timestamp);
-    List<String> lines = searchLines(target, traceId);
+    List<String> lines = searchLines(target, buildSearchTraceId(traceId));
+    Collections.reverse(lines);
     SearchTraceResponse response = new SearchTraceResponse();
     response.setApplication(BootStrapProperties.readApplication(environment));
     response.setServiceName(BootStrapProperties.readServiceName(environment));
     response.setLocalhost(NetUtils.getHostAddress());
-    response.setInstanceId(registrationManager.getInstanceId(REGISTRATION_NAME));
+    response.setInstanceId(registrationId.getInstanceId());
     List<Trace> data = new ArrayList<>(lines.size());
-    lines.stream().forEach(e -> {
+    lines.forEach(e -> {
       try {
         data.add(OBJ_MAPPER.readValue(e.substring(e.indexOf("{")), Trace.class));
       } catch (JsonProcessingException ex) {
@@ -101,6 +101,10 @@ public class ObservabilityEndpoint implements ObservabilityService {
     });
     response.setData(data);
     return response;
+  }
+
+  private String buildSearchTraceId(String traceId) {
+    return "\"traceId\":\"" + traceId + "\"";
   }
 
   private List<String> searchLines(File target, String traceId) {
@@ -121,14 +125,18 @@ public class ObservabilityEndpoint implements ObservabilityService {
   @Override
   public SearchLogResponse searchLog(String timestamp, String traceId) {
     File target = findFile(LOG_FILE_PREFIX, timestamp);
-    List<String> lines = searchLines(target, traceId);
+    List<String> lines = searchLines(target, buildSearchLogId(traceId));
     SearchLogResponse response = new SearchLogResponse();
     response.setApplication(BootStrapProperties.readApplication(environment));
     response.setServiceName(BootStrapProperties.readServiceName(environment));
-    response.setInstanceId(registrationManager.getInstanceId(REGISTRATION_NAME));
+    response.setInstanceId(registrationId.getInstanceId());
     response.setLocalhost(NetUtils.getHostAddress());
     response.setData(lines);
     return response;
+  }
+
+  private String buildSearchLogId(String traceId) {
+    return "[" + traceId + "]";
   }
 
   @Override
