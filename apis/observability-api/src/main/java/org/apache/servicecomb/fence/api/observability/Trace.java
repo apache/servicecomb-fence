@@ -23,6 +23,8 @@ public class Trace {
 
   private String id;
 
+  private String parentId;
+
   private String kind;
 
   private String name;
@@ -97,6 +99,15 @@ public class Trace {
 
   public Trace setDuration(long duration) {
     this.duration = duration;
+    return this;
+  }
+
+  public String getParentId() {
+    return parentId;
+  }
+
+  public Trace setParentId(String parentId) {
+    this.parentId = parentId;
     return this;
   }
 

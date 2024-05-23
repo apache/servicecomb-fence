@@ -18,7 +18,7 @@
 servicecomb:
   service:
     application: scb-fence
-    name: authentication-server
+    name: admin-service
     version: 0.0.1
 
   registry:
@@ -31,33 +31,18 @@ servicecomb:
       connectString: 127.0.0.1:2181
 
   rest:
-    address: 0.0.0.0:9061
+    address: 0.0.0.0:9096
   # HTTP container url prefix, or ROOT
   http:
     dispatcher:
       rest:
-        pattern: "/authentication/(.*)"
+        pattern: "/admin/(.*)"
 
   authentication:
-    token:
-      expiresIn: 3600
-      guestExpiresQuickly:
-        expiresIn: 3
-
-    github:
-      clientId: 94300caee0725405fde1 # WARNING: change to your github client id
-      clientSecret: b139dbc8fe8be9153f68049bfa8387dfde33f1c9 # WARNING: change to your github client secret
-
-db:
-  password: root # WARNING: please change password in production environment
-
-GithubOAuthService:
-  urls:
-    - rest://github.com:443?sslEnabled=true
-
-spring:
-  datasource:
-    url: ${db.url:jdbc:mysql://localhost/authentication_server_db}
-    username: ${db.username:root}
-    password: ${db.password:root}
-    driver-class-name: com.mysql.jdbc.Driver
+    access:
+      needAuth: true
+      scb-admin-observability:
+        roles: ADMIN
+      # java chassis internal schema and health api, should not authenticate
+      scb-management:
+        needAuth: false

@@ -48,6 +48,10 @@ servicecomb:
               prefixSegmentCount: 2
               path: "/api/authentication/.*"
               microserviceName: authentication-server
+            admin-service:
+              prefixSegmentCount: 2
+              path: "/api/admin/.*"
+              microserviceName: admin-service
 
 # StaticWebpageDispatcher checking file exists is async, and will mark request status to ended, and VertxRestDispatcher read 
 # body will print exception. 
