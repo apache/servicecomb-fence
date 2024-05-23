@@ -19,7 +19,6 @@ package org.apache.servicecomb.fence.admin;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -57,7 +56,7 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
 
   private DiscoveryManager discoveryManager;
 
-  private String application;
+  private final String application;
 
   @Autowired
   public AdminObservabilityEndpoint(Environment environment) {
@@ -65,6 +64,7 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
   }
 
   @Autowired
+  @SuppressWarnings("unused")
   public void setDiscoveryManager(DiscoveryManager discoveryManager) {
     this.discoveryManager = discoveryManager;
   }
@@ -114,7 +114,7 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
       }
     }
 
-    responses.sort(Comparator.comparingLong(this::findStamp));
+    responses.sort((a, b) -> Long.compare(findStamp(b), findStamp(a)));
     return responses;
   }
 
