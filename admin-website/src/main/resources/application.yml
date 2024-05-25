@@ -15,10 +15,13 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ## ---------------------------------------------------------------------------
+server:
+  port: 9098
+
 servicecomb:
   service:
     application: scb-fence
-    name: edge-service
+    name: admin-website
     version: 0.0.1
 
   registry:
@@ -31,34 +34,7 @@ servicecomb:
       connectString: 127.0.0.1:2181
 
   rest:
-    address: 0.0.0.0:9090
+    address: 0.0.0.0:9098 # same as server.port, for registration only
 
-  http:
-    dispatcher:
-      edge:
-        ## 后端服务
-        url:
-          enabled: true
-          pattern: "/api/(.*)"
-          mappings:
-            resource-server:
-              prefixSegmentCount: 2
-              path: "/api/resource/.*"
-              microserviceName: resource-server
-            authentication-server:
-              prefixSegmentCount: 2
-              path: "/api/authentication/.*"
-              microserviceName: authentication-server
-            admin-service:
-              prefixSegmentCount: 2
-              path: "/api/admin/.*"
-              microserviceName: admin-service
-        ## 前端服务
-        http:
-          enabled: true
-          pattern: "/ui/(.*)"
-          mappings:
-            admin-website:
-              prefixSegmentCount: 2
-              path: "/ui/admin/.*"
-              microserviceName: admin-website
+    servlet:
+      urlPattern: "/admin/*"  # Java chassis servlet. And spring mvc DispatcherServlet will be `/`

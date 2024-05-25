@@ -24,20 +24,23 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface TokenMapper {
-  @Insert(" insert into\n"
-      + "    T_TOKENS(ACCESS_TOKEN_VALUE,REFRESH_TOKEN_VALUE,TOKEN)\n"
-      + "    values(#{accessTokenId},#{refreshTokenId},#{tokenInfo})")
+  @Insert("""
+      insert into
+      T_TOKENS(ACCESS_TOKEN_VALUE,REFRESH_TOKEN_VALUE,TOKEN)
+      values(#{accessTokenId},#{refreshTokenId},#{tokenInfo})""")
   void insertNewToken(@Param("accessTokenId") String accessTokenId,
       @Param("refreshTokenId") String refreshTokenId,
       @Param("tokenInfo") String tokenInfo);
 
-  @Select("    select TOKEN\n"
-      + "    from T_TOKENS where ACCESS_TOKEN_VALUE =\n"
-      + "    #{accessTokenId}")
+  @Select("""
+      select TOKEN
+      from T_TOKENS where ACCESS_TOKEN_VALUE =
+      #{accessTokenId}""")
   String getTokenInfoByAccessTokenId(@Param("accessTokenId") String accessTokenId);
 
-  @Select("    select TOKEN\n"
-      + "    from T_TOKENS where REFRESH_TOKEN_VALUE =\n"
-      + "    #{refreshTokenId}")
+  @Select("""
+      select TOKEN
+      from T_TOKENS where REFRESH_TOKEN_VALUE =
+      #{refreshTokenId}""")
   String getTokenInfoByRefreshTokenId(@Param("refreshTokenId") String refreshTokenId);
 }

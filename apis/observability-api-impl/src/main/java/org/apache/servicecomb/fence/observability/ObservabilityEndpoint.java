@@ -84,6 +84,9 @@ public class ObservabilityEndpoint implements ObservabilityService {
   @Override
   public SearchTraceResponse searchTrace(String timestamp, String traceId) {
     File target = findFile(TRACE_FILE_PREFIX, timestamp);
+    if (target == null) {
+      throw new InvocationException(Status.BAD_REQUEST, "not found");
+    }
     List<String> lines = searchLines(target, buildSearchTraceId(traceId));
     Collections.reverse(lines);
     SearchTraceResponse response = new SearchTraceResponse();
@@ -125,6 +128,9 @@ public class ObservabilityEndpoint implements ObservabilityService {
   @Override
   public SearchLogResponse searchLog(String timestamp, String traceId) {
     File target = findFile(LOG_FILE_PREFIX, timestamp);
+    if (target == null) {
+      throw new InvocationException(Status.BAD_REQUEST, "not found");
+    }
     List<String> lines = searchLines(target, buildSearchLogId(traceId));
     SearchLogResponse response = new SearchLogResponse();
     response.setApplication(BootStrapProperties.readApplication(environment));
@@ -142,19 +148,27 @@ public class ObservabilityEndpoint implements ObservabilityService {
   @Override
   public Part downloadLog(String timestamp) {
     File target = findFile(LOG_FILE_PREFIX, timestamp);
+    if (target == null) {
+      throw new InvocationException(Status.BAD_REQUEST, "not found");
+    }
     return new FilePart(target.getName(), target);
   }
 
   @Override
   public Part downloadMetrics(String timestamp) {
     File target = findFile(METRICS_FILE_PREFIX, timestamp);
+    if (target == null) {
+      throw new InvocationException(Status.BAD_REQUEST, "not found");
+    }
     return new FilePart(target.getName(), target);
   }
 
   private File findFile(String prefix, String timestamp) {
     File[] targetFiles = logPath.listFiles(
         file -> file.getName().startsWith(prefix) && file.getName().endsWith(FILE_SUFFIX));
-    assert targetFiles != null;
+    if (targetFiles == null) {
+      return null;
+    }
     try {
       LocalDateTime time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
