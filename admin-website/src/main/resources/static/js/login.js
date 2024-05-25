@@ -30,7 +30,7 @@ function loginAction() {
         success: function (data) {
             console.log(JSON.stringify(data));
             window.localStorage.setItem("token", JSON.stringify(data));
-            window.location = "/ui/operation.html";
+            window.location = "/ui/admin/operation.html";
         },
         error: function(data) {
             console.log(JSON.stringify(data));
@@ -46,7 +46,7 @@ function loginWithGithubAction() {
     setCookie("initialState", Math.floor(100000000 + Math.random() * 900000000), 1);
     var redirectURI = window.location.protocol + "//" 
       + window.location.hostname + ":" + window.location.port
-      + "/ui/githubLoginCallback.html";
+      + "/ui/admin/githubLoginCallback.html";
     redirectURI = encodeURIComponent(redirectURI);
     
     $.ajax({

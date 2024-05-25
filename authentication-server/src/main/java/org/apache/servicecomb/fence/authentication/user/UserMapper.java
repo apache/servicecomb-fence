@@ -20,13 +20,14 @@ package org.apache.servicecomb.fence.authentication.user;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
-  @Select("select * from T_USERS where USER_NAME = #{0,jdbcType=VARCHAR}")
+  @Select("select * from T_USERS where USER_NAME = #{username}")
   @Results(id = "userInfo", value = {
       @Result(property = "id", column = "ID"),
       @Result(property = "password", column = "PASSWORD"),
@@ -36,8 +37,8 @@ public interface UserMapper {
       @Result(property = "credentialsNonExpired", column = "CREDENTIALS_NON_EXPIRED"),
       @Result(property = "enabled", column = "TINYINT")
   })
-  UserInfo selectUserByUsername(String username);
+  UserInfo selectUserByUsername(@Param("username") String username);
 
-  @Select("select ROLE_NAME from T_ROLES where USER_NAME = #{0,jdbcType=VARCHAR}")
-  Set<String> selectRolesByUsername(String username);
+  @Select("select ROLE_NAME from T_ROLES where USER_NAME = #{username}")
+  Set<String> selectRolesByUsername(@Param("username") String username);
 }

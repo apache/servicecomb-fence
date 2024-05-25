@@ -69,7 +69,7 @@
                     success: function (data) {
                         console.log(JSON.stringify(data));
                         window.localStorage.setItem("token", JSON.stringify(data));
-                        window.location = "/ui/operation.html";
+                        window.location = "/ui/admin/operation.html";
                     },
                     error: function(data) {
                         console.log(JSON.stringify(data));
