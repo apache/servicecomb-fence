@@ -17,23 +17,19 @@
 package org.apache.servicecomb.fence.admin;
 
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.servicecomb.config.BootStrapProperties;
 import org.apache.servicecomb.core.Endpoint;
-import org.apache.servicecomb.core.SCBEngine;
-import org.apache.servicecomb.core.Transport;
+import org.apache.servicecomb.core.invocation.endpoint.EndpointUtils;
+import org.apache.servicecomb.fence.admin.dependencies.AsyncObservabilityService;
 import org.apache.servicecomb.fence.api.admin.AdminObservabilityService;
 import org.apache.servicecomb.fence.api.observability.SearchLogResponse;
 import org.apache.servicecomb.fence.api.observability.SearchTraceResponse;
 import org.apache.servicecomb.fence.api.observability.Trace;
-import org.apache.servicecomb.foundation.common.concurrent.ConcurrentHashMapEx;
-import org.apache.servicecomb.provider.pojo.Invoker;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.registry.DiscoveryManager;
 import org.apache.servicecomb.registry.api.DiscoveryInstance;
@@ -51,8 +47,7 @@ import jakarta.ws.rs.core.Response.Status;
 public class AdminObservabilityEndpoint implements AdminObservabilityService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AdminObservabilityEndpoint.class);
 
-  private final Map<String, org.apache.servicecomb.fence.admin.third.ObservabilityService> thirdServices =
-      new ConcurrentHashMapEx<>();
+  private AsyncObservabilityService asyncObservabilityService;
 
   private DiscoveryManager discoveryManager;
 
@@ -64,9 +59,13 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
   }
 
   @Autowired
-  @SuppressWarnings("unused")
   public void setDiscoveryManager(DiscoveryManager discoveryManager) {
     this.discoveryManager = discoveryManager;
+  }
+
+  @Autowired
+  public void setAsyncObservabilityService(AsyncObservabilityService asyncObservabilityService) {
+    this.asyncObservabilityService = asyncObservabilityService;
   }
 
   @Override
@@ -87,8 +86,8 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
           continue;
         }
         try {
-          getService(serviceName).searchTrace(
-              parseEndpoint(instance.getEndpoints().get(0)),
+          asyncObservabilityService.searchTrace(
+              EndpointUtils.parse(instance.getEndpoints().get(0)),
               timestamp, traceId).whenComplete((response, throwable) -> {
             if (throwable != null) {
               latch.countDown();
@@ -142,8 +141,8 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
           continue;
         }
         try {
-          getService(serviceName).searchLog(
-              parseEndpoint(instance.getEndpoints().get(0)),
+          asyncObservabilityService.searchLog(
+              EndpointUtils.parse(instance.getEndpoints().get(0)),
               timestamp, traceId).whenComplete((response, throwable) -> {
             if (throwable != null) {
               latch.countDown();
@@ -173,19 +172,12 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
 
   @Override
   public Part downloadLog(String timestamp, String serviceName, String instanceId) {
-    return getService(serviceName).downloadLog(getEndpoint(serviceName, instanceId), timestamp);
+    return asyncObservabilityService.downloadLog(getEndpoint(serviceName, instanceId), timestamp);
   }
 
   @Override
   public Part downloadMetrics(String timestamp, String serviceName, String instanceId) {
-    return getService(serviceName).downloadMetrics(getEndpoint(serviceName, instanceId), timestamp);
-  }
-
-  private org.apache.servicecomb.fence.admin.third.ObservabilityService getService(String serviceName) {
-    return
-        thirdServices.computeIfAbsent(serviceName, name -> Invoker.createProxy(serviceName,
-            org.apache.servicecomb.fence.admin.third.ObservabilityService.NAME,
-            org.apache.servicecomb.fence.admin.third.ObservabilityService.class));
+    return asyncObservabilityService.downloadMetrics(getEndpoint(serviceName, instanceId), timestamp);
   }
 
   private Endpoint getEndpoint(String serviceName, String instanceId) {
@@ -195,15 +187,9 @@ public class AdminObservabilityEndpoint implements AdminObservabilityService {
       throw new InvocationException(Status.BAD_REQUEST, new CommonExceptionData("invalid instance."));
     }
     try {
-      return parseEndpoint(instances.get(0).getEndpoints().get(0));
+      return EndpointUtils.parse(instances.get(0).getEndpoints().get(0));
     } catch (Exception e) {
       throw new InvocationException(Status.INTERNAL_SERVER_ERROR, new CommonExceptionData(e.getMessage()));
     }
-  }
-
-  private Endpoint parseEndpoint(String endpointUri) throws Exception {
-    URI formatUri = new URI(endpointUri);
-    Transport transport = SCBEngine.getInstance().getTransportManager().findTransport(formatUri.getScheme());
-    return new Endpoint(transport, endpointUri);
   }
 }

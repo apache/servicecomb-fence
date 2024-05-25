@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.servicecomb.fence.admin.third;
+package org.apache.servicecomb.fence.admin.dependencies;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -32,7 +32,7 @@ import jakarta.ws.rs.QueryParam;
  * Observability Apis for service management.
  */
 @Path("/v1/scb/observability")
-public interface ObservabilityService {
+public interface AsyncObservabilityService {
   String NAME = "scb-observability";
 
   @Path("/searchTrace")

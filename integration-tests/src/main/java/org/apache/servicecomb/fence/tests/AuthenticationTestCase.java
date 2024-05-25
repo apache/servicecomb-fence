@@ -69,7 +69,7 @@ public class AuthenticationTestCase implements TestCase {
     TokenResponse token = tokenService.getToken(map).get();
     TestMgr.check(CommonConstants.TOKEN_TYPE_BEARER, token.getToken_type());
     TestMgr.check(true, token.getId_token().length() > 10);
-    TestMgr.check(600, token.getExpires_in());
+    TestMgr.check(3600, token.getExpires_in());
     return token;
   }
 

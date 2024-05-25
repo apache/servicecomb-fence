@@ -14,25 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.servicecomb.fence.edge.dependencies;
 
-package org.apache.servicecomb.fence.edge;
+import org.apache.servicecomb.provider.pojo.Invoker;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
-
-import org.apache.servicecomb.foundation.ssl.SSLCustom;
-
-public class EdgeSSLCustom extends SSLCustom {
-
-    @Override
-    public char[] decode(char[] plain) {
-        return plain;
-    }
-
-    @Override
-    public String getFullPath(String name) {
-        String fullName = System.getProperty("user.dir") + File.separator + name;
-        System.out.println(fullName);
-        return (new File(fullName)).getAbsolutePath();
-    }
-
+@Configuration
+public class ServiceDependencyConfiguration {
+  @Bean
+  public AsyncTokenService asyncTokenService() {
+    return Invoker.createProxy("authentication-server", "TokenEndpoint", AsyncTokenService.class);
+  }
 }

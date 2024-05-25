@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.servicecomb.fence.admin.dependencies;
 
-package org.apache.servicecomb.fence.edge;
+import org.apache.servicecomb.provider.pojo.Invoker;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-
-import org.apache.servicecomb.fence.token.OpenIDToken;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
-public interface AuthenticationServerTokenEndpoint {
-  @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-  CompletableFuture<OpenIDToken> grantToken(@RequestBody Map<String, String> parameters);
-
-  @PostMapping(path = "/query")
-  CompletableFuture<OpenIDToken> queryToken(@RequestParam("access_token") String accessToken);
+@Configuration
+public class ServiceDependencyConfiguration {
+  @Bean
+  public AsyncObservabilityService asyncTokenService() {
+    // call all services using my own schema, but specify different endpoint
+    return Invoker.createProxy("admin-service", AsyncObservabilityService.NAME, AsyncObservabilityService.class);
+  }
 }

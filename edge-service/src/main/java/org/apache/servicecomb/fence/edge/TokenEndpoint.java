@@ -22,25 +22,30 @@ import java.util.concurrent.CompletableFuture;
 
 import org.apache.servicecomb.fence.api.edge.TokenResponse;
 import org.apache.servicecomb.fence.api.edge.TokenService;
+import org.apache.servicecomb.fence.edge.dependencies.AsyncTokenService;
 import org.apache.servicecomb.fence.token.OpenIDToken;
-import org.apache.servicecomb.provider.pojo.RpcReference;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.ws.rs.core.Response.Status;
 
 @RestSchema(schemaId = "TokenEndpoint", schemaInterface = TokenService.class)
 public class TokenEndpoint implements TokenService {
-  @RpcReference(microserviceName = "authentication-server", schemaId = "TokenEndpoint")
-  private AuthenticationServerTokenEndpoint authenticationSererTokenEndpoint;
+  private AsyncTokenService asyncTokenService;
+
+  @Autowired
+  public void setAsyncTokenService(AsyncTokenService asyncTokenService) {
+    this.asyncTokenService = asyncTokenService;
+  }
 
   @Override
   public CompletableFuture<TokenResponse> getToken(Map<String, String> parameters) {
     CompletableFuture<TokenResponse> result = new CompletableFuture<>();
 
     CompletableFuture<OpenIDToken> response =
-        authenticationSererTokenEndpoint.grantToken(parameters);
+        asyncTokenService.grantToken(parameters);
     response.whenComplete((tokenResonse, ex) -> {
       if (!response.isCompletedExceptionally()) {
         if (tokenResonse == null) {

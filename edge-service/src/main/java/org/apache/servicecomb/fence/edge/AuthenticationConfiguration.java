@@ -44,6 +44,11 @@ public class AuthenticationConfiguration {
     return new JWTTokenStoreImpl(signer, signerVerifier);
   }
 
+  @Bean(name = CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
+  public EdgeOpenIDTokenStore edgeOpenIDTokenStore() {
+    return new EdgeOpenIDTokenStore();
+  }
+
   @Bean(name = {CommonConstants.BEAN_AUTH_ACCESS_TOKEN_STORE,
       CommonConstants.BEAN_AUTH_REFRESH_TOKEN_STORE})
   public SessionTokenStore sessionTokenStore() {
