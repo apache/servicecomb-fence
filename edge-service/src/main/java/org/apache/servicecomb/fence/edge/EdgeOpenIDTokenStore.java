@@ -19,17 +19,19 @@ package org.apache.servicecomb.fence.edge;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.servicecomb.fence.edge.dependencies.AsyncTokenService;
 import org.apache.servicecomb.fence.token.AbstractOpenIDTokenStore;
 import org.apache.servicecomb.fence.token.OpenIDToken;
-import org.apache.servicecomb.fence.util.CommonConstants;
-import org.apache.servicecomb.provider.pojo.RpcReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-@Component(CommonConstants.BEAN_AUTH_OPEN_ID_TOKEN_STORE)
 public class EdgeOpenIDTokenStore extends AbstractOpenIDTokenStore {
-  @RpcReference(microserviceName = "authentication-server", schemaId = "TokenEndpoint")
-  private AuthenticationServerTokenEndpoint tokenEndpoint;
+  private AsyncTokenService asyncTokenService;
+
+  @Autowired
+  public void setAsyncTokenService(AsyncTokenService asyncTokenService) {
+    this.asyncTokenService = asyncTokenService;
+  }
 
   @Override
   public OpenIDToken createToken(UserDetails userDetails) {
@@ -38,7 +40,7 @@ public class EdgeOpenIDTokenStore extends AbstractOpenIDTokenStore {
 
   @Override
   public CompletableFuture<OpenIDToken> readTokenByAccessToken(String accessToken) {
-    return tokenEndpoint.queryToken(accessToken);
+    return asyncTokenService.queryToken(accessToken);
   }
 
   @Override
@@ -50,5 +52,4 @@ public class EdgeOpenIDTokenStore extends AbstractOpenIDTokenStore {
   public void saveToken(OpenIDToken token) {
     throw new UnsupportedOperationException();
   }
-
 }

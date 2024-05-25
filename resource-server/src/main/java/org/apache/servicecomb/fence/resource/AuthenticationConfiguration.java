@@ -24,11 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.jwt.crypto.sign.SignerVerifier;
 
 @Configuration
+@EnableMethodSecurity
 public class AuthenticationConfiguration {
   @Bean(name = {CommonConstants.BEAN_AUTH_SIGNER, CommonConstants.BEAN_AUTH_SIGNATURE_VERIFIER})
   public SignerVerifier authSignerVerifier() {
@@ -46,5 +49,10 @@ public class AuthenticationConfiguration {
   @Bean
   public AuthenticationProviderFilter authenticationProviderFilter() {
     return new AuthenticationProviderFilter();
+  }
+
+  @Bean
+  public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    return new GrantedAuthorityDefaults("");
   }
 }
