@@ -1,0 +1,35 @@
+// 菜单宽度
+:deep(.tiny-tree-menu) {
+  width: 250px;
+}
+
+// 去除默认右边竖线
+:deep(.tiny-tree-menu::before) {
+  border-right: none;
+}
+
+// 增加子菜单上下间距
+:deep(.tiny-tree-menu .tiny-tree > div) {
+  margin: 3px 0;
+}
+
+// 解决切换闪动
+:deep(.tiny-tree-menu .tiny-tree .tree-node-name) {
+  border-left: 2px solid transparent !important;
+}
+
+// 主标题点击后显示背景色
+:deep(
+    .tiny-tree-menu
+      .tiny-tree
+      .tiny-tree-node.is-current
+      > .tiny-tree-node__content
+      .tree-node-name
+      .tiny-svg
+  ) {
+    fill: var(--ti-tree-menu-node-current-color);
+}
+:deep(.tiny-collapse-item__header) {
+  background-color: var(--ti-common-color-bg-light-normal);
+  color: var(--ti-common-color-text-highlight); 
+}

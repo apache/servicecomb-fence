@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "strict": true, /* 启用所有严格的类型检查选项。 */
+    "jsx": "preserve", /* 指定生成什么JSX代码*/
+    "sourceMap": true,  /* 为生成的JavaScript文件创建源映射文件*/
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true, /* 跳过类型检查所有.d.ts文件 */
+    "types": ["vite/client"] /* vite ts支持 */
+  },
+  "include": ["src/**/*", "src/**/*.vue"],
+  "exclude": ["node_modules"]
+}
