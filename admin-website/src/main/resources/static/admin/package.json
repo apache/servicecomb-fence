@@ -49,7 +49,7 @@
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
+    "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^12.0.1",
     "@types/lodash": "^4.14.177",
     "@types/nprogress": "^0.2.0",
