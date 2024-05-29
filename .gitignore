@@ -80,3 +80,8 @@ __pycache__/
 
 # Mac
 .DS_Store
+
+#NodeJS
+
+node_modules/
+dist/
