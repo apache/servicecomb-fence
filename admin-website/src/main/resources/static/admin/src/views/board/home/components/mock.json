@@ -1,0 +1,252 @@
+[
+    {
+        "data": [
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "38a610e3d3d05fa7",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "SERVER",
+                "name": "PROVIDER rest resource-server.scb-observability.searchTrace",
+                "timestamp": 1716435908216053,
+                "duration": 5187,
+                "localEndpoint": {
+                    "serviceName": "resource-server",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/resource/v1/scb/observability/searchTrace",
+                    "http.route": "10.37.113.232",
+                    "http.status_code": "200"
+                },
+                "shared": true
+            }
+        ],
+        "application": "scb-fence",
+        "serviceName": "resource-server",
+        "localhost": "10.37.113.232",
+        "instanceId": "59b3c228-91c2-489b-b7c3-e1e0574ab811"
+    },
+    {
+        "data": [
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "adbc1c5fc19d9e80",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "SERVER",
+                "name": "PROVIDER rest authentication-server.scb-observability.searchTrace",
+                "timestamp": 1716435908244226,
+                "duration": 5733,
+                "localEndpoint": {
+                    "serviceName": "authentication-server",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/authentication/v1/scb/observability/searchTrace",
+                    "http.route": "10.37.113.232",
+                    "http.status_code": "200"
+                },
+                "shared": true
+            }
+        ],
+        "application": "scb-fence",
+        "serviceName": "authentication-server",
+        "localhost": "10.37.113.232",
+        "instanceId": "a7cfc5a6-12ca-4286-84db-ac1dc910bfc4"
+    },
+    {
+        "data": [
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "cb5f728d8c940b58",
+                "parentId": "81de2eb7691c2bbb",
+                "kind": "SERVER",
+                "name": "PROVIDER rest admin-service.scb-admin-observability.searchTrace",
+                "timestamp": 1716435908207835,
+                "duration": 59433,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/admin/v1/scb/admin/observability/searchTrace",
+                    "http.route": "10.37.113.232",
+                    "http.status_code": "200"
+                },
+                "shared": true
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "6b02698b072c9797",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "CLIENT",
+                "name": "CONSUMER rest admin-service.scb-observability.searchTrace",
+                "timestamp": 1716435908252323,
+                "duration": 14141,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/admin/v1/scb/observability/searchTrace?timestamp=2024-05-23T11%3A42%3A28&traceId=81de2eb7691c2aaa",
+                    "http.status_code": "200",
+                    "http.route": "rest://10.37.113.232:9096?urlPrefix=%2Fadmin"
+                },
+                "shared": false
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "6b02698b072c9797",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "SERVER",
+                "name": "PROVIDER rest admin-service.scb-observability.searchTrace",
+                "timestamp": 1716435908256946,
+                "duration": 8551,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/admin/v1/scb/observability/searchTrace",
+                    "http.route": "10.37.113.232",
+                    "http.status_code": "200"
+                },
+                "shared": true
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "adbc1c5fc19d9e80",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "CLIENT",
+                "name": "CONSUMER rest authentication-server.scb-observability.searchTrace",
+                "timestamp": 1716435908240530,
+                "duration": 10669,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/authentication/v1/scb/observability/searchTrace?timestamp=2024-05-23T11%3A42%3A28&traceId=81de2eb7691c2aaa",
+                    "http.status_code": "200",
+                    "http.route": "rest://10.37.113.232:9061?urlPrefix=%2Fauthentication"
+                },
+                "shared": false
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "c0bb92ed94289175",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "CLIENT",
+                "name": "CONSUMER rest edge-service.scb-observability.searchTrace",
+                "timestamp": 1716435908222940,
+                "duration": 16643,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/v1/scb/observability/searchTrace?timestamp=2024-05-23T11%3A42%3A28&traceId=81de2eb7691c2aaa",
+                    "http.status_code": "200",
+                    "http.route": "rest://10.37.113.232:9090"
+                },
+                "shared": false
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "38a610e3d3d05fa7",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "CLIENT",
+                "name": "CONSUMER rest resource-server.scb-observability.searchTrace",
+                "timestamp": 1716435908210170,
+                "duration": 12118,
+                "localEndpoint": {
+                    "serviceName": "admin-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/resource/v1/scb/observability/searchTrace?timestamp=2024-05-23T11%3A42%3A28&traceId=81de2eb7691c2aaa",
+                    "http.status_code": "200",
+                    "http.route": "rest://10.37.113.232:9092?urlPrefix=%2Fresource"
+                },
+                "shared": false
+            }
+        ],
+        "application": "scb-fence",
+        "serviceName": "admin-service",
+        "localhost": "10.37.113.232",
+        "instanceId": "3b2102ec-5606-4a52-9b8f-f2bdd402d9dd"
+    },
+    {
+        "data": [
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "81de2eb7691c2bbb",
+                "parentId": null,
+                "kind": "SERVER",
+                "name": "EDGE  admin-service.scb-admin-observability.searchTrace",
+                "timestamp": 1716435908203966,
+                "duration": 67737,
+                "localEndpoint": {
+                    "serviceName": "edge-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.route": "0:0:0:0:0:0:0:1",
+                    "http.status_code": "200"
+                },
+                "shared": false
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "cb5f728d8c940b58",
+                "parentId": "81de2eb7691c2bbb",
+                "kind": "CLIENT",
+                "name": "EDGE  admin-service.scb-admin-observability.searchTrace",
+                "timestamp": 1716435908204077,
+                "duration": 67465,
+                "localEndpoint": {
+                    "serviceName": "edge-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.status_code": "200",
+                    "http.route": "rest://10.37.113.232:9096?urlPrefix=%2Fadmin"
+                },
+                "shared": false
+            },
+            {
+                "traceId": "81de2eb7691c2bbb",
+                "id": "c0bb92ed94289175",
+                "parentId": "cb5f728d8c940b58",
+                "kind": "SERVER",
+                "name": "PROVIDER rest edge-service.scb-observability.searchTrace",
+                "timestamp": 1716435908227622,
+                "duration": 10765,
+                "localEndpoint": {
+                    "serviceName": "edge-service",
+                    "ipv4": "10.37.113.232"
+                },
+                "tags": {
+                    "http.method": "GET",
+                    "http.path": "/v1/scb/observability/searchTrace",
+                    "http.route": "10.37.113.232",
+                    "http.status_code": "200"
+                },
+                "shared": true
+            }
+        ],
+        "application": "scb-fence",
+        "serviceName": "edge-service",
+        "localhost": "10.37.113.232",
+        "instanceId": "a093076e-f459-47d9-aa7a-9df92b658648"
+    }
+]
