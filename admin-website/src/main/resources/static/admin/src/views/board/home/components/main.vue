@@ -93,7 +93,7 @@ import callChainList from './call-chain-list.vue';
     }
   }
   &-list{
-    max-width: 90%;
+    width: 95%;
     height: 80px;
     background-color: saddlebrown;
   }
