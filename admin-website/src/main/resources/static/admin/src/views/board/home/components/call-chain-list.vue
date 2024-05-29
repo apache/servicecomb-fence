@@ -1,7 +1,7 @@
 <template>
-  <tiny-grid resizable seq-serial :data="mockData" @toolbar-button-click="toolbarButtonClickEvent">
+  <tiny-grid resizable seq-serial :data="state.mockData" @toolbar-button-click="toolbarButtonClickEvent">
     <template #toolbar>
-      <tiny-grid-toolbar :buttons="toolbarButtons"> </tiny-grid-toolbar>
+      <tiny-grid-toolbar :buttons="state.toolbarButtons"> </tiny-grid-toolbar>
     </template>
     <tiny-grid-column type="index" width="60"></tiny-grid-column>
     <tiny-grid-column width="60"></tiny-grid-column>
@@ -15,7 +15,6 @@
               <div>
                 {{ data.row.tags['http.status_code'] }}
               </div>
-
             </template>
           </tiny-grid-column>
           <tiny-grid-column field="timestamp" title="timestamp"></tiny-grid-column>
@@ -36,37 +35,27 @@
   </tiny-grid>
 </template>
 
-<script lang="jsx">
-import { Grid, GridColumn, GridToolbar } from '@opentiny/vue'
+<script lang="ts" setup>
+import { reactive } from 'vue';
+import { Grid as TinyGrid, GridColumn as TinyGridColumn, GridToolbar as TinyGridToolbar } from '@opentiny/vue'
 import mock from './mock.json'
 
-export default {
-  components: {
-    TinyGrid: Grid,
-    TinyGridColumn: GridColumn,
-    TinyGridToolbar: GridToolbar
-  },
-  data() {
-    return {
-      toolbarButtons: [
-        {
-          code: 'clearRowExpand',
-          name: '手动清空展开行状态'
-        }
-      ],
-      mockData: mock,
+const state = reactive({
+  mockData: mock,
+  toolbarButtons: [
+    {
+      code: 'clearRowExpand',
+      name: '手动清空展开行状态'
     }
-  },
-  methods: {
-    toolbarButtonClickEvent({ code, $grid }) {
-      // eslint-disable-next-line default-case
-      switch (code) {
-        case 'clearRowExpand': {
-          $grid.clearRowExpand()
-          break
-        }
-      }
+  ],
+})
+const toolbarButtonClickEvent = ({ code, $grid }) => {
+  switch (code) {
+    case 'clearRowExpand': {
+      $grid.clearRowExpand()
+      break
     }
+    default: break;
   }
 }
 </script>

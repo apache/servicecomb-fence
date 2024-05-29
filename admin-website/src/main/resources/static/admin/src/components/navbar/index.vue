@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { UserHead as TinyUserHead, Modal } from '@opentiny/vue';
+  import { UserHead as TinyUserHead } from '@opentiny/vue';
   import {
     IconCheckOut,
   } from '@opentiny/vue-icon';
