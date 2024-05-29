@@ -60,4 +60,4 @@ spring:
     url: ${db.url:jdbc:mysql://localhost/authentication_server_db}
     username: ${db.username:root}
     password: ${db.password:root}
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
