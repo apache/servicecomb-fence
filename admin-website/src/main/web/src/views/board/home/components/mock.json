@@ -83,7 +83,7 @@
                 "parentId": "cb5f728d8c940b58",
                 "kind": "CLIENT",
                 "name": "CONSUMER rest admin-service.scb-observability.searchTrace",
-                "timestamp": 1716435908252323,
+                "timestamp": 1716435608993323,
                 "duration": 14141,
                 "localEndpoint": {
                     "serviceName": "admin-service",

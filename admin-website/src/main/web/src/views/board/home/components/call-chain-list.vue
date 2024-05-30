@@ -17,7 +17,13 @@
               </div>
             </template>
           </tiny-grid-column>
-          <tiny-grid-column field="timestamp" title="timestamp"></tiny-grid-column>
+          <tiny-grid-column field="timestamp" title="timestamp">
+            <template #default="data">
+              <div>
+                {{ timesHandle(data.row.timestamp) }}
+              </div>
+            </template>
+          </tiny-grid-column>
         </tiny-grid>
       </template>
     </tiny-grid-column>
@@ -57,6 +63,18 @@ const toolbarButtonClickEvent = ({ code, $grid }) => {
     }
     default: break;
   }
+}
+const timesHandle = (times:number) => {
+  const date = new Date(times/1000)
+  
+  const year = date.getFullYear();
+  const month = String(date.getMonth() +1)
+  const day = String(date.getDate())
+  const hours = String(date.getHours())
+  const minutes = String(date.getMinutes())
+  const seconds = String(date.getSeconds())
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 </script>
 
