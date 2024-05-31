@@ -4,16 +4,26 @@
       <div class="login">
         <div class="login-header">
           <div class="login-logo">
-            <span class="login-logo-text">云原生应用开发套件</span>
+            <img
+              class="login-logo-img"
+              alt="Tiny Design"
+              src="@/assets/images/pro.png"
+            />
+            <span class="login-logo-text">TinyPro of Vue</span>
           </div>
+          <div class="login-desc">{{ $t('login.main.text') }}</div>
         </div>
         <LoginForm />
       </div>
+    </div>
+    <div class="footer">
+      <Footer />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import Footer from '@/components/footer/index.vue';
   import LoginForm from './components/login-form.vue';
 </script>
 
@@ -23,6 +33,7 @@
     flex-direction: column;
     width: 100vw;
     height: 100vh;
+    background-image: url('@/assets/images/img_log.png');
     background-size: 100% 100%;
   }
 
@@ -38,6 +49,7 @@
 
   .login {
     width: 450px;
+    height: 550px;
     padding: 60px 40px;
     font-size: var(--ti-common-font-size-1);
     background: #fff;
@@ -52,6 +64,11 @@
 
     &-logo {
       margin-right: 20px;
+
+      &-img {
+        margin-right: 10px;
+        vertical-align: middle;
+      }
 
       &-text {
         display: inline-block;

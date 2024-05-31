@@ -1,0 +1,19 @@
+{
+  "theme": "light",
+  "colorWeek":false,
+  "navbar": true ,
+  "menu": true,
+  "hideMenu": false,
+  "menuCollapse": false,
+  "footer": true,
+  "themelist":"default",
+  "themeColor": "1",
+  "themeValue":0,
+  "themeContent":{},
+  "menuWidth": 220,
+  "Settings": false,
+  "device": "desktop",
+  "tabBar": false,
+  "step":0,
+  "themeLightColors": null
+}

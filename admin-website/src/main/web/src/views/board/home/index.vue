@@ -1,14 +1,22 @@
 <template>
   <div class="container">
+    <Breadcrumb :items="['menu.board', 'menu.home']" />
     <div class="contain">
-      <Breadcrumb :items="['看板', '调用链展示']" />
       <Main></Main>
+      <Curve></Curve>
+      <Falls></Falls>
+      <Round></Round>
+      <Region></Region>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import Main from './components/main.vue';
+  import Curve from './components/curve.vue';
+  import Falls from './components/falls.vue';
+  import Round from './components/round.vue';
+  import Region from './components/region.vue';
 </script>
 
 <style scoped lang="less">

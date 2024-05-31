@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress'; // progress bar
 import DefaultLayout from '@/layout/default-layout.vue';
 import appRoutes from './routes';
+import createRouteGuard from './guard';
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
@@ -36,12 +37,23 @@ const router = createRouter({
       path: import.meta.env.VITE_CONTEXT,
       component: DefaultLayout,
       children: appRoutes,
-    }
+    },
+    {
+      path: import.meta.env.VITE_CONTEXT + ':pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('@/views/not-found/index.vue'),
+    },
+    {
+      path: import.meta.env.VITE_CONTEXT + 'preview',
+      name: 'preview',
+      component: () => import('@/views/Preview/index.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 };
   },
 });
 
+createRouteGuard(router);
 
 export default router;

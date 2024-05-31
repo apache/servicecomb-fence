@@ -1,6 +1,50 @@
 <template>
   <div class="navbar">
+    <div class="left-side">
+      <div style="display: flex; align-items: center">
+        <img
+          src="@/assets/images/opentiny-logo.png"
+          alt="logo"
+          @click="jumpUrl"
+        />
+        <h5 @click="jumpUrl">OpenTiny</h5>
+        <div class="divider"></div>
+        <img class="vue-icon" alt="logo" src="@/assets/images/pro.png" />
+        <h4>TinyPro of Vue</h4>
+      </div>
+    </div>
     <ul class="right-side">
+      <li>
+        <input
+          id="navbar-search"
+          class="input-icon"
+          :placeholder="$t('setting.input.search')"
+        />
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li @click="changeLan">
+        <span v-if="i18.locale.value === 'zhCN'">中文</span>
+        <span v-else>English</span>
+        <img src="@/assets/images/lan.png" alt="lan" class="navbar-lan" />
+        <div v-if="lan" class="trigger-lan">
+          <li
+            v-for="(item, index) in locales"
+            :key="index"
+            :value="item.value"
+            @click="changeLocale(locales[index].value)"
+            >{{ item.label }}</li
+          >
+        </div>
+      </li>
+
+      <li>
+        <span @click="help">{{ $t('settings.navbar.help') }}</span>
+      </li>
+      <li>
+        <span @click="setVisible">{{ $t('settings.title') }}</span>
+      </li>
       <li class="navbar-user">
         <tiny-user-head type="icon" round min>
           <div class="user-image">
@@ -14,8 +58,11 @@
             :value="item.label"
             @click="switchUser(item.value)"
           >
-            <iconCheckOut v-if="item.value === 1"></iconCheckOut>
-            用户退出 
+            <iconReplace v-if="item.value === 1"></iconReplace>
+            <iconUser v-if="item.value === 2"></iconUser>
+            <iconWriting v-if="item.value === 3"></iconWriting>
+            <iconCheckOut v-if="item.value === 4"></iconCheckOut>
+            {{ $t(item.label) }}
           </li>
         </div>
       </li>
@@ -24,29 +71,79 @@
 </template>
 
 <script lang="ts" setup>
-  import { UserHead as TinyUserHead } from '@opentiny/vue';
+  import { ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
+  import { UserHead as TinyUserHead, Modal } from '@opentiny/vue';
   import {
+    IconReplace,
+    IconUser,
     IconCheckOut,
+    IconWriting,
   } from '@opentiny/vue-icon';
+  import { useAppStore, useUserStore } from '@/store';
+  import router from '@/router';
+  import { LOCALE_OPTIONS } from '@/locale';
+  import useLocale from '@/hooks/locale';
   import useUser from '@/hooks/user';
 
+  const i18 = useI18n();
+  const iconReplace = IconReplace();
+  const iconUser = IconUser();
   const iconCheckOut = IconCheckOut();
+  const iconWriting = IconWriting();
+  const lan = ref(false);
 
+  const appStore = useAppStore();
+  const userStore = useUserStore();
   const { logout } = useUser();
+  const { changeLocale } = useLocale();
+  const locales = [...LOCALE_OPTIONS];
 
+  // 切换语言
+  const changeLan = () => {
+    lan.value = !lan.value;
+  };
+  // 帮助中心
+  const help = () => {
+    window.location.href = `${window.location.protocol}//${window.location.host}/vue-pro/docs/start`;
+  };
+
+  // 设置页面显示
+  const setVisible = () => {
+    appStore.updateSettings({ Settings: true });
+  };
 
   // 用户设置
   const userlist = [
-    { label: 'messageBox.logout', value: 1 },
+    { label: 'messageBox.switchRoles', value: 1 },
+    { label: 'messageBox.userCenter', value: 2 },
+    { label: 'messageBox.userSettings', value: 3 },
+    { label: 'messageBox.logout', value: 4 },
   ];
 
+  const switchRoles = async () => {
+    const res = await userStore.switchRoles();
+    
+    Modal.message({
+      message: res as string,
+      status: 'success',
+    });
+  };
 
   const switchUser = (e: number) => {
     switch (e) {
       case 1:
+        switchRoles();
+        break;
+      case 2:
+        router.push({ name: 'Info' });
+        break;
+      case 3:
+        router.push({ name: 'Setting' });
+        break;
+      case 4:
         logout();
         break;
-      
       default:
       // eslint-disable-next-line no-console
     }
@@ -187,7 +284,7 @@
 
     .trigger-user {
       position: absolute;
-      bottom: -32px;
+      bottom: -102px;
       display: none;
       width: 100px;
       margin-left: -43px;

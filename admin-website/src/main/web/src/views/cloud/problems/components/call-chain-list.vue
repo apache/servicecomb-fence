@@ -1,5 +1,5 @@
 <template>
-  <tiny-grid resizable seq-serial :data="state.mockData" @toolbar-button-click="toolbarButtonClickEvent">
+  <tiny-grid resizable seq-serial :data="state.traceData" @toolbar-button-click="toolbarButtonClickEvent">
     <template #toolbar>
       <tiny-grid-toolbar :buttons="state.toolbarButtons"> </tiny-grid-toolbar>
     </template>
@@ -11,14 +11,14 @@
           <tiny-grid-column field="name" title="name" show-overflow></tiny-grid-column>
           <tiny-grid-column field="duration" title="duration"></tiny-grid-column>
           <tiny-grid-column field="traceId" title="http.status_code">
-            <template #default="data">
+            <template>
               <div>
                 {{ data.row.tags['http.status_code'] }}
               </div>
             </template>
           </tiny-grid-column>
           <tiny-grid-column field="timestamp" title="timestamp">
-            <template #default="data">
+            <template>
               <div>
                 {{ timesHandle(data.row.timestamp) }}
               </div>
@@ -44,10 +44,9 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { Grid as TinyGrid, GridColumn as TinyGridColumn, GridToolbar as TinyGridToolbar } from '@opentiny/vue'
-import mock from './mock.json'
 
 const state = reactive({
-  mockData: mock,
+  traceData: {},
   toolbarButtons: [
     {
       code: 'clearRowExpand',
@@ -55,6 +54,7 @@ const state = reactive({
     }
   ],
 })
+
 const toolbarButtonClickEvent = ({ code, $grid }) => {
   switch (code) {
     case 'clearRowExpand': {

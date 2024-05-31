@@ -1,0 +1,31 @@
+export default {
+  'settings.title': '页面配置',
+  'settings.themeColor': '主题色',
+  'settings.content': '内容区域',
+  'settings.search': '搜索',
+  'settings.language': '语言',
+  'settings.navbar': '简约模式',
+  'settings.menuWidth': '菜单宽度 (px)',
+  'settings.navbar.alerts': '消息通知',
+  'settings.navbar.help': '帮助中心',
+  'settings.menu': '经典模式',
+  'settings.tabBar': '多页签',
+  'settings.footer': '时尚模式',
+  'settings.colorWeek': '主题配置',
+  'settings.alertContent':
+    '配置之后仅是临时生效，要想真正作用于项目，点击下方的 "复制配置" 按钮，将配置替换到 settings.json 中即可。',
+  'settings.copySettings': '复制配置',
+  'settings.copySettings.message':
+    '复制成功，请粘贴到 src/settings.json 文件中',
+  'settings.close': '关闭',
+  'settings.color.tooltip':
+    '根据主题颜色生成的 10 个梯度色（将配置复制到项目中，主题色才能对亮色 / 暗黑模式同时生效）',
+  'setting.user.set': '用户设置',
+  'setting.loginout': '登出成功',
+  'setting.copy': '复制成功',
+  'setting.input.search': '请输入关键词',
+  'setting.foot.title': 'OpenTiny 出品',
+  'setting.mode.navbar': '收起页头，页尾',
+  'setting.mode.menu': '收起菜单',
+  'setting.mode.footer': '收起页脚',
+};
