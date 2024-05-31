@@ -17,6 +17,8 @@
 ## ---------------------------------------------------------------------------
 server:
   port: 9098
+  servlet:
+    context-path: /ui/admin
 
 servicecomb:
   service:

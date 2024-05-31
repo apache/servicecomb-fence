@@ -49,6 +49,10 @@
       <artifactId>java-chassis-spring-boot-starter-standalone</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.servicecomb</groupId>
+      <artifactId>registry-local</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
