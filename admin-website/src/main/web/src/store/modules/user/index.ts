@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia';
 import {
   login as userLogin,
+  loginMail as userLoginMail,
+  getUserInfo,
+  updateUserInfo,
   LoginData,
+  LoginDataMail,
 } from '@/api/user';
-import { UserState} from './types';
+import { setToken, clearToken } from '@/utils/auth';
+import { removeRouteListener } from '@/utils/route-listener';
+import { UserState, UserInfo } from './types';
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
@@ -60,24 +66,43 @@ const useUserStore = defineStore('user', {
       this.filterType = [];
     },
 
+    // Get user's information
+    async info() {
+      const res = await getUserInfo();
+      this.setInfo(res.data);
+    },
+
+    async updateInfo(data: UserInfo) {
+      const res = await updateUserInfo(data);
+      this.setInfo(res.data);
+    },
+
     // Login
     async login(loginForm: LoginData) {
-      // eslint-disable-next-line no-useless-catch
       try {
         const res = await userLogin(loginForm);
-        const { token, userInfo } = res.data;
-      
-        this.setInfo(userInfo);
+        setToken(JSON.stringify(res));
       } catch (err) {
+        clearToken();
         throw err;
       }
     },
 
-  
+    async loginMail(loginForm: LoginDataMail) {
+      try {
+        const res = await userLoginMail(loginForm);
+        setToken(JSON.stringify(res));
+      } catch (err) {
+        clearToken();
+        throw err;
+      }
+    },
 
     // Logout
     async logout() {
       this.resetInfo();
+      clearToken();
+      removeRouteListener();
     },
   },
 });

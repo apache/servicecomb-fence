@@ -6,26 +6,39 @@
       class="login-form"
       :rules="rules"
       validate-type="text"
-      :label-align="true"
-      label-position="top"
-      label-width="100px"
+      label-width="0"
       size="medium"
     >
-      <tiny-form-item prop="mailname" label="账号：" size="medium">
+      <tiny-form-item prop="mailname" size="medium">
         <tiny-input
           v-model="loginMail.mailname"
+          :placeholder="$t('login.form.mailName.placeholder')"
         >
         </tiny-input>
       </tiny-form-item>
 
-      <tiny-form-item prop="mailpassword" label="密码：" size="medium">
+      <tiny-form-item prop="mailpassword" size="medium">
         <tiny-input
           v-model="loginMail.mailpassword"
           type="password"
           show-password
+          :placeholder="$t('login.form.mailpassword.placeholder')"
         >
         </tiny-input>
       </tiny-form-item>
+
+      <div class="login-form-options">
+        <tiny-checkbox>{{ $t('login.form.rememberPassword') }}</tiny-checkbox>
+        <div>
+          <tiny-link type="primary">
+            {{ $t('login.form.forgetPassword') }}
+          </tiny-link>
+          <tiny-link type="primary" class="divide-line">|</tiny-link>
+          <tiny-link type="primary" @click="typeChange">
+            {{ $t('login.form.registration') }}
+          </tiny-link>
+        </div>
+      </div>
 
       <tiny-form-item size="medium">
         <tiny-button
@@ -33,7 +46,7 @@
           class="login-form-btn"
           :loading="loading"
           @click="handleSubmit"
-          >登录</tiny-button
+          >{{ $t('login.form.login') }}</tiny-button
         >
       </tiny-form-item>
     </tiny-form>
@@ -41,22 +54,26 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, reactive, computed } from 'vue';
+  import { inject, ref, reactive, computed } from 'vue';
   import { useRouter } from 'vue-router';
   import {
     Form as TinyForm,
     FormItem as TinyFormItem,
     Input as TinyInput,
     Button as TinyButton,
+    Checkbox as TinyCheckbox,
+    Link as TinyLink,
     Modal,
+    Notify,
   } from '@opentiny/vue';
+  import { useI18n } from 'vue-i18n';
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
 
   const router = useRouter();
+  const { t } = useI18n();
   const { loading, setLoading } = useLoading();
   const userStore = useUserStore();
-  
   const loginFormMail = ref();
 
   const rules = computed(() => {
@@ -64,14 +81,14 @@
       mailname: [
         {
           required: true,
-          message: "账号不能为空",
+          message: t('login.form.mailName.errMsg'),
           trigger: 'change',
         },
       ],
       mailpassword: [
         {
           required: true,
-          message: "密码不能为空",
+          message: t('login.form.mailpassword.errMsg'),
           trigger: 'change',
         },
       ],
@@ -79,11 +96,16 @@
   });
 
   const loginMail = reactive({
-    mailname: 'admin@example.com',
-    mailpassword: 'admin',
+    mailname: 'admin',
+    mailpassword: 'changeMyPassword',
     rememberPassword: true,
   });
 
+  // 切换模式
+  const handle: any = inject('handle');
+  const typeChange = () => {
+    handle(true);
+  };
 
   function handleSubmit() {
     loginFormMail.value?.validate(async (valid: boolean) => {
@@ -97,9 +119,10 @@
         await userStore.login({
           username: loginMail.mailname,
           password: loginMail.mailpassword,
+          grant_type: 'password',
         });
         Modal.message({
-          message: '欢迎使用',
+          message: t('login.form.login.success'),
           status: 'success',
         });
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
@@ -109,13 +132,19 @@
             ...othersQuery,
           },
         });
-      }  finally {
+      } catch (err) {
+        Notify({
+          type: 'error',
+          title: t('login.tip.right'),
+          message: t('login.tip.mail'),
+          position: 'top-right',
+          duration: 2000,
+          customClass: 'my-custom-cls',
+        });
+      } finally {
         setLoading(false);
       }
     });
-    router.push({
-          name:  'Home',
-        });
   }
 </script>
 

@@ -1,101 +1,202 @@
 <template>
   <div class="main">
-    <div class="main-title">
-      <span></span>
-      <p>调用链展示</p>
-    </div>
-    <div class="main-content">
-      <div class="main-content-form">
-        <tiny-form label-width="100px" class="demo-form">
-          <tiny-row>
-            <tiny-col :span="6">
-              <tiny-form-item label="trace-id：" >
-                <tiny-input placeholder="请输入trace-id"></tiny-input>
-              </tiny-form-item>
-            </tiny-col>
-            <tiny-col :span="6">
-              <tiny-form-item label="时间：" >
-                <tiny-input placeholder="请输入时间"></tiny-input>
-              </tiny-form-item>
-            </tiny-col>
-          </tiny-row>
-        </tiny-form>
-      </div>
-      <div class="main-content-search">
-        <tiny-button
-          type="primary"
-          >搜索</tiny-button
-        >
-      </div>
-     
-    </div>
-     <div class="main-list">
-        <call-chain-list/>
-      </div>
+    <tiny-layout>
+      <tiny-row :flex="true" justify="center">
+        <tiny-col :span="4">
+          <div class="col">
+            <div class="img">
+              <img src="@/assets/images/home-main1.png" class="image" />
+            </div>
+            <div class="num">
+              <div class="up">
+                <span class="left">{{ $t('home.main.one') }}</span>
+                <span id="up" class="right">
+                  {{ $t('home.main.day') }}
+                  <img src="@/assets/images/home-up.png" class="image" />
+                  <span>0.88%</span>
+                </span>
+              </div>
+              <div class="down">
+                <span class="left">3.23</span>
+                <span class="right">&nbsp;/ S</span>
+              </div>
+            </div>
+          </div>
+        </tiny-col>
+        <tiny-col :span="4">
+          <div class="col">
+            <div class="img">
+              <img src="@/assets/images/home-main2.png" class="image" />
+            </div>
+            <div class="num">
+              <div class="up">
+                <span class="left">DOM Ready</span>
+                <span id="down" class="right">
+                  {{ $t('home.main.day') }}
+                  <img src="@/assets/images/home-down.png" class="image" />
+                  <span>0.88%</span>
+                </span>
+              </div>
+              <div class="down">
+                <span class="left">1.56</span>
+                <span class="right">&nbsp;/ S</span>
+              </div>
+            </div>
+          </div>
+        </tiny-col>
+        <tiny-col :span="4">
+          <div class="col">
+            <div class="img">
+              <img src="@/assets/images/home-mainup.png" class="image" />
+            </div>
+            <div class="num">
+              <div class="up">
+                <span class="left">{{ $t('home.main.up') }}</span>
+                <span id="up" class="right">
+                  {{ $t('home.main.day') }}
+                  <img src="@/assets/images/home-up.png" class="image" />
+                  <span>0.88%</span>
+                </span>
+              </div>
+              <div class="down">
+                <span class="left">3.69</span>
+                <span class="right">&nbsp;/ S</span>
+              </div>
+            </div>
+          </div>
+        </tiny-col>
+        <tiny-col :span="4">
+          <div class="col">
+            <div class="img">
+              <img src="@/assets/images/home-maindown.png" class="image" />
+            </div>
+            <div class="num">
+              <div class="up">
+                <span class="left">{{ $t('home.main.down') }}</span>
+                <span id="down" class="right">
+                  {{ $t('home.main.day') }}
+                  <img src="@/assets/images/home-down.png" class="image" />
+                  <span>0.88%</span>
+                </span>
+              </div>
+              <div class="down">
+                <span class="left">0.69</span>
+                <span class="right">&nbsp;/ S</span>
+              </div>
+            </div>
+          </div>
+        </tiny-col>
+      </tiny-row>
+    </tiny-layout>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  Form as TinyForm,
-  FormItem as TinyFormItem,
-  Input as TinyInput,
-  Button as TinyButton,
-  Row as TinyRow,
-  Col as TinyCol
-} from '@opentiny/vue';
-import callChainList from './call-chain-list.vue';
+  import {
+    Layout as TinyLayout,
+    Row as TinyRow,
+    Col as TinyCol,
+  } from '@opentiny/vue';
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .main {
+    padding: 0;
+
+    .col {
+      display: flex;
+      justify-content: space-around;
+      min-width: 396px;
+      height: 150px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px 0 rgb(64 98 225 / 20%);
+    }
+
+    .col:hover {
+      box-shadow: 0 3px 10px 0 rgb(64 98 225 / 45%);
+    }
+
+    .img {
+      display: flex;
+      align-items: center;
+    }
+
+    .num {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      #up {
+        span {
+          color: #f7961e;
+        }
+      }
+
+      #down {
+        span {
+          color: #3eb21f;
+        }
+      }
+
+      .up {
+        .left {
+          margin-left: -15%;
+          color: #35383e;
+          font-weight: 400;
+          font-size: 18px;
+          letter-spacing: 0.45px;
+          text-align: left;
+        }
+
+        .right {
+          margin-left: 15%;
+          color: #777;
+          font-size: 16px;
+          letter-spacing: 0.4px;
+          text-align: left;
+        }
+      }
+
+      .down {
+        margin-left: -30px;
+
+        .left {
+          width: 99px;
+          height: 36px;
+          color: #242424;
+          font-weight: 700;
+          font-size: 36px;
+          letter-spacing: 1.2px;
+          text-align: left;
+        }
+
+        .right {
+          width: 8px;
+          height: 14px;
+          color: #777;
+          font-weight: 400;
+          font-size: 16px;
+          letter-spacing: 0.4px;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  :deep(.tiny-col) {
+    padding: 0 11.5px;
+  }
+</style>
 
 <style lang="less" scoped>
-.main {
-  &-title {
-    span {
-      display: inline-block;
-      position: relative;
-      border-width: 0px;
-      left: 0px;
-      top: 4px;
-      width: 6px;
-      height: 20px;
-      background: inherit;
-      background-color: rgba(37, 97, 239, 1);
-      border: none;
-      border-radius: 8px;
-      -moz-box-shadow: none;
-      -webkit-box-shadow: none;
-      box-shadow: none;
+  @media (max-width: @screen-xg) {
+    .main {
+      display: none;
     }
 
-    p {
-      margin-left: 10px;
-      display: inline-block;
-      font-weight: 500;
-      font-style: normal;
-      font-size: 18px;
-      color: rgba(51, 51, 51, 0.898039215686275);
+    .col {
+      width: 300px;
     }
   }
-
-  &-content {
-    display: flex;
-    width: 70%;
-
-    &-search {
-      margin-left: 20px;
-      width: 100px;
-    }
-
-    &-form {
-      flex: 1;
-    }
-  }
-  &-list{
-    width: 95%;
-    height: 80px;
-    background-color: saddlebrown;
-  }
-}
 </style>

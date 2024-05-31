@@ -1,0 +1,17 @@
+export default {
+  'theme.title.main': '个性化配置',
+  'theme.title.first': '主题',
+  'theme.title.default': '默认主题',
+  'theme.title.honey': '蜜糖主题',
+  'theme.title.violet': '紫罗兰主题',
+  'theme.title.deepness': '深邃夜空主题',
+  'theme.title.deep': '深色主题',
+  'theme.title.light': '浅色主题',
+  'theme.title.customization': '自定义主题',
+  'theme-title-recommend': '推荐主题',
+  'theme-text-default': '科技、探索、钻研、精尖、包容',
+  'theme-text-honey': '明快、感性、温暖、积极、活力',
+  'theme-text-violet': '优雅、浪漫、温柔、神秘、高贵',
+  'theme-text-deepness': '平稳、中性、空间、力量、坚硬',
+  'theme-text-dark': '深沉、果断、勇敢、坚韧、向往',
+};

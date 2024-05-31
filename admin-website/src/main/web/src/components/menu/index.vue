@@ -13,7 +13,7 @@
         <template v-for="(item, index) in routerTitle" :key="index">
           <span v-if="slotScope.label === item.value" class="menu-title">
             <component :is="item.icon"></component>
-            <span :class="item.bold">{{ item.name }}</span>
+            <span :class="item.bold">{{ $t(item.name) }}</span>
           </span>
         </template>
       </template>
@@ -25,37 +25,176 @@
   import { computed, watch, ref, onMounted } from 'vue';
   import { RouteRecordNormalized } from 'vue-router';
   import {
+    IconDownloadCloud,
+    IconFiles,
+    IconSetting,
+    IconSuccessful,
+    IconCueL,
+    IconUser,
+    IconFiletext,
     IconApplication,
   } from '@opentiny/vue-icon';
-  import { TreeMenu as tinyTreeMenu} from '@opentiny/vue';
+  import { TreeMenu as tinyTreeMenu } from '@opentiny/vue';
   import router from '@/router';
   import { useUserStore } from '@/store';
-  
+  import { TabItem } from '@opentiny/vue';
 
   // icon图标
- 
+  const iconDownloadCloud = IconDownloadCloud();
+  const iconFiles = IconFiles();
+  const iconSetting = IconSetting();
+  const iconSuccessful = IconSuccessful();
+  const iconCueL = IconCueL();
+  const iconUser = IconUser();
+  const iconFiletext = IconFiletext();
   const iconApplication = IconApplication();
   const tree = ref();
   const expandeArr = ref();
   const routerTitle = [
     {
       value: 'Board',
-      name: '看板',
+      name: 'menu.board',
       icon: iconApplication,
       bold: 'main-title',
     },
     {
       value: 'Home',
-      name: '调用链展示',
+      name: 'menu.home',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Work',
+      name: 'menu.work',
       icon: null,
       bold: 'title',
     },
     {
       value: 'List',
-      name: '调用链列表',
+      name: 'menu.list',
+      icon: iconFiles,
+      bold: 'main-title',
+    },
+    {
+      value: 'Table',
+      name: 'menu.list.searchTable',
       icon: null,
       bold: 'title',
-    }
+    },
+    {
+      value: 'Form',
+      name: 'menu.form',
+      icon: iconSetting,
+      bold: 'main-title',
+    },
+    {
+      value: 'Base',
+      name: 'menu.form.base',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Step',
+      name: 'menu.form.step',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Profile',
+      name: 'menu.profile',
+      icon: iconFiletext,
+      bold: 'main-title',
+    },
+    {
+      value: 'Detail',
+      name: 'menu.profile.detail',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Result',
+      name: 'menu.result',
+      icon: iconSuccessful,
+      bold: 'main-title',
+    },
+    {
+      value: 'Success',
+      name: 'menu.result.success',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Error',
+      name: 'menu.result.error',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Cloud',
+      name: 'menu.cloud',
+      icon: iconDownloadCloud,
+      bold: 'main-title',
+    },
+    {
+      value: 'Hello',
+      name: 'menu.cloud.hello',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Contracts',
+      name: 'menu.cloud.contracts',
+      icon: null,
+      bold: 'title',
+    },
+   {
+      value: 'Problems',
+      name: 'menu.cloud.locate.problems',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Exception',
+      name: 'menu.exception',
+      icon: iconCueL,
+      bold: 'main-title',
+    },
+    {
+      value: '403',
+      name: 'menu.exception.403',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: '404',
+      name: 'menu.exception.404',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: '500',
+      name: 'menu.exception.500',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'User',
+      name: 'menu.user',
+      icon: iconUser,
+      bold: 'main-title',
+    },
+    {
+      value: 'Info',
+      name: 'menu.user.info',
+      icon: null,
+      bold: 'title',
+    },
+    {
+      value: 'Setting',
+      name: 'menu.user.setting',
+      icon: null,
+      bold: 'title',
+    },
   ];
 
   // 获取路由数据
@@ -116,9 +255,15 @@
     );
   });
   const currentChange = (data: any) => {
-    
     const filter = [
-      'Board'
+      'Exception',
+      'Form',
+      'Board',
+      'List',
+      'Profile',
+      'Result',
+      'User',
+      'Cloud',
     ];
     if (filter.indexOf(data.id) === -1) {
       router.push({ name: data.id });

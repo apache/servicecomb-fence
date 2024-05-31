@@ -170,7 +170,7 @@ public class ObservabilityEndpoint implements ObservabilityService {
       return null;
     }
     try {
-      LocalDateTime time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+      LocalDateTime time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
       File result = null;
       for (File target : targetFiles) {
