@@ -59,6 +59,6 @@ servicecomb:
           pattern: "/ui/(.*)"
           mappings:
             admin-website:
-              prefixSegmentCount: 2
+              prefixSegmentCount: 0
               path: "/ui/admin/.*"
               microserviceName: admin-website
