@@ -23,14 +23,10 @@ import java.util.HashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.servicecomb.core.Invocation;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-@Component
-@Order(100)
 public class ConfigBasedAuthorizationAuthFilter implements AuthFilter {
 
   @Override
@@ -57,5 +53,4 @@ public class ConfigBasedAuthorizationAuthFilter implements AuthFilter {
       }
     }
   }
-
 }
