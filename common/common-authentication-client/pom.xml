@@ -22,15 +22,31 @@
 
   <parent>
     <groupId>org.apache.servicecomb.fence</groupId>
-    <artifactId>project-fence</artifactId>
+    <artifactId>fence-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>fence-common</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>fence-common-authentication-client</artifactId>
+  <packaging>jar</packaging>
 
-  <modules>
-    <module>common-authentication</module>
-    <module>common-authentication-client</module>
-  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.servicecomb.fence</groupId>
+      <artifactId>fence-common-authentication</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-jwt</artifactId>
+    </dependency>
+  </dependencies>
+
 </project>

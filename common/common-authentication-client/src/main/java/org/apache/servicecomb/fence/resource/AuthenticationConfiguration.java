@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
@@ -54,5 +55,17 @@ public class AuthenticationConfiguration {
   @Bean
   public GrantedAuthorityDefaults grantedAuthorityDefaults() {
     return new GrantedAuthorityDefaults("");
+  }
+
+  @Bean
+  @Order(0)
+  public AuthenticationAuthFilter authenticationAuthFilter() {
+    return new AuthenticationAuthFilter();
+  }
+
+  @Bean
+  @Order(100)
+  public ConfigBasedAuthorizationAuthFilter configBasedAuthorizationAuthFilter() {
+    return new ConfigBasedAuthorizationAuthFilter();
   }
 }

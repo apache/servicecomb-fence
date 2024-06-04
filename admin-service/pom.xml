@@ -32,7 +32,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.servicecomb.fence</groupId>
-      <artifactId>fence-common</artifactId>
+      <artifactId>fence-common-authentication</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

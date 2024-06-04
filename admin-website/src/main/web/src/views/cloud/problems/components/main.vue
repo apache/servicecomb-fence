@@ -47,14 +47,14 @@
                 <tiny-grid-column field="name" title="name" show-overflow></tiny-grid-column>
                 <tiny-grid-column field="duration" title="duration"></tiny-grid-column>
                 <tiny-grid-column field="traceId" title="http.status_code">
-                  <template>
+                  <template #default="data">
                     <div>
                       {{ data.row.tags['http.status_code'] }}
                     </div>
                   </template>
                 </tiny-grid-column>
                 <tiny-grid-column field="timestamp" title="timestamp">
-                  <template>
+                  <template #default="data">
                     <div>
                       {{ timesHandle(data.row.timestamp) }}
                     </div>
@@ -137,7 +137,7 @@
 
   const state = reactive({
     filterOptions: {},
-    traceData: {},
+    traceData: [],
     toolbarButtons: [
       {
         code: 'clearRowExpand',
@@ -154,7 +154,8 @@
         timestamp: state.filterOptions.startTime,
         traceId: state.filterOptions.traceId,
       }).then(response => {
-                    state.traceData = response.data
+                    state.traceData = response
+                    console.log('', state.traceData);
                  }, error => {
                     console.log('错误', error.message)
                  });
