@@ -11,16 +11,23 @@
           <tiny-grid-column field="name" title="name" show-overflow></tiny-grid-column>
           <tiny-grid-column field="duration" title="duration"></tiny-grid-column>
           <tiny-grid-column field="traceId" title="http.status_code">
-            <template>
+            <template #default="data">
               <div>
                 {{ data.row.tags['http.status_code'] }}
               </div>
             </template>
           </tiny-grid-column>
           <tiny-grid-column field="timestamp" title="timestamp">
-            <template>
+            <template #default="data">
               <div>
-                {{ timesHandle(data.row.timestamp) }}
+                {{ timesHandle(data.row.timestamp/1000) }}
+              </div>
+            </template>
+          </tiny-grid-column>
+          <tiny-grid-column field="http.route" title="http.route">
+            <template #default="data">
+              <div>
+                {{ data.row.tags['http.route']  }}
               </div>
             </template>
           </tiny-grid-column>
@@ -42,11 +49,21 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, defineProps, computed } from 'vue';
 import { Grid as TinyGrid, GridColumn as TinyGridColumn, GridToolbar as TinyGridToolbar } from '@opentiny/vue'
+import { timesHandle } from '@/utils/time';
+
+const props = defineProps({
+    traceData: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  });
 
 const state = reactive({
-  traceData: {},
+  traceData:computed(() => props.traceData) ,
   toolbarButtons: [
     {
       code: 'clearRowExpand',
@@ -55,7 +72,8 @@ const state = reactive({
   ],
 })
 
-const toolbarButtonClickEvent = ({ code, $grid }) => {
+const toolbarButtonClickEvent = ({ code, $grid }:any) => {
+  
   switch (code) {
     case 'clearRowExpand': {
       $grid.clearRowExpand()
@@ -63,18 +81,6 @@ const toolbarButtonClickEvent = ({ code, $grid }) => {
     }
     default: break;
   }
-}
-const timesHandle = (times:number) => {
-  const date = new Date(times/1000)
-  
-  const year = date.getFullYear();
-  const month = String(date.getMonth() +1)
-  const day = String(date.getDate())
-  const hours = String(date.getHours())
-  const minutes = String(date.getMinutes())
-  const seconds = String(date.getSeconds())
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 </script>
 
