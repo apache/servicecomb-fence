@@ -55,11 +55,7 @@
   DatePicker as TinyDatePicker,
 } from '@opentiny/vue';
 import { searchTrace } from '@/api/problems';
-import { timesHandle } from '@/utils/time';
-
-
 import callChainList from './call-chain-list.vue';
-import mockstate from './mock.json'
  
   interface FilterType{
     startTime: string;
@@ -79,7 +75,7 @@ import mockstate from './mock.json'
   });
 
   const searchCallChain = () => {
-    const date = timesHandle(state.filterOptions.startTime)
+    const date = new Date(state.filterOptions.startTime).toISOString().slice(0,19)
     try {
         searchTrace({
         timestamp: date,
