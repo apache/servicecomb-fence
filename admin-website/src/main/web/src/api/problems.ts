@@ -50,7 +50,5 @@ export function searchLog(data: SearchTraceRequest) {
            },
          }).then(response => {
             return response.data
-         }, error => {
-            console.log('错误', error.message)
          })
 }
