@@ -13,7 +13,7 @@
 
 ## 项目说明
 
-项目包含了authentication-server，resource-server和edge-service 3个子项目，分工协作完成使用微服务架构的认证鉴权方案。
+项目包含了authentication-server，resource-server、edge-service、admin-service、admin-website 5个子项目，分工协作完成使用微服务架构的认证鉴权方案。
 
 * 准备
 
@@ -31,7 +31,7 @@ build_and_run.bat
 
 进入页面，使用 `admin/changeMyPassword` 登录
 ```
-http://localhost:9090/ui/login.html
+http://localhost:9090/ui/admin/
 ```
 
 * 运行测试用例
@@ -44,6 +44,12 @@ start java -jar integration-tests-0.0.1-SNAPSHOT.jar
 ```
 
 测试用例会执行十来秒钟，可以通过查看`TestCase`的各个实现类了解测试用例的详情。
+
+* 可观测能力展示
+
+登录以后， 进入 `云服务能力展示 -> 问题定位` 。 输入 `Trace-Id` 和 `大概时间` 进行查询，就能够检索到某次具体调用的调用链、关联日志，并且可以下载对应实例的日志、Metrics信息，使得问题定位变得非常方便。 
+
+> Tips: 打开浏览器调试窗口，获取API请求的Response Header。 `X-B3-Traceid:86560bc39a54d498` 为本地API请求的 `Trace-Id`。 
 
 ## 联系我们
 * [提交issues](https://issues.apache.org/jira/browse/SCB)

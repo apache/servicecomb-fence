@@ -1,0 +1,1 @@
+function r(t){let e=new Date(t);return`${e.getFullYear()}-${e.getMonth()+1}-${e.getDate()}`}function g(t){return function(e,n){let a=e[t],i=n[t];return new Date(JSON.parse(JSON.stringify(i))).getTime()-new Date(JSON.parse(JSON.stringify(a))).getTime()}}export{r as g,g as s};

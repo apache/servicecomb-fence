@@ -13,7 +13,7 @@ This project is servicecomb-java-chassis security support. The main architecture
 
 ## Project description
 
-This project contains authentication-server, resource server and edge service. 
+This project contains authentication-server, resource server, edge service, admin service and admin website. 
 
 * Prepare
 
@@ -31,7 +31,7 @@ Can open this file with a text editor to check what it is done.
 
 Using admin/changeMyPassword login to the demo pages, and try operations. 
 ```
-http://localhost:9090/ui/login.html
+http://localhost:9090/ui/admin/
 ```
 
 * Run tests
@@ -43,6 +43,13 @@ start java -jar integration-tests-0.0.1-SNAPSHOT.jar
 ```
 
 This test will token several seconds. See implementations of TestCase for testing details.
+
+* Observability
+
+After login, `Cloud Service capapi -> Problem Locating` . Input `Trace-Id` and `大概时间` can search invocation chain logs and related application logs. Using `查看日志`、`查看Metrics` able to download logs and metrics. 
+
+> Tips: Using debug window of browsers can find trace id in HTTP response headers, e.g. `X-B3-Traceid:86560bc39a54d498`.
+
 
 ## Contact Us
 * [issues](https://issues.apache.org/jira/browse/SCB)
