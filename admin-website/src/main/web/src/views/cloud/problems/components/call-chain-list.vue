@@ -1,13 +1,13 @@
 <template>
-  <tiny-grid resizable seq-serial :data="state.traceData" @toolbar-button-click="toolbarButtonClickEvent">
+  <tiny-grid ref="listRef" resizable seq-serial :data="state.traceData" >
     <template #toolbar>
-      <tiny-grid-toolbar :buttons="state.toolbarButtons"> </tiny-grid-toolbar>
+      <tiny-grid-toolbar > <span>{{listTypes === ListType.TYPE_LOGS ?'日志': '调用链'}}列表</span></tiny-grid-toolbar> 
     </template>
     <tiny-grid-column type="index" width="60"></tiny-grid-column>
     <tiny-grid-column width="60"></tiny-grid-column>
     <tiny-grid-column type="expand" title="data" width="60">
       <template #default="data">
-        <tiny-grid :data="data.row.data">
+        <tiny-grid v-if="listTypes === ListType.TYPE_LIST" :data="data.row.data">
           <tiny-grid-column field="name" title="name" show-overflow></tiny-grid-column>
           <tiny-grid-column field="duration" title="duration"></tiny-grid-column>
           <tiny-grid-column field="traceId" title="http.status_code">
@@ -32,6 +32,9 @@
             </template>
           </tiny-grid-column>
         </tiny-grid>
+        <div v-else>
+            <div v-for="(item, index) in data.row.data" :key="index" class="logs-list">{{ item }}</div>
+        </div>
       </template>
     </tiny-grid-column>
     <tiny-grid-column field="application" title="application"></tiny-grid-column>
@@ -49,9 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, defineProps, computed } from 'vue';
+import { reactive, defineProps, computed,ref } from 'vue';
 import { Grid as TinyGrid, GridColumn as TinyGridColumn, GridToolbar as TinyGridToolbar } from '@opentiny/vue'
 import { timesHandle } from '@/utils/time';
+import { ListType } from '@/types/roleType';
 
 const props = defineProps({
     traceData: {
@@ -60,28 +64,22 @@ const props = defineProps({
         return [];
       },
     },
+    listTypes: {
+      type: String,
+      default() {
+        return ListType.TYPE_LIST;
+      },
+    },
   });
-
+const listRef=ref()
 const state = reactive({
-  traceData:computed(() => props.traceData) ,
-  toolbarButtons: [
-    {
-      code: 'clearRowExpand',
-      name: '手动清空展开行状态'
-    }
-  ],
+  traceData:computed(() => props.traceData),
 })
 
-const toolbarButtonClickEvent = ({ code, $grid }:any) => {
-  
-  switch (code) {
-    case 'clearRowExpand': {
-      $grid.clearRowExpand()
-      break
-    }
-    default: break;
-  }
+const clearExpand = () => {
+  listRef.value.clearRowExpand()
 }
+defineExpose({clearExpand})
 </script>
 
 <style scoped>
@@ -91,5 +89,8 @@ const toolbarButtonClickEvent = ({ code, $grid }:any) => {
 
 .list-operation:hover {
   cursor: pointer;
+}
+.logs-list{
+  margin-bottom: 10px;
 }
 </style>

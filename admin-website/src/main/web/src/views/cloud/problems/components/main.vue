@@ -6,46 +6,45 @@
     </div>
     <div class="main-content">
       <div class="main-content-form">
-        <tiny-form
-          ref="searchForm"
-          label-width="100px"
-          class="demo-form">
+        <tiny-form 
+           ref="searchForm" 
+           :model="state.filterOptions" 
+           :validate-type="state.validType" 
+           :rules="rules"
+           label-width="100px" 
+           class="demo-form">
           <tiny-row>
             <tiny-col :span="6">
-              <tiny-form-item label="Trace-Id:" >
-                <tiny-input v-model="state.filterOptions.traceId"></tiny-input>
+              <tiny-form-item label="Trace-Id:" prop="traceId">
+                <tiny-input v-model="state.filterOptions.traceId" clearable></tiny-input>
               </tiny-form-item>
             </tiny-col>
             <tiny-col :span="6">
-              <tiny-form-item label="大概时间:" >
-                <tiny-date-picker
-                v-model="state.filterOptions.startTime"
-                  type="datetime"
-                ></tiny-date-picker>
+              <tiny-form-item label="大概时间:" prop="startTime">
+                <tiny-date-picker v-model="state.filterOptions.startTime" type="datetime"></tiny-date-picker>
               </tiny-form-item>
             </tiny-col>
           </tiny-row>
         </tiny-form>
-        
+
       </div>
       <div class="main-content-search">
-        <tiny-button
-          type="primary"
-          @click="searchCallChain"
-          >搜索</tiny-button
-        >
+        <tiny-button type="primary" @click="searchCallChain">搜索</tiny-button>
       </div>
-     
     </div>
-     <div class="main-list">
-        <call-chain-list :trace-data="state.traceData"/>
-      </div>
+    <div class="clear-expand">
+      <tiny-button @click="clearExpand">手动清空展开行状态</tiny-button>
+    </div>
+    <div class="main-list">
+      <call-chain-list ref="chainRef" :trace-data="state.traceData" />
+      <call-chain-list ref="logsRef" :trace-data="state.listData" :list-types="ListType.TYPE_LOGS" />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
-  import {
+import { reactive, ref } from 'vue';
+import {
   Form as TinyForm,
   FormItem as TinyFormItem,
   Input as TinyInput,
@@ -54,39 +53,77 @@
   Col as TinyCol,
   DatePicker as TinyDatePicker,
 } from '@opentiny/vue';
-import { searchTrace } from '@/api/problems';
+import { searchTrace, searchLog } from '@/api/problems';
+import { ListType } from '@/types/roleType';
 import callChainList from './call-chain-list.vue';
- 
-  interface FilterType{
-    startTime: string;
-    traceId: string;
+
+interface FilterType {
+  startTime: string;
+  traceId: string;
+}
+interface stateOptions {
+  filterOptions: FilterType,
+  traceData: any[],
+  listData: any[],
+  validType: string,
+};
+const rules = {
+  traceId: [
+    { required: true, message: '必填', trigger: 'blur' }],
+  startTime:
+    [{ required: true, message: '请选择时间' }]
+}
+
+const searchForm = ref()
+const chainRef = ref()
+const logsRef = ref()
+const state: stateOptions = reactive({
+  filterOptions: {
+    startTime: '',
+    traceId: '',
+  },
+  traceData: [],
+  listData: [],
+  validType: 'text',
+  rules: {
+    traceId: [
+      { required: true, message: '必填', trigger: 'blur' }],
+    startTime:
+      [{ required: true, message: '请选择时间' }]
   }
-  interface stateOptions {
-    filterOptions: FilterType,
-    traceData: any[];
-  };
+});
 
-  const state :stateOptions = reactive({
-    filterOptions : {
-      startTime:'',
-      traceId:'',
-    },
-    traceData: []
-  });
+const searchCallChain = () => {
+  searchForm.value.validate((valid: any) => {
 
-  const searchCallChain = () => {
-    const date = new Date(state.filterOptions.startTime).toISOString().slice(0,19)
-    try {
-        searchTrace({
+    if (valid) {
+      const date = new Date(state.filterOptions.startTime).toISOString().slice(0, 19)
+      // 获取调用链列表
+      searchTrace({
         timestamp: date,
         traceId: state.filterOptions.traceId,
       }).then(response => {
-                    state.traceData = response as any
-                 });
-    // eslint-disable-next-line no-empty
-    } catch (err) {
-    } 
-  };
+        state.traceData = response as any
+      });
+    // 获取日志列表
+      searchLog({
+        timestamp: date,
+        traceId: state.filterOptions.traceId,
+      }).then(response => {
+        state.listData = response as any
+      });
+    }
+  })
+
+
+
+
+};
+const clearExpand = () => {
+
+  chainRef.value.clearExpand()
+  logsRef.value.clearExpand()
+}
 </script>
 
 <style scoped lang="less"></style>
@@ -134,7 +171,8 @@ import callChainList from './call-chain-list.vue';
       flex: 1;
     }
   }
-  &-list{
+
+  &-list {
     width: 95%;
     height: 80px;
     background-color: saddlebrown;
