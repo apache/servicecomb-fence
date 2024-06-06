@@ -20,4 +20,14 @@ start java -jar resource-server-0.0.1-SNAPSHOT.jar
 
 timeout /T 3 /NOBREAK
 
+cd %HOME%\admin-service\target
+start java -jar admin-service-0.0.1-SNAPSHOT.jar
+
+timeout /T 3 /NOBREAK
+
+cd %HOME%\admin-website\target
+start java -jar admin-website-0.0.1-SNAPSHOT.jar
+
+timeout /T 3 /NOBREAK
+
 cd %HOME%

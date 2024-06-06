@@ -33,6 +33,46 @@ servicecomb:
   rest:
     address: 0.0.0.0:9090
 
+  matchGroup:
+    allOperation: |
+      matches:
+       - apiPath:
+           prefix: "/"
+  rateLimiting:
+    ## 限流器每10毫秒允许通过100个请求，如果一个请求超过1000毫秒没有获取到
+    ## 许可，将被拒绝
+    allOperation: |
+      rate: 100
+      limitRefreshPeriod: 10
+      timeoutDuration: 1000
+  retry:
+    ## 熔断或者实例不可用等场景重试一次
+    allOperation: |
+      maxAttempts: 2
+      retryOnSame: 0
+      retryOnResponseStatus: 
+         - 502
+         - 503
+      waitDuration: 1
+  instanceIsolation:
+    ## 熔断器错误率达到50%或者耗时请求达到100%，将开启。
+    ## 开启时间为5000毫秒，然后会放通10个请求。
+    allOperation: |
+      minimumNumberOfCalls: 10
+      slidingWindowSize: 20
+      slidingWindowType: COUNT_BASED
+      failureRateThreshold: 50
+      slowCallRateThreshold: 100
+      slowCallDurationThreshold: 1000
+      waitDurationInOpenState: 5000
+      permittedNumberOfCallsInHalfOpenState: 10
+  instanceBulkhead:
+    ## 隔离仓限制正在处理的请求数为20个，新来的请求等待1000毫秒没有获取到
+    ## 许可，将被拒绝。
+    allOperation: |
+      maxConcurrentCalls: 20
+      maxWaitDuration: 1000
+
   http:
     dispatcher:
       edge:

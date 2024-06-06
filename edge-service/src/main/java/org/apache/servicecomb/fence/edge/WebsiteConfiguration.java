@@ -27,13 +27,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebsiteConfiguration {
 // used to run website in nodejs or any other container not registered to zk.
-  @Bean
-  public RegistryBean thirdRegistryBean() {
-    return new RegistryBean()
-        .setAppId("scb-fence")
-        .setServiceName("admin-website")
-        .setVersion("0.0.1")
-        .setInstances(new Instances().setInstances(List.of(new Instance()
-            .setEndpoints(List.of("rest://localhost:3031")))));
-  }
+//  @Bean
+//  public RegistryBean thirdRegistryBean() {
+//    return new RegistryBean()
+//        .setAppId("scb-fence")
+//        .setServiceName("admin-website")
+//        .setVersion("0.0.1")
+//        .setInstances(new Instances().setInstances(List.of(new Instance()
+//            .setEndpoints(List.of("rest://localhost:3031")))));
+//  }
 }
