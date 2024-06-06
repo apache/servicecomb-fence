@@ -1,0 +1,13 @@
+[
+    {
+    "data": [
+    "2024-06-04-19:31:08 [ef1fde02af5faf44][INFO][group1-2-thread-1][com.zaxxer.hikari.HikariDataSource:110] HikariPool-1 - Starting...",
+    "2024-06-04-19:31:08 [ef1fde02af5faf44][INFO][group1-2-thread-1][com.zaxxer.hikari.pool.HikariPool:565] HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@32fb9a32",
+    "2024-06-04-19:31:08 [ef1fde02af5faf44][INFO][group1-2-thread-1][com.zaxxer.hikari.HikariDataSource:123] HikariPool-1 - Start completed."
+    ],
+    "application": "scb-fence",
+    "serviceName": "authentication-server",
+    "localhost": "10.37.113.232",
+    "instanceId": "f98caa59-ea04-4f91-877b-fe13ca032bed"
+    }
+    ]
