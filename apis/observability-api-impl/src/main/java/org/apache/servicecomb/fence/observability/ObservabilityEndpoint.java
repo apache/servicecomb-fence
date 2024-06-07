@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -182,7 +183,7 @@ public class ObservabilityEndpoint implements ObservabilityService {
       String fileTime = target.getName().substring(prefix.length() + 1,
           target.getName().length() - FILE_SUFFIX.length());
       LocalDateTime temp = LocalDateTime.parse(fileTime, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH"));
-      if (temp.isAfter(time)) {
+      if (temp.plus(1, ChronoUnit.HOURS).isAfter(time)) {
         return target;
       }
     }
