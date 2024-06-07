@@ -23,11 +23,11 @@ export function timesHandle(times: any, isCovert:boolean) {
   const date = new Date(times)
 
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const hours = String(date.getHours())
-  const minutes = String(date.getMinutes())
-  const seconds = String(date.getSeconds())
+  const month = date.getMonth() + 1 < 10 ? `0${String(date.getMonth() + 1)}` : `${String(date.getMonth() + 1)}`;
+  const day = date.getDate() < 10 ? `0${String(date.getDate())}` : `${String(date.getDate())}`;
+  const hours = date.getHours() < 10 ? `0${String(date.getHours())}` : `${String(date.getHours())}`;
+  const minutes = date.getMinutes() < 10 ? `0${String(date.getMinutes())}` : `${String(date.getMinutes())}`;
+  const seconds = date.getSeconds() < 10 ? `0${String(date.getSeconds())}` : `${String(date.getSeconds())}`;
 
-  return `${year}-${month}-${day}${isCovert?'T':''}${Number(hours)<10?`0${hours}`:hours}:${Number(minutes)<10?`0${minutes}`:minutes}:${Number(seconds)<10?`0${seconds}`:seconds}`
+  return `${year}-${month}-${day}${isCovert?'T':' '}${hours}:${minutes}:${seconds}`;
 }

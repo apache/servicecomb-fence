@@ -99,9 +99,10 @@ const searchCallChain = () => {
 
     if (valid) {
       const date = new Date(state.filterOptions.startTime)
+      state.filterOptions.timestamp = timesHandle(date,true);
       // 获取调用链列表
       searchTrace({
-        timestamp: timesHandle(date,true),
+        timestamp: state.filterOptions.timestamp,
         traceId: state.filterOptions.traceId,
       }).then(response => {
         state.traceData = response as any
