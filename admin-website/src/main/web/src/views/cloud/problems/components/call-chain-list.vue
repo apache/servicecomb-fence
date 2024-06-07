@@ -42,9 +42,17 @@
     <tiny-grid-column field="localhost" title="localhost"></tiny-grid-column>
     <tiny-grid-column field="serviceName" title="serviceName"></tiny-grid-column>
     <tiny-grid-column title="操作" width="150">
-      <template #default>
+      <template #default="data">
         <div>
-          <span class="list-operation">查看日志</span>&nbsp;|&nbsp;<span class="list-operation">查看Metrics</span>
+          <span class="list-operation">
+          <tiny-link type="primary"
+              href="/v1/scb/observability/downloadLog?timestamp={{state.filterOptions.timestamp}}&service-name={{serviceName}}&instanceId={{instanceId}}">
+              下载日志</tiny-link></span>
+          &nbsp;|&nbsp;
+          <span class="list-operation">
+          <tiny-link type="primary"
+              href="/v1/scb/observability/downloadMetrics?timestamp={{state.filterOptions.timestamp}}&service-name={{serviceName}}&instanceId={{instanceId}}">
+              下载Metrics</tiny-link></span>
         </div>
       </template>
     </tiny-grid-column>

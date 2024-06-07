@@ -21,9 +21,10 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,7 +37,6 @@ import org.apache.servicecomb.foundation.common.net.NetUtils;
 import org.apache.servicecomb.foundation.common.part.FilePart;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.apache.servicecomb.registry.RegistrationId;
-import org.apache.servicecomb.swagger.invocation.exception.CommonExceptionData;
 import org.apache.servicecomb.swagger.invocation.exception.InvocationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +60,6 @@ public class ObservabilityEndpoint implements ObservabilityService {
   private static final String LOG_FILE_PREFIX = "root";
 
   private static final String METRICS_FILE_PREFIX = "metrics";
-
-  private static final int ROLLING_HOUR = 3;
 
   public static final ObjectMapper OBJ_MAPPER = new ObjectMapper();
 
@@ -169,27 +167,25 @@ public class ObservabilityEndpoint implements ObservabilityService {
     if (targetFiles == null) {
       return null;
     }
-    try {
-      LocalDateTime time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME);
+    Arrays.sort(targetFiles, Comparator.comparing(File::getName));
 
-      File result = null;
-      for (File target : targetFiles) {
-        if (prefix.length() + 1 >= target.getName().length() - FILE_SUFFIX.length()) {
-          result = target;
-          continue;
-        }
-        String fileTime = target.getName().substring(prefix.length() + 1,
-            target.getName().length() - FILE_SUFFIX.length());
-        LocalDateTime temp = LocalDateTime.parse(fileTime, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH"));
-        if (temp.plus(1, ChronoUnit.HOURS).isAfter(time)
-            && temp.minus(ROLLING_HOUR - 1, ChronoUnit.HOURS).isBefore(time)) {
-          result = target;
-          break;
-        }
-      }
-      return result;
+    LocalDateTime time = LocalDateTime.now();
+    try {
+      time = LocalDateTime.parse(timestamp, DateTimeFormatter.ISO_DATE_TIME);
     } catch (DateTimeParseException e) {
-      throw new InvocationException(Status.BAD_REQUEST, new CommonExceptionData(e.getMessage()));
+      LOGGER.error("time format error, using current time. {}. ", e.getMessage());
     }
+    for (File target : targetFiles) {
+      if (prefix.length() + FILE_SUFFIX.length() + 1 >= target.getName().length()) {
+        return target;
+      }
+      String fileTime = target.getName().substring(prefix.length() + 1,
+          target.getName().length() - FILE_SUFFIX.length());
+      LocalDateTime temp = LocalDateTime.parse(fileTime, DateTimeFormatter.ofPattern("yyyy-MM-dd-HH"));
+      if (temp.isAfter(time)) {
+        return target;
+      }
+    }
+    return null;
   }
 }
