@@ -19,7 +19,7 @@ export function sortTime(property: string | number | any) {
 }
 
 // 时间处理特定格式
-export function timesHandle(times: any) {
+export function timesHandle(times: any, isCovert:boolean) {
   const date = new Date(times)
 
   const year = date.getFullYear();
@@ -29,5 +29,5 @@ export function timesHandle(times: any) {
   const minutes = String(date.getMinutes())
   const seconds = String(date.getSeconds())
 
-  return `${year}-${month}-${day} ${Number(hours)<10?`0${hours}`:hours}:${Number(minutes)<10?`0${minutes}`:minutes}:${Number(seconds)<10?`0${seconds}`:seconds}`
+  return `${year}-${month}-${day}${isCovert?'T':''}${Number(hours)<10?`0${hours}`:hours}:${Number(minutes)<10?`0${minutes}`:minutes}:${Number(seconds)<10?`0${seconds}`:seconds}`
 }

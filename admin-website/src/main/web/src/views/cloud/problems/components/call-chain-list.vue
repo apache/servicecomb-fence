@@ -20,7 +20,7 @@
           <tiny-grid-column field="timestamp" title="timestamp">
             <template #default="data">
               <div>
-                {{ timesHandle(data.row.timestamp/1000) }}
+                {{ timesHandle(data.row.timestamp/1000, false) }}
               </div>
             </template>
           </tiny-grid-column>
