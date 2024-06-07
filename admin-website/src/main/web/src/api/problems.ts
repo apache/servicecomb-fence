@@ -48,7 +48,5 @@ export function searchLog(data: SearchTraceRequest) {
                timestamp: data.timestamp,
                traceId: data.traceId
            },
-         }).then(response => {
-            return response.data
          })
 }

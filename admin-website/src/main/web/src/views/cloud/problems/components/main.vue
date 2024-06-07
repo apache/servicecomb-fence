@@ -55,6 +55,7 @@ import {
 } from '@opentiny/vue';
 import { searchTrace, searchLog } from '@/api/problems';
 import { ListType } from '@/types/roleType';
+import { timesHandle } from '@/utils/time';
 import callChainList from './call-chain-list.vue';
 
 interface FilterType {
@@ -97,17 +98,17 @@ const searchCallChain = () => {
   searchForm.value.validate((valid: any) => {
 
     if (valid) {
-      const date = new Date(state.filterOptions.startTime).toISOString().slice(0, 19)
+      const date = new Date(state.filterOptions.startTime)
       // 获取调用链列表
       searchTrace({
-        timestamp: date,
+        timestamp: timesHandle(date,true),
         traceId: state.filterOptions.traceId,
       }).then(response => {
         state.traceData = response as any
       });
     // 获取日志列表
       searchLog({
-        timestamp: date,
+        timestamp: timesHandle(date,true),
         traceId: state.filterOptions.traceId,
       }).then(response => {
         state.listData = response as any
