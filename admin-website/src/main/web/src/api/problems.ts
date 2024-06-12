@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export interface SearchTraceRequest {
   timestamp: string;
@@ -28,25 +28,48 @@ export interface SearchTraceResponse {
   serviceName: string;
   localhost: string;
   instanceId: string;
-  data: TraceItem[]
+  data: TraceItem[];
 }
 
-export function searchTrace(data: SearchTraceRequest) {
-  return axios({
-           url: '/api/admin/v1/scb/admin/observability/searchTrace',
-           params: {
-               timestamp: data.timestamp,
-               traceId: data.traceId
-           },
-         });
+export interface FilterType {
+  timestamp: string;
+  traceId: string;
 }
 
-export function searchLog(data: SearchTraceRequest) {
+export function searchTrace(data: FilterType) {
   return axios({
-           url: '/api/admin/v1/scb/admin/observability/searchLog',
-           params: {
-               timestamp: data.timestamp,
-               traceId: data.traceId
-           },
-         })
+    url: "/api/admin/v1/scb/admin/observability/searchTrace",
+    params: {
+      timestamp: data.timestamp,
+      traceId: data.traceId,
+    },
+  });
+}
+
+export function searchLog(data: FilterType) {
+  return axios({
+    url: "/api/admin/v1/scb/admin/observability/searchLog",
+    params: {
+      timestamp: data.timestamp,
+      traceId: data.traceId,
+    },
+  });
+}
+
+export interface LogType {
+  timestamp: string;
+  instanceId: string;
+  serviceName:string;
+}
+
+export function getLogs(params: LogType) {
+  // return axios.get("/v1/scb/observability/downloadLog", {params});
+  return axios({
+    url:'/v1/scb/observability/downloadLog',
+    params,
+  })
+}
+
+export function getMetrics(params: LogType) {
+  return axios.get("/v1/scb/observability/downloadMetrics", {params});
 }
