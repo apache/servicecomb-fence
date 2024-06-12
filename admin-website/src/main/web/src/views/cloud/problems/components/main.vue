@@ -36,8 +36,8 @@
       <tiny-button @click="clearExpand">手动清空展开行状态</tiny-button>
     </div>
     <div class="main-list">
-      <call-chain-list ref="chainRef" :trace-data="state.traceData" />
-      <call-chain-list ref="logsRef" :trace-data="state.listData" :list-types="ListType.TYPE_LOGS" />
+      <call-chain-list ref="chainRef" :timestamp="state.timestamp" :trace-data="state.traceData" />
+      <call-chain-list ref="logsRef" :timestamp="state.timestamp" :trace-data="state.listData" :list-types="ListType.TYPE_LOGS" />
     </div>
   </div>
 </template>
@@ -67,6 +67,7 @@ interface stateOptions {
   traceData: any[],
   listData: any[],
   validType: string,
+  timestamp:string
 };
 const rules = {
   traceId: [
@@ -83,6 +84,7 @@ const state: stateOptions = reactive({
     startTime: '',
     traceId: '',
   },
+  timestamp:'',
   traceData: [],
   listData: [],
   validType: 'text',
@@ -96,13 +98,12 @@ const state: stateOptions = reactive({
 
 const searchCallChain = () => {
   searchForm.value.validate((valid: any) => {
-
     if (valid) {
       const date = new Date(state.filterOptions.startTime)
-      state.filterOptions.timestamp = timesHandle(date,true);
+      state.timestamp = timesHandle(date,true);
       // 获取调用链列表
       searchTrace({
-        timestamp: state.filterOptions.timestamp,
+        timestamp: state.timestamp,
         traceId: state.filterOptions.traceId,
       }).then(response => {
         state.traceData = response as any
