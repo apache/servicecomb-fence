@@ -63,13 +63,13 @@ export interface LogType {
 }
 
 export function getLogs(params: LogType) {
-  // return axios.get("/v1/scb/observability/downloadLog", {params});
+  // return axios.get("/v1/scb/admin/observability/downloadLog", {params});
   return axios({
-    url:'/v1/scb/observability/downloadLog',
+    url:'/api/admin/v1/scb/observability/downloadLog',
     params,
   })
 }
 
 export function getMetrics(params: LogType) {
-  return axios.get("/v1/scb/observability/downloadMetrics", {params});
+  return axios.get("/api/admin/v1/scb/admin/observability/downloadMetrics", {params});
 }
