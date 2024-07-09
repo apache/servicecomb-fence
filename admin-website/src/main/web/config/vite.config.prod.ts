@@ -14,9 +14,13 @@ export default mergeConfig(
           manualChunks: {
             vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n'],
           },
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].js',
+          assetFileNames: 'assets/[name].[ext]'
         },
       },
       chunkSizeWarningLimit: 2000,
+      minify: false,
     },
   },
   baseConig
