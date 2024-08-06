@@ -1,13 +1,12 @@
-import { d as defineComponent, a8 as reactive, a9 as toRefs, r as ref, c as computed, u as openBlock, y as createBlock, H as withCtx, l as createVNode, W as unref, v as createElementBlock, N as renderList, M as Fragment, w as createBaseVNode, J as createTextVNode, E as toDisplayString, a0 as useI18n, j as onMounted, k as resolveComponent } from "./vue.js";
-import { I as Input, n as Layout, R as Radio, _ as _export_sfc, v as index$1, T as TINYModal, B as Button } from "./index.js";
-import { C as CollapseItem, a as Collapse } from "./index37.js";
-import { R as Row, C as Col, L as Loadings } from "./index31.js";
+import { d as defineComponent, a7 as reactive, a8 as toRefs, r as ref, c as computed, u as openBlock, y as createBlock, H as withCtx, l as createVNode, V as unref, v as createElementBlock, M as renderList, L as Fragment, w as createBaseVNode, J as createTextVNode, E as toDisplayString, $ as useI18n, j as onMounted, k as resolveComponent } from "./vue.js";
+import { I as Input, L as Layout, R as Radio, _ as _export_sfc, q as index$1, T as TINYModal, B as Button } from "./index.js";
+import { C as CollapseItem, a as Collapse } from "./index33.js";
+import { R as Row, C as Col, L as Loadings } from "./index28.js";
 import { g as getBaseData } from "./form.js";
-import { F as FormItem, a as Form } from "./index29.js";
-import { S as Select, O as Option } from "./index34.js";
+import { F as FormItem, a as Form } from "./index26.js";
+import { S as Select, O as Option } from "./index31.js";
 import "./chevron-up.js";
-import "./index30.js";
-import "./index35.js";
+import "./index27.js";
 const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   __name: "people-from",
   props: {

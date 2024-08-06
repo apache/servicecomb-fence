@@ -12,37 +12,34 @@ export default function setupPermissionGuard(router: Router) {
     const userStore = useUserStore();
     async function crossroads() {
       const Permission = usePermission();
-      if (Permission.accessRouter(to)) next();
-      else {
-        const destination = Permission.findFirstPermissionRoute(
-          appRoutes,
-          userStore.role
-        ) || {
-            name: 'notFound',
-          } || {
-            name: 'preview',
-          };
-        next(destination);
-      }
+      // TODO: check menu permissions
+//       if (Permission.accessRouter(to)) next();
+//       else {
+//         const destination = Permission.findFirstPermissionRoute(
+//           appRoutes,
+//           userStore.role
+//         ) || {
+//             name: 'notFound',
+//           } || {
+//             name: 'preview',
+//           };
+//         next(destination);
+//       }
+      next();
       NProgress.done();
     }
     if (isLogin()) {
-      if (userStore.role) {
+      try {
         crossroads();
-      } else {
-        try {
-          await userStore.info();
-          crossroads();
-        } catch (error) {
-          next({
-            name: 'login',
-            query: {
-              redirect: to.name,
-              ...to.query,
-            } as LocationQueryRaw,
-          });
-          NProgress.done();
-        }
+      } catch (error) {
+        next({
+          name: 'login',
+          query: {
+            redirect: to.name,
+            ...to.query,
+          } as LocationQueryRaw,
+        });
+        NProgress.done();
       }
     } else {
       if (to.name === 'login' || to.name === 'preview') {

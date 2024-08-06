@@ -1,15 +1,14 @@
-import { d as defineComponent, r as ref, a8 as reactive, c as computed, u as openBlock, y as createBlock, H as withCtx, W as unref, l as createVNode, w as createBaseVNode, E as toDisplayString, v as createElementBlock, M as Fragment, N as renderList, J as createTextVNode, Z as pushScopeId, _ as popScopeId, k as resolveComponent } from "./vue.js";
-import { q as axios, t as ListType, _ as _export_sfc, I as Input, B as Button } from "./index.js";
-import { a as Column, G as Grid, R as Row, C as Col } from "./index31.js";
-import { D as DatePicker } from "./index36.js";
-import { F as FormItem, a as Form } from "./index29.js";
+import { d as defineComponent, r as ref, a7 as reactive, c as computed, u as openBlock, y as createBlock, H as withCtx, V as unref, l as createVNode, w as createBaseVNode, E as toDisplayString, v as createElementBlock, L as Fragment, M as renderList, J as createTextVNode, Y as pushScopeId, Z as popScopeId, k as resolveComponent } from "./vue.js";
+import { m as axios, n as ListType, _ as _export_sfc, I as Input, B as Button } from "./index.js";
+import { a as Column, G as Grid, R as Row, C as Col } from "./index28.js";
+import { D as DatePicker } from "./index32.js";
+import { F as FormItem, a as Form } from "./index26.js";
 import { t as timesHandle } from "./time.js";
-import "./index32.js";
-import { G as GridToolbar } from "./index33.js";
+import "./index29.js";
+import { G as GridToolbar } from "./index30.js";
 import "./chevron-up.js";
-import "./index30.js";
-import "./index35.js";
-import "./index34.js";
+import "./index27.js";
+import "./index31.js";
 import "./warning-triangle.js";
 function searchTrace(data) {
   return axios({
@@ -31,12 +30,15 @@ function searchLog(data) {
 }
 function getLogs(params) {
   return axios({
-    url: "/api/admin/v1/scb/observability/downloadLog",
+    url: "/api/admin/v1/scb/admin/observability/downloadLog",
     params
   });
 }
 function getMetrics(params) {
-  return axios.get("/api/admin/v1/scb/admin/observability/downloadMetrics", { params });
+  return axios({
+    url: "/api/admin/v1/scb/admin/observability/downloadMetrics",
+    params
+  });
 }
 const _hoisted_1$2 = { key: 1 };
 const _hoisted_2$2 = ["onClick"];

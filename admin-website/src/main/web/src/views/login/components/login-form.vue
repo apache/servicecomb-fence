@@ -3,10 +3,7 @@
     <div class="login-form-language">
       <LoginLang />
     </div>
-    <div v-if="display">
-      <LoginRegister />
-    </div>
-    <div v-if="!display">
+    <div>
       <LoginMail />
     </div>
   </div>
@@ -15,10 +12,7 @@
 <script lang="ts" setup>
   import { provide, ref } from 'vue';
   import { Tabs as TinyTabs, TabItem as TinyTabItem } from '@opentiny/vue';
-  import LoginInfo from './login-info.vue';
   import LoginMail from './login-mail.vue';
-  import LoginRegister from './login-register.vue';
-  import LoginLang from './login-lang.vue';
 
   // 登录
   const activeName = ref('first');
