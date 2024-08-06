@@ -1,56 +1,67 @@
-[data-v-0e48261b] .tiny-row {
-  margin-bottom: 15px;
-}
-.container-set[data-v-1616658a] {
+.container[data-v-ca919170] {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 98%;
   height: inherit;
   margin: 0 auto;
-}
-.container-set .general-card[data-v-1616658a] {
-  height: 100%;
-  padding: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  border-radius: 10px;
-}
-.container-set .general-card .general-top[data-v-1616658a] {
-  display: flex;
-  justify-content: space-around;
-  min-height: 202px;
-  margin: 0 -12px;
   overflow: hidden;
-  background-image: url('/ui/admin/assets/step-head.png');
-  background-size: 100% 100%;
 }
-.container-set .general-card .general-contain[data-v-1616658a] {
+.container[data-v-ca919170] .tiny-steps {
+  margin-top: 10px;
+}
+.content[data-v-ca919170] {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 75%;
-  padding: 30px 0 10px 20px;
-  color: black;
-  background-color: #fff;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
   border-radius: 10px;
 }
-.container-set .general-card .general-contain .tiny-layout[data-v-1616658a] {
-  width: 80%;
+.content-main[data-v-ca919170] {
+  padding: 75px 0;
 }
-.container-set .general-card .general-btn[data-v-1616658a] {
-  position: relative;
-  left: 160px;
+.result-alert[data-v-ca919170] {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  color: black;
+  text-align: center;
 }
-.container-set .general-card .general-btn button[data-v-1616658a] {
-  width: 100px;
+.result-alert img[data-v-ca919170] {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+}
+.result-alert div[data-v-ca919170]:first-child {
+  padding-top: 50px;
+  font-weight: 900;
+  font-size: 20px;
+}
+.result-alert div[data-v-ca919170]:last-child {
+  padding-top: 20px;
+  font-size: 14px;
+}
+.result-line[data-v-ca919170] {
+  width: 75%;
+  height: 200px;
+  margin: 0 auto;
+  margin-top: 50px;
+  color: black;
+  background-color: #f5f6f7;
+}
+.result-line div[data-v-ca919170]:first-child {
+  padding: 20px;
+}
+.result-btn[data-v-ca919170] {
+  display: flex;
+  justify-content: center;
+  padding: 50px 0;
+}
+.result-btn button[data-v-ca919170] {
+  width: 120px;
   height: 36px;
   border-radius: 4px;
-}
-.container-set .general-card .margin-bottom[data-v-1616658a] {
-  margin: 15px 0;
-}
-.container-set .general-card .col[data-v-1616658a] {
-  padding: 4px 0;
-  color: #fff;
 }

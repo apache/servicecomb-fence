@@ -1,12 +1,11 @@
-import { d as defineComponent, u as openBlock, v as createElementBlock, l as createVNode, H as withCtx, W as unref, w as createBaseVNode, J as createTextVNode, E as toDisplayString, Z as pushScopeId, _ as popScopeId, a8 as reactive, j as onMounted, k as resolveComponent, M as Fragment, N as renderList, y as createBlock } from "./vue.js";
-import { R as Row, C as Col, a as Column, G as Grid, L as Loadings } from "./index31.js";
-import { C as CollapseItem, a as Collapse } from "./index37.js";
-import { S as Select, O as Option } from "./index34.js";
-import { q as axios, n as Layout, _ as _export_sfc } from "./index.js";
-import "./index32.js";
+import { d as defineComponent, u as openBlock, v as createElementBlock, l as createVNode, H as withCtx, V as unref, w as createBaseVNode, J as createTextVNode, E as toDisplayString, Y as pushScopeId, Z as popScopeId, a7 as reactive, j as onMounted, k as resolveComponent, L as Fragment, M as renderList, y as createBlock } from "./vue.js";
+import { R as Row, C as Col, a as Column, G as Grid, L as Loadings } from "./index28.js";
+import { C as CollapseItem, a as Collapse } from "./index33.js";
+import { S as Select, O as Option } from "./index31.js";
+import { m as axios, L as Layout, _ as _export_sfc } from "./index.js";
+import "./index29.js";
 import "./chevron-up.js";
-import "./index30.js";
-import "./index35.js";
+import "./index27.js";
 function getDetailData() {
   return axios.get("/api/detail/getdata");
 }

@@ -1,388 +1,213 @@
-import { d as defineComponent, a8 as reactive, r as ref, a0 as useI18n, c as computed, u as openBlock, y as createBlock, H as withCtx, W as unref, l as createVNode, v as createElementBlock, N as renderList, M as Fragment, k as resolveComponent, w as createBaseVNode, J as createTextVNode, E as toDisplayString } from "./vue.js";
-import { I as Input, n as Layout, T as TINYModal, _ as _export_sfc, u as useUserStore, B as Button } from "./index.js";
-import { g as getSimpleDate } from "./time.js";
-import { h as headtop } from "./head.js";
-import { R as Row, C as Col } from "./index31.js";
-import { D as DatePicker } from "./index36.js";
-import { F as FormItem, a as Form } from "./index29.js";
-import { S as Select, O as Option } from "./index34.js";
+import { d as defineComponent, $ as useI18n, a7 as reactive, u as openBlock, v as createElementBlock, w as createBaseVNode, l as createVNode, H as withCtx, V as unref, E as toDisplayString, J as createTextVNode, Y as pushScopeId, Z as popScopeId } from "./vue.js";
+import { _ as _imports_0, a as _imports_1, b as _imports_2, c as _imports_3 } from "./home-down.js";
+import { P as Pager, R as Row, C as Col, a as Column, G as Grid } from "./index28.js";
+import "./index29.js";
+import { L as Layout, _ as _export_sfc } from "./index.js";
 import "./chevron-up.js";
-import "./index30.js";
-import "./index35.js";
-const _sfc_main$1 = /* @__PURE__ */ defineComponent({
-  __name: "set-from",
-  setup(__props, { expose: __expose }) {
-    const projectData = [
-      {
-        value: "1",
-        label: "social recruitment"
-      },
-      {
-        value: "2",
-        label: "scholl recruitment"
-      },
-      {
-        value: "3",
-        label: "Job transfer"
-      }
-    ];
-    const state = reactive({
-      filterOptions: {},
-      department: "",
-      position: [],
-      type: [],
-      date: [],
-      during: "",
-      startTime: "",
-      endTime: ""
-    });
-    const setFormRef = ref();
-    const { t } = useI18n();
-    const rulesType = {
-      required: true,
-      trigger: "blur"
-    };
-    const rulesSelect = {
-      required: true,
-      message: "必选",
-      trigger: "blur"
-    };
-    const rules = computed(() => {
-      return {
-        department: [rulesType],
-        position: [rulesType],
-        type: [rulesSelect],
-        date: [rulesType],
-        during: [rulesType],
-        startTime: [rulesType],
-        endTime: [rulesType]
-      };
-    });
-    const handleBlur = () => {
-      var _a, _b;
-      const start = (_a = state.filterOptions.startTime) == null ? void 0 : _a.getTime();
-      const end = (_b = state.filterOptions.endTime) == null ? void 0 : _b.getTime();
-      if (end < start) {
-        state.filterOptions.endTime = "";
-        TINYModal.message({
-          message: t("userInfo.time.message"),
-          status: "error"
-        });
-      }
-    };
-    const setFormValid = () => {
-      let setValidate = false;
-      setFormRef.value.validate((valid) => {
-        setValidate = valid;
-      });
-      return setValidate;
-    };
-    const setReset = () => {
-      state.filterOptions = {};
-    };
-    const setData = () => {
-      return state;
-    };
-    __expose({
-      setData,
-      setFormValid,
-      setReset
-    });
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(unref(Layout), null, {
-        default: withCtx(() => [
-          createVNode(unref(Form), {
-            ref_key: "setFormRef",
-            ref: setFormRef,
-            model: state.filterOptions,
-            rules: rules.value,
-            "label-width": "150px",
-            "label-align": true,
-            "label-position": "left",
-            size: "small"
-          }, {
-            default: withCtx(() => [
-              createVNode(unref(Row), {
-                flex: true,
-                justify: "left"
-              }, {
-                default: withCtx(() => [
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.department"),
-                        prop: "department"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(Input), {
-                            modelValue: state.filterOptions.department,
-                            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => state.filterOptions.department = $event)
-                          }, null, 8, ["modelValue"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.position"),
-                        prop: "position"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(Input), {
-                            modelValue: state.filterOptions.position,
-                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => state.filterOptions.position = $event)
-                          }, null, 8, ["modelValue"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Row), {
-                flex: true,
-                justify: "left"
-              }, {
-                default: withCtx(() => [
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.type"),
-                        prop: "type"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(Select), {
-                            modelValue: state.filterOptions.type,
-                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => state.filterOptions.type = $event),
-                            placeholder: _ctx.$t("baseForm.form.label.placeholder")
-                          }, {
-                            default: withCtx(() => [
-                              (openBlock(true), createElementBlock(Fragment, null, renderList(projectData, (item) => {
-                                return openBlock(), createBlock(unref(Option), {
-                                  key: item.value,
-                                  label: _ctx.$t(item.label),
-                                  value: item.label
-                                }, null, 8, ["label", "value"]);
-                              }), 128))
-                            ]),
-                            _: 1
-                          }, 8, ["modelValue", "placeholder"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.date"),
-                        prop: "date"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(DatePicker), {
-                            modelValue: state.filterOptions.date,
-                            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => state.filterOptions.date = $event),
-                            "unlink-panels": "",
-                            type: "daterange",
-                            "range-separator": "-",
-                            "start-placeholder": _ctx.$t("userSetting.first"),
-                            "end-placeholder": _ctx.$t("userSetting.last")
-                          }, null, 8, ["modelValue", "start-placeholder", "end-placeholder"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Row), {
-                flex: true,
-                justify: "left"
-              }, {
-                default: withCtx(() => [
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.during"),
-                        prop: "during"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(Input), {
-                            modelValue: state.filterOptions.during,
-                            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => state.filterOptions.during = $event)
-                          }, null, 8, ["modelValue"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.startTime"),
-                        prop: "startTime"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(DatePicker), {
-                            modelValue: state.filterOptions.startTime,
-                            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => state.filterOptions.startTime = $event),
-                            onBlur: handleBlur
-                          }, null, 8, ["modelValue"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Row), {
-                flex: true,
-                justify: "left"
-              }, {
-                default: withCtx(() => [
-                  createVNode(unref(Col), {
-                    span: 5,
-                    "label-width": "100px"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(FormItem), {
-                        label: _ctx.$t("userSetting.endTime"),
-                        prop: "endTime"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(DatePicker), {
-                            modelValue: state.filterOptions.endTime,
-                            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => state.filterOptions.endTime = $event),
-                            onBlur: handleBlur
-                          }, null, 8, ["modelValue"])
-                        ]),
-                        _: 1
-                      }, 8, ["label"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }, 8, ["model", "rules"])
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const setFrom_vue_vue_type_style_index_0_scoped_0e48261b_lang = "";
-const setFrom = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-0e48261b"]]);
-const _hoisted_1 = { class: "container-set" };
-const _hoisted_2 = { class: "general-card" };
-const _hoisted_3 = { class: "general-top" };
-const _hoisted_4 = { class: "general-contain" };
-const _hoisted_5 = { class: "general-btn" };
+import "./index27.js";
+const _withScopeId = (n) => (pushScopeId("data-v-b51475b6"), n = n(), popScopeId(), n);
+const _hoisted_1 = { class: "preview-main" };
+const _hoisted_2 = { class: "preview-card" };
+const _hoisted_3 = { class: "col" };
+const _hoisted_4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "img" }, [
+  /* @__PURE__ */ createBaseVNode("img", {
+    src: _imports_0,
+    class: "image"
+  })
+], -1));
+const _hoisted_5 = { class: "num" };
+const _hoisted_6 = { class: "up" };
+const _hoisted_7 = { class: "left" };
+const _hoisted_8 = {
+  id: "up",
+  class: "right"
+};
+const _hoisted_9 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
+  src: _imports_1,
+  class: "image"
+}, null, -1));
+const _hoisted_10 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("span", null, "0.88%", -1));
+const _hoisted_11 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "down" }, [
+  /* @__PURE__ */ createBaseVNode("span", { class: "left" }, "3.23"),
+  /* @__PURE__ */ createBaseVNode("span", { class: "right" }, "/ s")
+], -1));
+const _hoisted_12 = { class: "col" };
+const _hoisted_13 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "img" }, [
+  /* @__PURE__ */ createBaseVNode("img", {
+    src: _imports_2,
+    class: "image"
+  })
+], -1));
+const _hoisted_14 = { class: "num" };
+const _hoisted_15 = { class: "up" };
+const _hoisted_16 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("span", { class: "left" }, "DOM Ready", -1));
+const _hoisted_17 = {
+  id: "down",
+  class: "right"
+};
+const _hoisted_18 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("img", {
+  src: _imports_3,
+  class: "image"
+}, null, -1));
+const _hoisted_19 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("span", null, "0.88%", -1));
+const _hoisted_20 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "down" }, [
+  /* @__PURE__ */ createBaseVNode("span", { class: "left" }, "1.56"),
+  /* @__PURE__ */ createBaseVNode("span", { class: "right" }, "/ s")
+], -1));
+const _hoisted_21 = { class: "preview-table" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "index",
   setup(__props) {
     const { t } = useI18n();
-    const setFormRef = ref();
-    const userStore = useUserStore();
-    function handleFormReset() {
-      setFormRef.value.setReset();
+    const tableData = [
+      {
+        id: "1",
+        space: "4G",
+        pv: "1767(97.77%)",
+        play: "0.44s"
+      },
+      {
+        id: "2",
+        space: "2G",
+        pv: "22(1.77%)",
+        play: "0.43s"
+      },
+      {
+        id: "3",
+        space: t("home.round.unknow"),
+        pv: "32(1.77%)",
+        play: "0.44s"
+      },
+      {
+        id: "4",
+        space: t("home.round.unknow"),
+        pv: "32(1.77%)",
+        play: "0.44s"
+      }
+    ];
+    const pagerConfig = reactive({
+      component: Pager,
+      attrs: {
+        currentPage: 1,
+        pageSize: 5,
+        pageSizes: [5, 10],
+        total: 0,
+        layout: "total, prev, pager, next, jumper, sizes"
+      }
+    });
+    async function fetchData(params = {
+      pageIndex: 1,
+      pageSize: 10
+    }) {
+      const total = tableData.length;
+      return {
+        result: tableData,
+        page: { total }
+      };
     }
-    async function handleSubmit() {
-      let data = setFormRef.value.setData();
-      if (setFormRef.value.setFormValid()) {
-        let newTemp = {
-          department: data.filterOptions.department,
-          job: data.filterOptions.position,
-          employeeType: data.filterOptions.type,
-          probationStart: getSimpleDate(data.filterOptions.date[0]),
-          probationEnd: getSimpleDate(data.filterOptions.date[1]),
-          probationDuration: data.filterOptions.during,
-          protocolStart: getSimpleDate(data.filterOptions.startTime),
-          protocolEnd: getSimpleDate(data.filterOptions.endTime)
-        };
-        await userStore.updateInfo(newTemp);
-        TINYModal.message({
-          message: t("baseForm.form.submit.success"),
-          status: "success"
-        });
-        handleFormReset();
-      } else {
-        TINYModal.message({
-          message: t("baseForm.form.submit.error"),
-          status: "error"
+    const fetchDataOption = reactive({
+      api: ({ page }) => {
+        const { currentPage, pageSize } = page;
+        return fetchData({
+          pageIndex: currentPage,
+          pageSize
         });
       }
-    }
+    });
     return (_ctx, _cache) => {
-      const _component_Breadcrumb = resolveComponent("Breadcrumb");
       return openBlock(), createElementBlock("div", _hoisted_1, [
-        createVNode(_component_Breadcrumb, { items: ["menu.user", "menu.user.setting"] }),
         createBaseVNode("div", _hoisted_2, [
-          createBaseVNode("div", _hoisted_3, [
-            createVNode(headtop)
-          ]),
-          createBaseVNode("div", _hoisted_4, [
-            createVNode(setFrom, {
-              ref_key: "setFormRef",
-              ref: setFormRef
-            }, null, 512),
-            createBaseVNode("div", _hoisted_5, [
-              createVNode(unref(Button), {
-                type: "primary",
-                "native-type": "submit",
-                onClick: handleSubmit
-              }, {
+          createVNode(unref(Layout), null, {
+            default: withCtx(() => [
+              createVNode(unref(Row), { flex: true }, {
                 default: withCtx(() => [
-                  createTextVNode(toDisplayString(_ctx.$t("userSetting.save")), 1)
+                  createVNode(unref(Col), { span: 6 }, {
+                    default: withCtx(() => [
+                      createBaseVNode("div", _hoisted_3, [
+                        _hoisted_4,
+                        createBaseVNode("div", _hoisted_5, [
+                          createBaseVNode("div", _hoisted_6, [
+                            createBaseVNode("span", _hoisted_7, toDisplayString(_ctx.$t("home.main.one")), 1),
+                            createBaseVNode("span", _hoisted_8, [
+                              createTextVNode(toDisplayString(_ctx.$t("home.main.day")) + " ", 1),
+                              _hoisted_9,
+                              _hoisted_10
+                            ])
+                          ]),
+                          _hoisted_11
+                        ])
+                      ])
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(unref(Col), { span: 6 }, {
+                    default: withCtx(() => [
+                      createBaseVNode("div", _hoisted_12, [
+                        _hoisted_13,
+                        createBaseVNode("div", _hoisted_14, [
+                          createBaseVNode("div", _hoisted_15, [
+                            _hoisted_16,
+                            createBaseVNode("span", _hoisted_17, [
+                              createTextVNode(toDisplayString(_ctx.$t("home.main.day")) + " ", 1),
+                              _hoisted_18,
+                              _hoisted_19
+                            ])
+                          ]),
+                          _hoisted_20
+                        ])
+                      ])
+                    ]),
+                    _: 1
+                  })
                 ]),
                 _: 1
               }),
-              createVNode(unref(Button), { onClick: handleFormReset }, {
-                default: withCtx(() => [
-                  createTextVNode(toDisplayString(_ctx.$t("userSetting.cancel")), 1)
-                ]),
-                _: 1
+              createVNode(unref(Row), {
+                flex: true,
+                justify: "center"
               })
-            ])
-          ])
+            ]),
+            _: 1
+          })
+        ]),
+        createBaseVNode("div", _hoisted_21, [
+          createVNode(unref(Grid), {
+            ref: "grid",
+            "fetch-data": fetchDataOption,
+            pager: pagerConfig
+          }, {
+            default: withCtx(() => [
+              createVNode(unref(Column), {
+                field: "id",
+                title: _ctx.$t("home.roundtable.index"),
+                width: "160"
+              }, null, 8, ["title"]),
+              createVNode(unref(Column), {
+                field: "space",
+                title: _ctx.$t("home.roundtable.space"),
+                width: "180"
+              }, null, 8, ["title"]),
+              createVNode(unref(Column), {
+                field: "pv",
+                title: _ctx.$t("home.roundtable.pv"),
+                width: "180"
+              }, null, 8, ["title"]),
+              createVNode(unref(Column), {
+                field: "play",
+                title: _ctx.$t("home.roundtable.play"),
+                width: "200"
+              }, null, 8, ["title"])
+            ]),
+            _: 1
+          }, 8, ["fetch-data", "pager"])
         ])
       ]);
     };
   }
 });
-const index_vue_vue_type_style_index_0_scoped_1616658a_lang = "";
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-1616658a"]]);
+const index_vue_vue_type_style_index_0_scoped_b51475b6_lang = "";
+const index_vue_vue_type_style_index_1_scoped_b51475b6_lang = "";
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b51475b6"]]);
 export {
   index as default
 };

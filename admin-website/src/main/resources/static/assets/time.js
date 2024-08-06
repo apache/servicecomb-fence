@@ -1,7 +1,3 @@
-function getSimpleDate(standardTime) {
-  let d = new Date(standardTime);
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-}
 function sortTime(property) {
   return function(a, b) {
     let value1 = a[property];
@@ -20,7 +16,6 @@ function timesHandle(times, isCovert) {
   return `${year}-${month}-${day}${isCovert ? "T" : " "}${hours}:${minutes}:${seconds}`;
 }
 export {
-  getSimpleDate as g,
   sortTime as s,
   timesHandle as t
 };

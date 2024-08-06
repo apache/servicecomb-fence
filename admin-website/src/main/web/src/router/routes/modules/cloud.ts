@@ -10,7 +10,7 @@ export default {
     locale: 'menu.cloud',
     requiresAuth: true,
     order: 8,
-    roles: [RoleType.admin, RoleType.user],
+    roles: [],
   },
   children: [
     {
@@ -46,7 +46,7 @@ export default {
       meta: {
         locale: 'menu.cloud.locate.problems',
         requiresAuth: true,
-        roles: [RoleType.admin, RoleType.user],
+        roles: [],
       },
     },
   ],

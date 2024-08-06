@@ -49,16 +49,6 @@
           $t('login.form.change')
         }}</tiny-link>
       </div>
-
-      <tiny-form-item size="medium">
-        <tiny-button
-          type="primary"
-          class="login-form-btn"
-          :loading="loading"
-          @click="handleSubmit"
-          >{{ $t('login.form.register') }}</tiny-button
-        >
-      </tiny-form-item>
     </tiny-form>
   </div>
 </template>
@@ -160,29 +150,6 @@
       ],
     };
   });
-
-  // 注册提交
-  function handleSubmit() {
-    ruleForm.value.validate(async (e: any) => {
-      if (e) {
-        let data: any = reactive({
-          username: createData.username,
-          password: createData.password,
-        });
-        await registerUser(data);
-        Modal.message({
-          message: t('login.form.registerPass'),
-          status: 'success',
-        });
-        handle(false);
-      } else {
-        Modal.message({
-          message: t('login.form.registerError'),
-          status: 'warning',
-        });
-      }
-    });
-  }
 </script>
 
 <style lang="less" scoped>

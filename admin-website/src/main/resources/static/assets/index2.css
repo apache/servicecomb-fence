@@ -33,101 +33,36 @@
     width: 240px;
 }
 }
-.login-register-container[data-v-99554533] {
-  margin-top: -6%;
-  margin-left: 6%;
-}
-.login-register-container .tiny-form-item[data-v-99554533] {
-  margin-bottom: 20px;
-}
-.login-register-container-container[data-v-99554533] {
-  width: 320px;
-}
-.login-register-container .login-form-options[data-v-99554533] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  margin-left: 65%;
-}
-.login-register-container .login-form-btn[data-v-99554533] {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-}
-@media (max-width: 360px) {
-.login-register-container[data-v-99554533] {
-    margin-top: -10%;
-}
-.login-register-container .tiny-form-item[data-v-99554533] {
-    margin-bottom: 5px;
-}
-.login-register-container .login-form-options[data-v-99554533] {
-    margin-bottom: 10px;
-    margin-left: 50%;
-}
-}
-@media (max-height: 1208px) {
-.login-register-container[data-v-99554533] {
-    margin-top: -15%;
-}
-}
-.login-lan-drop[data-v-ea2ebbb9] {
-  margin-left: -36%;
-  background: #fff;
-  border: 1px solid #ccc;
-}
-.login-lan-drop li[data-v-ea2ebbb9] {
-  display: block;
-  padding: 6px;
-  text-align: left;
-  list-style-type: none;
-  box-shadow: 0 0 2px 2px var(--ti-common-color-bg-normal);
-  cursor: pointer;
-}
-.login-lan-drop li[data-v-ea2ebbb9]:hover {
-  color: #2f5bea;
-  background-color: #f5f6f7;
-}
-span[data-v-ea2ebbb9] {
-  padding-left: 5px;
-  font-size: 20px;
-}
-@media (max-width: 360px) {
-.login-lan-drop li[data-v-ea2ebbb9] {
-    padding: 2px;
-}
-}
-.login-form-container[data-v-19097b9e] {
+.login-form-container[data-v-74841660] {
   margin-top: 5%;
 }
-.login-form-language[data-v-19097b9e] {
+.login-form-language[data-v-74841660] {
   position: absolute;
   top: 10%;
   left: 93%;
 }
-[data-v-19097b9e] .tiny-tabs__content {
+[data-v-74841660] .tiny-tabs__content {
   margin-left: -6%;
 }
-[data-v-19097b9e] .tiny-tabs__nav.is-show-active-bar .tiny-tabs__item {
+[data-v-74841660] .tiny-tabs__nav.is-show-active-bar .tiny-tabs__item {
   margin-right: 0;
 }
 @media (max-width: 992px) {
-.login-form-language[data-v-19097b9e] {
+.login-form-language[data-v-74841660] {
     position: absolute;
     top: 10%;
     left: 90%;
 }
 }
 @media (max-width: 360px) {
-.login-form-language[data-v-19097b9e] {
+.login-form-language[data-v-74841660] {
     position: absolute;
     top: 1%;
     left: 72%;
 }
 }
 @media (min-width: 768px) {
-.login-form-language[data-v-19097b9e] {
+.login-form-language[data-v-74841660] {
     position: absolute;
     top: 3%;
     left: 86%;

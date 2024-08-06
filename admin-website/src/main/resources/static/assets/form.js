@@ -1,4 +1,4 @@
-import { q as axios } from "./index.js";
+import { m as axios } from "./index.js";
 function getBaseData() {
   return axios.get("/api/base/getdata");
 }
