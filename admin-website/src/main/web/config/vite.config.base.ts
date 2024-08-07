@@ -4,8 +4,6 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import svgLoader from 'vite-svg-loader';
 
-const useMock = !! process.env.VITE_USE_MOCK
-
 const config = {
   plugins: [
     vue(),
