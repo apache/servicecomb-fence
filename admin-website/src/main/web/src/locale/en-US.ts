@@ -20,7 +20,7 @@ import localeUserSetting from '@/views/user/setting/locale/en-US';
 
 import localekanban from '@/views/board/locale/en-US';
 
-import localeContracts from '@/views/cloud/contracts/locale/en-US';
+import localeProblems from '@/views/cloud/problems/locale/en-US';
 
 import localeSettings from './en-US/settings';
 
@@ -60,6 +60,6 @@ export default {
   ...localeUserSetting,
   ...localeDetailForm,
   ...localekanban,
-  ...localeContracts,
+  ...localeProblems,
   ...localeHttpError,
 };
