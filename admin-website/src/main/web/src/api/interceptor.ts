@@ -10,21 +10,15 @@ export interface HttpResponse<T = unknown> {
   data: T;
 }
 
-const { VITE_API_BASE_URL, VITE_BASE_API, VITE_MOCK_IGNORE } =
+const { VITE_API_BASE_URL } =
   import.meta.env || {};
 
 if (VITE_API_BASE_URL) {
   axios.defaults.baseURL = VITE_API_BASE_URL;
 }
 
-const ignoreMockApiList = VITE_MOCK_IGNORE?.split(',') || [];
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const isProxy = ignoreMockApiList.includes(config.url);
-    if (isProxy) {
-      config.url = config.url?.replace(VITE_BASE_API, '/api/v1');
-    }
-
     const token = getToken();
     if (token) {
       if (!config.headers) {
