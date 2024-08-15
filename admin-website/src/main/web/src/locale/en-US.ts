@@ -1,11 +1,6 @@
 import localeLogin from '@/views/login/locale/en-US';
 import localeTheme from '@/components/theme/locale/en-US';
 
-import localeDetailForm from '@/views/profile/detail/locale/en-US';
-
-import localeSuccess from '@/views/result/success/locale/en-US';
-import localeError from '@/views/result/error/locale/en-US';
-
 import localeUserInfo from '@/views/user/info/locale/en-US';
 import localeUserSetting from '@/views/user/setting/locale/en-US';
 
@@ -39,11 +34,8 @@ export default {
   ...localeTheme,
   ...localeSettings,
   ...localeLogin,
-  ...localeSuccess,
-  ...localeError,
   ...localeUserInfo,
   ...localeUserSetting,
-  ...localeDetailForm,
   ...localekanban,
   ...localeProblems,
   ...localeHttpError,
