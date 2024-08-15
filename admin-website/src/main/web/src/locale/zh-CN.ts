@@ -1,11 +1,6 @@
 import localeLogin from '@/views/login/locale/zh-CN';
 import localeTheme from '@/components/theme/locale/zh-CN';
 
-import localeSearchTable from '@/views/list/search-table/locale/zh-CN';
-
-import localeStepForm from '@/views/form/step/locale/zh-CN';
-import localeBaseForm from '@/views/form/base/locale/zh-CN';
-
 import localeDetailForm from '@/views/profile/detail/locale/zh-CN';
 
 import localeSuccess from '@/views/result/success/locale/zh-CN';
@@ -48,9 +43,6 @@ export default {
   ...localeTheme,
   ...localeSettings,
   ...localeLogin,
-  ...localeSearchTable,
-  ...localeStepForm,
-  ...localeBaseForm,
   ...localeSuccess,
   ...localeError,
   ...locale403,
