@@ -1,13 +1,13 @@
 import { RoleType } from '@/types/roleType';
 
 export default {
-  path: 'cloud',
-  name: 'Cloud',
-  id: 'Cloud',
-  label: 'Cloud',
-  component: () => import('@/views/cloud/index.vue'),
+  path: 'maintenance',
+  name: 'Maintenance',
+  id: 'Maintenance',
+  label: 'Maintenance',
+  component: () => import('@/views/maintenance/index.vue'),
   meta: {
-    locale: 'menu.cloud',
+    locale: 'menu.maintenance',
     requiresAuth: true,
     order: 8,
     roles: [],
@@ -18,9 +18,9 @@ export default {
       name: 'Problems',
       id: 'Problems',
       label: 'Problems',
-      component: () => import('@/views/cloud/problems/index.vue'),
+      component: () => import('@/views/maintenance/problems/index.vue'),
       meta: {
-        locale: 'menu.cloud.locate.problems',
+        locale: 'menu.maintenance.locate.problems',
         requiresAuth: true,
         roles: [],
       },
