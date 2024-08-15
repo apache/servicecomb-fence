@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="contain">
-      <Breadcrumb :items="['menu.cloud', 'menu.cloud.locate.problems']" />
+      <Breadcrumb :items="['menu.maintenance', 'menu.maintenance.locate.problems']" />
       <Main></Main>
     </div>
   </div>
