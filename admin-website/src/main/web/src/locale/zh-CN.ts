@@ -20,7 +20,7 @@ import localeUserSetting from '@/views/user/setting/locale/zh-CN';
 
 import localekanban from '@/views/board/locale/zh-CN';
 
-import localeContracts from '@/views/cloud/contracts/locale/zh-CN';
+import localeProblems from '@/views/cloud/problems/locale/zh-CN';
 
 import localeSettings from './zh-CN/settings';
 
@@ -60,6 +60,6 @@ export default {
   ...localeUserSetting,
   ...localeDetailForm,
   ...localekanban,
-  ...localeContracts,
+  ...localeProblems,
   ...localeHttpError,
 };

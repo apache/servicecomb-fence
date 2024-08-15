@@ -14,18 +14,6 @@ export default {
   },
   children: [
     {
-      path: 'contracts',
-      name: 'Contracts',
-      id: 'Contracts',
-      label: 'Contracts',
-      component: () => import('@/views/cloud/contracts/index.vue'),
-      meta: {
-        locale: 'menu.cloud.contracts',
-        requiresAuth: true,
-        roles: [RoleType.admin, RoleType.user],
-      },
-    },
-    {
       path: 'Problems',
       name: 'Problems',
       id: 'Problems',
