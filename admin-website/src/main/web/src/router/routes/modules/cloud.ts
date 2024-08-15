@@ -14,18 +14,6 @@ export default {
   },
   children: [
     {
-      path: 'hello',
-      name: 'Hello',
-      id: 'Hello',
-      label: 'Hello',
-      component: () => import('@/views/cloud/hello/index.vue'),
-      meta: {
-        locale: 'menu.cloud.hello',
-        requiresAuth: true,
-        roles: [RoleType.admin],
-      },
-    },
-    {
       path: 'contracts',
       name: 'Contracts',
       id: 'Contracts',
