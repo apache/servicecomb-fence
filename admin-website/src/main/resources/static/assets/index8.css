@@ -1,47 +1,26 @@
-.container[data-v-9c767429] {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 98%;
-  height: inherit;
-  margin: 0 auto;
-  overflow: hidden;
+[data-v-6e9a77c8] .tiny-tree-menu {
+  width: 250px;
 }
-.container .content[data-v-9c767429] {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  overflow: auto;
-  background: #fff;
-  border-radius: 10px;
+[data-v-6e9a77c8] .tiny-tree-menu::before {
+  border-right: none;
 }
-.container .content-main[data-v-9c767429] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 22vh 0;
+[data-v-6e9a77c8] .tiny-tree-menu .tiny-tree > div {
+  margin: 3px 0;
 }
-.container h3[data-v-9c767429] {
-  width: 270px;
-  height: 25px;
-  color: #575d6c;
-  font-weight: bolder;
-  font-size: 18px;
-  line-height: 25px;
-  text-align: left;
-  text-align: center;
+[data-v-6e9a77c8] .tiny-tree-menu .tiny-tree .tree-node-name {
+  border-left: 2px solid transparent !important;
 }
-.container span[data-v-9c767429] {
-  min-width: 250px;
-  height: 20px;
-  color: #8a8e99;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
+[data-v-6e9a77c8] 
+    .tiny-tree-menu
+      .tiny-tree
+      .tiny-tree-node.is-current
+      > .tiny-tree-node__content
+      .tree-node-name
+      .tiny-svg
+   {
+  fill: var(--ti-tree-menu-node-current-color);
 }
-/* 引入公共样式 */
+[data-v-6e9a77c8] .tiny-collapse-item__header {
+  background-color: var(--ti-common-color-bg-light-normal);
+  color: var(--ti-common-color-text-highlight);
+}

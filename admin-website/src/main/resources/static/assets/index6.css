@@ -1,62 +1,47 @@
-
-.list-operation[data-v-7c5944f6] {
-  color: #526ecc;
-}
-.list-operation[data-v-7c5944f6]:hover {
-  cursor: pointer;
-}
-.logs-list[data-v-7c5944f6] {
-  margin-bottom: 10px;
-}
-.main-title span[data-v-69e5064f] {
-  display: inline-block;
-  position: relative;
-  border-width: 0px;
-  left: 0px;
-  top: 4px;
-  width: 6px;
-  height: 20px;
-  background: inherit;
-  background-color: #2561ef;
-  border: none;
-  border-radius: 8px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.main-title p[data-v-69e5064f] {
-  margin-left: 10px;
-  display: inline-block;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 18px;
-  color: rgba(51, 51, 51, 0.89803922);
-}
-.main-content[data-v-69e5064f] {
+.container[data-v-9c767429] {
   display: flex;
-  width: 70%;
-}
-.main-content-search[data-v-69e5064f] {
-  margin-left: 20px;
-  width: 100px;
-}
-.main-content-form[data-v-69e5064f] {
-  flex: 1;
-}
-.main-list[data-v-69e5064f] {
-  width: 95%;
-  height: 80px;
-  background-color: saddlebrown;
-}
-.container[data-v-e19f70fa] {
+  flex-direction: column;
+  justify-content: space-between;
   width: 98%;
   height: inherit;
   margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
-@media (max-width: 1208px) {
-.container[data-v-e19f70fa] {
-    overflow-x: auto;
+.container .content[data-v-9c767429] {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+  border-radius: 10px;
 }
+.container .content-main[data-v-9c767429] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22vh 0;
 }
+.container h3[data-v-9c767429] {
+  width: 270px;
+  height: 25px;
+  color: #575d6c;
+  font-weight: bolder;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: left;
+  text-align: center;
+}
+.container span[data-v-9c767429] {
+  min-width: 250px;
+  height: 20px;
+  color: #8a8e99;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+/* 引入公共样式 */

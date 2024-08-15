@@ -1,246 +1,918 @@
-import { d as defineComponent, u as openBlock, y as createBlock, H as withCtx, V as unref, l as createVNode, w as createBaseVNode, E as toDisplayString, Y as pushScopeId, Z as popScopeId, a7 as reactive, j as onMounted, r as ref, a1 as watch, v as createElementBlock, L as Fragment, M as renderList, k as resolveComponent } from "./vue.js";
-import { C as Col, R as Row, L as Loadings } from "./index28.js";
-import { L as Layout, _ as _export_sfc, m as axios } from "./index.js";
-import { O as Option, S as Select } from "./index31.js";
-import "./chevron-up.js";
+import { u as openBlock, v as createElementBlock, D as renderSlot, F as mergeProps, d as defineComponent$1, a7 as reactive, r as ref, a8 as toRefs, k as resolveComponent, l as createVNode, w as createBaseVNode, E as toDisplayString, z as createCommentVNode, H as withCtx, V as unref, y as createBlock, J as createTextVNode, A as normalizeClass, Y as pushScopeId, Z as popScopeId } from "./vue.js";
+import { o as on, f as off, P as extend, d as defineComponent, b as $prefix, a as setup, m as axios, I as Input, B as Button, T as TINYModal, _ as _export_sfc$1 } from "./index.js";
+import { P as Pager, R as Row, C as Col, G as Grid, a as Column } from "./index26.js";
+import { F as FormItem, a as Form } from "./index24.js";
 import "./index27.js";
-const _imports_0$2 = "/ui/admin/assets/woker.png";
-const _imports_0$1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAA0UlEQVRIS2M0jHvl+e8f4yyG//9lGIgBjIxPmJj+p51fJLYdWbl+9Kv/RGnXj3n9mGjLYCYyMj65uERUljwLiXQZuusvLhVjHJoWorsc5gv0OKKaD0cthAXxaJDiKgQYiS0hCOVDYkoZkJoBsJCcoo2BgQFX9iHkU0aSC2+oiWRbSMhFuORJjntoLYNSAJNiOckWglMM4xP6WgiykxRfkVMdoZtPdLYgVJQRW+iPWgiPgtEgpXuiITZ7US2V0t5CcmoZUNFGbJmIHkck1zLQwhsA3xTnTytjJ1oAAAAASUVORK5CYII=";
-const _imports_1$1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAFAUlEQVRYR82YfUyUdRzAPw/cCwLH5SGCmOfAyAmuSCfOF5opTCk1bZhhNiNfSpoTNYr5ksylmWVgknMa6lpmjRaZiMrEmk1ts2VYVC5LhBMEOY578UDv5Wl3gvHcCXeEOJ7/nj2/3/f7eb7vv5+Ax9NcI44WRZYAqYAWkVDPNb18NyNQC5QDn4QPF6o6yxM6XkRRVBiuko/Aa6JIQC+V+rVdEHAisGvgMFYLgmBzbXIDtcMcF+EpvyTd70UCFRotaS4oN1BztfixCFn3W09P5AkBFGq0wgrBFTOIVD4oN3UFKQg4RHhc0F8VCxBZ2ZO/6cO1+YK+WvwdGNWHSvwWLQhUuSxkQSTE1y6rUaRotZ5L524xYqyCxR+GExbhnYxVp29xcIOBm0YnM5apSMtS+RLd+bvZZSHRnx1fvtPCheOtzH1DTWmhiUfGKln03kDJVqcdssdcIzF1ANoEBV9sMrDum0hiEhX+qEAQEP0Gyl94g4fjFcxbq6Z0p4nKk22sOzxYokhf6+Ct5Do2fzeEyBgZb06sZ9bKMJLn+3SAW45PIL3OwaE8AzVVNkxNDlIWq0jPVXO00My3BUZUmkAJkMMhYtY7ePd0NBHaQHIn17tdp4mSkbwghJTM7ou+T6Ct6Y20mkWS5oRyttjC6CeDyMhTU7LdxLmvrUx9OUwCZDU6KSs0sPnUECJjZaxJqiduXBDqwYGcOmAi+9MIEpKVXbrPJ9CyWB0Ltgxi5IQgyncbuVhh5ZnXwzix10zsGCWz13jEkAO2za3j0fFKho5SULqjheV7oogeKWdvViOJKUHMXiX9CUkf6zaGRFgSU0tm/mC38ttWkcPvG/jnlza0CUrm5AxkgNo7y6orb1G2owWr2cmk+SompN9x077sG8RPVDA3R/0/LeQB5CnF1iZid7dD6SNTCsjvkVR9DvTD52Yun2/1AkqcHsITM7yzqs+BLp9vo6nGfheosdqGXmdjckYYcUlBXqB9DtRZoyu7SrY1u2MrecG9K/MDBaooMtLwt415G8ORK+/OfBIrHVzbRMIkZbetpPu09xHUHdpcbjuS30xXsdOxzmkXiY4RELqZRe8LUEdwP5cbjjpSWrmdDjhXbOaPM63odXai4+QkzQxmysKQ9llVGmq9BnIpPLShCUWQwLy3w6VtxA77sxtpqrW7W0ZUrJxrl2xUHDATN07JiqJBXtbqNVBzvYPD2/QMi1eSslRa8Cr2mfj5qIWNZVHoLtk4U3yTZR9puFHjYNPM6zybrSblFWlv6zVQ/V82fiq1MHy0ksdSgyUWKnjxOtOXhjJ1USg/llj5/qCF3K/uTAdHdpi4eMp7Wug1UFc9wGGHvGk6cg5FMHKC0g1U8oGRaYtCmZapovJkK/tzmtn521CJCJ/NdWViHckZKia90KOpz62kIKOetOVhTHkphIYrdo7tMhMoh+fXP8TJIgsXyq2sPxLZM6ATe8wUb2lBM0RGgOze9cXTSq46lJkfwdliM5XlVjaWRRKq+S/XDXUO8tIaeDpLxfRXpT/q00IuZVd/tVFTdRvR2WWTlnxwNdfxs4Pd67emN9By3UHqUpU7y3R/2ijfa0YbL2fVZxEESKtE+8To55DvH450lf02HNtt4sKJVhqv2IkaISNpVrB78vSEad9p6pfHoP51UOx3R2mX7/rVZYMLqN9dx3SC6h8XVp2Ttc+v9AQsQE1XV3r/Ahkdh5YlQ8AtAAAAAElFTkSuQmCC";
-const _imports_2 = "data:image/png;base64,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";
-const _imports_3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAADsklEQVRYR9WYW2gUVxjH/9+Z2XF3za4mkkSzRhERognaYmlUBNHFG4jggxe0ikgRihaT9KG0IFoKLT6YRNpSEBHxhpcHodRLK6svQrRU1JLogpRis1t3U4xxN252Z2fOkRnJJGuy2VlcdTxvZ+Z83/md73LOdw7hlSYeP6mHrn8KwVeAaBqEKHt1zGv1ifohxL8g9jsk6QhNmdQ1XB8NdoQQCiI9rSB8BiHYa01qV5iIQ+BnTK1qISLVEDOBTJho/DIEltnVVdJxhGsIVK82oF4Cdcd/BMSukk5StDL6iWqrd9PLmNH+emtuygdquE+S55KI9LRB8KaiF/QmBIi1k+iOGVE+pxj9IhFD9v5VaOHr4L2PwBNxU5z5q8EqpkOuWwrXnOUg/+Ri1Bpj75OIxJN2U1skepAOtSH753kIwSFVzYI0pQ7krzYnFok49Mdh6D0PQcTg+mg93MFmkL/KHhhRv2EhYWe09iCE1LkmQM9CWbgNysdbwCZNH1WUP3kE9Y9TUDuOA5IL3g3tkGcH7UwDW0BqxzGkf/0WUmAevJt/AE0M2FIu+qJInf4cevQe3Gv2Qlm4vaBcQSDTMid3Qq5fBe+GNkBWCirNGaCpSJ1rhtZ1Bd5PDhe01JhARswk24KQKmdh/M4zuTCcQ4tFwZ/2QqQHTAZye8DKKyBPDgBs2GavqXh+eBP0/x/C1xwaM6bGBBq48BWydy7A1xLKcRNPPoP2z9/gmfSo1mLj3JBnzATzTbD+G+5Ltgbh+nAdPOu+z2vlvEBGaicPLIayeAfcq7+2FBgw2XAXCmWCcQS46upzoNKXv4N64yh8X97IuyXkBVJvnsDAL/vg++L6UDZxDrXzbq5lPB6QxwPR2zti1YallIYPLPcZ2Zc8uBSetd9AWbB1VCvlBUod2wHeF0VZ02+WoPZfN7Rod44i16JFYJWVyFy8CGjaiEnkQC3kmlrre3/7SrCJAXi3Hy0OqL81CCnQAM/GQ5ag2nUPPPU8R5GyZAlYRQXSly4BmcxIK3nHQ6mfZ30fOLsHerQTZS2h4oAS+xugNG7OiZ/M7ZsQnBcFRIxh3PwFlowZR7dOw7+/8z0HKtZleiQCkclAC4cB1Sz+zMZK5TLbQd3YCKmmZijOOjrAYzGrX7Kgtp32kgRWXm4CCE2D6Osbsk4p095xG6OxTEcdHaYLnHa4GlCOKj8Go9NRBdog1NsrYR1Y5DvtGuS0i6LTrtLmfuOkxwYTyGnPMRaUUx6shpdu7/pJ7wUKGa1nPNRZtgAAAABJRU5ErkJggg==";
-const _withScopeId$5 = (n) => (pushScopeId("data-v-dec666ba"), n = n(), popScopeId(), n);
-const _hoisted_1$5 = { class: "col" };
-const _hoisted_2$5 = { class: "title" };
-const _hoisted_3$5 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("img", { src: _imports_0$1 }, null, -1));
-const _hoisted_4$5 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("span", { class: "plan-pass" }, "1890", -1));
-const _hoisted_5$5 = { class: "num" };
-const _hoisted_6$5 = { class: "col" };
-const _hoisted_7$5 = { class: "title" };
-const _hoisted_8$5 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("img", { src: _imports_1$1 }, null, -1));
-const _hoisted_9$5 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("span", { class: "plan-pass" }, "23", -1));
-const _hoisted_10$4 = { class: "num" };
-const _hoisted_11$4 = { class: "col" };
-const _hoisted_12$3 = { class: "title" };
-const _hoisted_13$2 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("img", { src: _imports_2 }, null, -1));
-const _hoisted_14$2 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("span", { class: "plan-fail" }, "113", -1));
-const _hoisted_15$2 = { class: "num" };
-const _hoisted_16 = { class: "col" };
-const _hoisted_17 = { class: "title" };
-const _hoisted_18 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("img", { src: _imports_3 }, null, -1));
-const _hoisted_19 = /* @__PURE__ */ _withScopeId$5(() => /* @__PURE__ */ createBaseVNode("span", { class: "plan-pass" }, "56", -1));
-const _hoisted_20 = { class: "num" };
-const _sfc_main$5 = /* @__PURE__ */ defineComponent({
-  __name: "learn-plan",
-  setup(__props) {
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(unref(Layout), null, {
-        default: withCtx(() => [
-          createVNode(unref(Row), {
-            flex: true,
-            justify: "center"
-          }, {
-            default: withCtx(() => [
-              createVNode(unref(Col), null, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_1$5, [
-                    createBaseVNode("div", _hoisted_2$5, [
-                      _hoisted_3$5,
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.plans")), 1)
-                    ]),
-                    createBaseVNode("div", null, [
-                      _hoisted_4$5,
-                      createBaseVNode("span", _hoisted_5$5, " / " + toDisplayString(_ctx.$t("work.index.Numbers")), 1)
-                    ])
-                  ])
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Col), null, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_6$5, [
-                    createBaseVNode("div", _hoisted_7$5, [
-                      _hoisted_8$5,
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.Unfinished")), 1)
-                    ]),
-                    createBaseVNode("div", null, [
-                      _hoisted_9$5,
-                      createBaseVNode("span", _hoisted_10$4, " / " + toDisplayString(_ctx.$t("work.index.Numbers")), 1)
-                    ])
-                  ])
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Col), null, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_11$4, [
-                    createBaseVNode("div", _hoisted_12$3, [
-                      _hoisted_13$2,
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.beOverdue")), 1)
-                    ]),
-                    createBaseVNode("div", null, [
-                      _hoisted_14$2,
-                      createBaseVNode("span", _hoisted_15$2, " / " + toDisplayString(_ctx.$t("work.index.Numbers")), 1)
-                    ])
-                  ])
-                ]),
-                _: 1
-              }),
-              createVNode(unref(Col), null, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_16, [
-                    createBaseVNode("div", _hoisted_17, [
-                      _hoisted_18,
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.Overdue")), 1)
-                    ]),
-                    createBaseVNode("div", null, [
-                      _hoisted_19,
-                      createBaseVNode("span", _hoisted_20, " / " + toDisplayString(_ctx.$t("work.index.Numbers")), 1)
-                    ])
-                  ])
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
+import { G as GridToolbar } from "./index29.js";
+import { S as Select } from "./index30.js";
+import "./chevron-up.js";
+import "./index25.js";
+import "./warning-triangle.js";
+const fullscreenApi = [
+  "fullscreenElement",
+  "fullscreenEnabled",
+  "requestFullscreen",
+  "exitFullscreen",
+  "fullscreenchange",
+  "fullscreenerror"
+];
+const fullscreenApiMoz = [
+  "mozFullScreenElement",
+  "mozFullScreenEnabled",
+  "mozRequestFullScreen",
+  "mozCancelFullScreen",
+  "mozfullscreenchange",
+  "mozfullscreenerror"
+];
+const fullscreenApiWebkit = [
+  "webkitFullscreenElement",
+  "webkitFullscreenEnabled",
+  "webkitRequestFullscreen",
+  "webkitExitFullscreen",
+  "webkitfullscreenchange",
+  "webkitfullscreenerror"
+];
+const fullscreenApiMs = [
+  "msFullscreenElement",
+  "msFullscreenEnabled",
+  "msRequestFullscreen",
+  "msExitFullscreen",
+  "MSFullscreenChange",
+  "MSFullscreenError"
+];
+const fullscreenApiMap = [fullscreenApi, fullscreenApiWebkit, fullscreenApiMoz, fullscreenApiMs];
+const document$1 = typeof window !== "undefined" && typeof window.document !== "undefined" ? window.document : {};
+let fullscreenEvents = null;
+const getFullScreenEvents = () => {
+  for (let i = 0, len = fullscreenApiMap.length; i < len; i++) {
+    let eventName = fullscreenApiMap[i];
+    if (eventName && eventName[1] in document$1) {
+      fullscreenEvents = {};
+      for (i = 0; i < eventName.length; i++) {
+        fullscreenEvents[fullscreenApiMap[0][i]] = eventName[i];
+      }
+      return;
+    }
+  }
+};
+getFullScreenEvents();
+const eventNameMap = {
+  change: fullscreenEvents && fullscreenEvents.fullscreenchange,
+  error: fullscreenEvents && fullscreenEvents.fullscreenerror
+};
+const screenfull = {
+  request(element, options) {
+    return new Promise((resolve, reject) => {
+      const onFullscreenEntered = () => {
+        this.off("change", onFullscreenEntered);
+        resolve();
+      };
+      this.on("change", onFullscreenEntered);
+      element = element || document$1.documentElement;
+      if (element[fullscreenEvents && fullscreenEvents.requestFullscreen]) {
+        const promiseReturn = element[fullscreenEvents && fullscreenEvents.requestFullscreen](options);
+        if (promiseReturn instanceof Promise) {
+          promiseReturn.then(onFullscreenEntered).catch(reject);
+        }
+      }
+    });
+  },
+  exit() {
+    return new Promise((resolve, reject) => {
+      if (!this.isFullscreen) {
+        resolve();
+        return;
+      }
+      const onFullscreenExit = () => {
+        this.off("change", onFullscreenExit);
+        resolve();
+      };
+      this.on("change", onFullscreenExit);
+      if (document$1[fullscreenEvents && fullscreenEvents.exitFullscreen]) {
+        const promiseReturn = document$1[fullscreenEvents && fullscreenEvents.exitFullscreen]();
+        if (promiseReturn instanceof Promise) {
+          promiseReturn.then(onFullscreenExit).catch(reject);
+        }
+      }
+    });
+  },
+  toggle(element, options) {
+    return this.isFullscreen ? this.exit() : this.request(element, options);
+  },
+  onchange(callback) {
+    this.on("change", callback);
+  },
+  onerror(callback) {
+    this.on("error", callback);
+  },
+  on(event, callback) {
+    const eventName = eventNameMap[event];
+    if (eventName) {
+      on(document$1, eventName, callback);
+    }
+  },
+  off(event, callback) {
+    const eventName = eventNameMap[event];
+    if (eventName) {
+      off(document$1, eventName, callback);
+    }
+  },
+  raw: fullscreenEvents
+};
+Object.defineProperties(screenfull, {
+  isFullscreen: {
+    get() {
+      return !!document$1[fullscreenEvents && fullscreenEvents.fullscreenElement];
+    }
+  },
+  element: {
+    enumerable: true,
+    get() {
+      return document$1[fullscreenEvents && fullscreenEvents.fullscreenElement];
+    }
+  },
+  isEnabled: {
+    enumerable: true,
+    get() {
+      return !!document$1[fullscreenEvents && fullscreenEvents.fullscreenEnabled];
+    }
   }
 });
-const learnPlan_vue_vue_type_style_index_0_scoped_dec666ba_lang = "";
-const learnplan = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-dec666ba"]]);
-const _imports_0 = "data:image/png;base64,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";
-const _imports_1 = "/ui/admin/assets/coach-2.png";
-function getUserData() {
-  return axios.get("/api/user/getdata");
+var screenfull_default = screenfull;
+const toggle = ({ state, api: api2 }) => (value) => {
+  if (value === void 0) {
+    if (state.isFullscreen) {
+      api2.exit();
+    } else {
+      api2.request();
+    }
+  } else {
+    value ? api2.request() : api2.exit();
+  }
+};
+const request = ({ props, state, vm, sf, api: api2 }) => () => {
+  const change = () => {
+    if (state.isPageOnly) {
+      state.isFullscreen = true;
+      api2.onChangeFullScreen();
+      off(document, "keyup", api2.keypressCallback);
+      on(document, "keyup", api2.keypressCallback);
+    } else {
+      sf.off("change", api2.fullScreenCallback);
+      sf.on("change", api2.fullScreenCallback);
+      sf.request(props.teleport ? document.body : vm.$el);
+    }
+    if (props.teleport) {
+      if (vm.$el.parentNode === document.body) {
+        return;
+      }
+      state.__parentNode = vm.$el.parentNode;
+      state.__token = document.createComment("fullscreen-token");
+      state.__parentNode.insertBefore(state.__token, vm.$el);
+      document.body.appendChild(vm.$el);
+    }
+  };
+  props.beforeChange ? props.beforeChange(change) : change();
+};
+const exit = ({ state, api: api2, sf, props }) => () => {
+  const change = () => {
+    if (!state.isFullscreen) {
+      return;
+    }
+    if (state.isPageOnly) {
+      state.isFullscreen = false;
+      api2.onChangeFullScreen();
+      off(document, "keyup", api2.keypressCallback);
+    } else {
+      sf.exit();
+    }
+  };
+  props.beforeChange ? props.beforeChange(change) : change();
+};
+const shadeClick = ({ props, vm, api: api2 }) => (e) => {
+  if (e.target === vm.$el) {
+    if (props.exitOnClickWrapper) {
+      api2.exit();
+    }
+  }
+};
+const fullScreenCallback = ({ state, sf, api: api2 }) => () => {
+  if (!sf.isFullscreen) {
+    sf.off("change", api2.fullScreenCallback);
+  }
+  state.isFullscreen = sf.isFullscreen;
+  api2.onChangeFullScreen();
+};
+const keypressCallback = (api2) => (e) => {
+  if (e.key === "Escape") {
+    api2.exit();
+  }
+};
+const onChangeFullScreen = ({ props, state, vm, emit }) => () => {
+  if (!state.isFullscreen) {
+    if (props.teleport && state.__parentNode) {
+      state.__parentNode.insertBefore(vm.$el, state.__token);
+      state.__parentNode.removeChild(state.__token);
+    }
+  }
+  emit("change", state.isFullscreen);
+  emit("update:fullscreen", state.isFullscreen);
+};
+const enter = (api2) => () => {
+  api2.request();
+};
+const getState = (state) => () => state.isFullscreen;
+const computeWrapperStyle = ({ props, state }) => () => {
+  let style = {};
+  if ((state.isPageOnly || props.teleport) && state.isFullscreen) {
+    Object.assign(style, {
+      position: "fixed",
+      left: "0",
+      top: "0",
+      width: "100%",
+      height: "100%"
+    });
+  }
+  if (style && props.zIndex) {
+    style.zIndex = props.zIndex;
+  }
+  return style;
+};
+const api$1 = [
+  "state",
+  "exit",
+  "enter",
+  "toggle",
+  "request",
+  "getState",
+  "shadeClick",
+  "keypressCallback",
+  "fullScreenCallback",
+  "onChangeFullScreen"
+];
+const renderless = (props, { reactive: reactive2, computed, watch }, { vm, emit }) => {
+  const api2 = {};
+  const state = reactive2({
+    isFullscreen: false,
+    isEnabled: false,
+    support: computed(() => state.isEnabled),
+    // 如果不支持浏览器全屏，改用网页全屏
+    isPageOnly: computed(() => props.pageOnly || !screenfull_default.isEnabled),
+    wrapperStyle: computed(() => api2.computeWrapperStyle())
+  });
+  Object.assign(api2, {
+    state,
+    getState: getState(state),
+    enter: enter(api2),
+    exit: exit({ state, api: api2, sf: screenfull_default, props }),
+    toggle: toggle({ state, api: api2 }),
+    keypressCallback: keypressCallback(api2),
+    shadeClick: shadeClick({ props, vm, api: api2 }),
+    request: request({ props, state, vm, sf: screenfull_default, api: api2 }),
+    fullScreenCallback: fullScreenCallback({ state, sf: screenfull_default, api: api2 }),
+    computeWrapperStyle: computeWrapperStyle({ props, state }),
+    onChangeFullScreen: onChangeFullScreen({ props, state, vm, emit })
+  });
+  watch(
+    () => props.fullscreen,
+    (value) => {
+      if (value !== state.isFullscreen) {
+        value ? api2.request() : api2.exit();
+      }
+    },
+    { lazy: true }
+  );
+  state.isEnabled = screenfull_default.isEnabled;
+  return api2;
+};
+const defaults = {
+  callback: () => void 0,
+  fullscreenClass: "fullscreen",
+  pageOnly: false,
+  teleport: false
+};
+let token;
+let parentNode;
+const setStyle = (element, style) => {
+  element.style.position = style.position;
+  element.style.left = style.left;
+  element.style.top = style.top;
+  element.style.width = style.width;
+  element.style.height = style.height;
+  element.style.zIndex = style.zIndex;
+};
+const resetElement = (api2) => {
+  const targetEle = api2.targetElement;
+  if (targetEle) {
+    targetEle.classList.remove(api2.opts.fullscreenClass);
+    if (api2.opts.teleport || api2.opts.pageOnly) {
+      if (api2.opts.teleport && parentNode) {
+        parentNode.insertBefore(targetEle, token);
+        parentNode.removeChild(token);
+      }
+      if (targetEle.__styleCache) {
+        setStyle(targetEle, targetEle.__styleCache);
+      }
+    }
+  }
+};
+const setTargetStyle = (target, options) => {
+  const { position, left, top, width, height, zIndex } = target.style;
+  target.classList.add(options.fullscreenClass);
+  if (options.teleport || options.pageOnly) {
+    const style = {
+      position: "fixed",
+      left: "0",
+      top: "0",
+      width: "100%",
+      height: "100%"
+    };
+    target.__styleCache = { position, left, top, width, height, zIndex };
+    options.zIndex && (style.zIndex = options.zIndex);
+    setStyle(target, style);
+  }
+};
+const getOptions = (screenfull2, options, target) => {
+  options = extend({}, defaults, options);
+  if (target === document.body) {
+    options.teleport = false;
+  }
+  if (!screenfull2.isEnabled) {
+    options.pageOnly = true;
+  }
+  return options;
+};
+const api = {
+  targetElement: null,
+  opts: null,
+  isEnabled: screenfull_default.isEnabled,
+  isFullscreen: false,
+  toggle(target, options, force) {
+    if (force === void 0) {
+      return !this.isFullscreen ? this.request(target, options) : this.exit();
+    }
+    return force ? this.request(target, options) : this.exit();
+  },
+  request(targetEle, options) {
+    if (this.isFullscreen) {
+      return Promise.resolve();
+    }
+    if (!targetEle) {
+      targetEle = document.body;
+    }
+    this.opts = getOptions(screenfull_default, options, targetEle);
+    setTargetStyle(targetEle, this.opts);
+    if (this.opts.teleport) {
+      parentNode = targetEle.parentNode;
+      if (parentNode) {
+        token = document.createComment("fullscreen-token");
+        parentNode.insertBefore(token, targetEle);
+        document.body.appendChild(targetEle);
+      }
+    }
+    if (this.opts.pageOnly) {
+      const keypressCallback2 = (e) => {
+        if (e.key === "Escape") {
+          off(document, "keyup", keypressCallback2);
+          this.exit();
+        }
+      };
+      this.isFullscreen = true;
+      this.targetElement = targetEle;
+      off(document, "keyup", keypressCallback2);
+      on(document, "keyup", keypressCallback2);
+      if (this.opts.callback) {
+        this.opts.callback(this.isFullscreen);
+      }
+      return Promise.resolve();
+    } else {
+      const fullScreenCallback2 = () => {
+        if (!screenfull_default.isFullscreen) {
+          screenfull_default.off("change", fullScreenCallback2);
+          resetElement(this);
+        }
+        this.isFullscreen = screenfull_default.isFullscreen;
+        this.targetElement = !this.opts.teleport ? screenfull_default.targetElement : targetEle || null;
+        if (this.opts.callback) {
+          this.opts.callback(screenfull_default.isFullscreen);
+        }
+      };
+      screenfull_default.on("change", fullScreenCallback2);
+      return screenfull_default.request(this.opts.teleport ? document.body : targetEle);
+    }
+  },
+  exit() {
+    if (!this.isFullscreen) {
+      return Promise.resolve();
+    }
+    if (this.opts.pageOnly) {
+      resetElement(this);
+      this.isFullscreen = false;
+      this.targetElement = null;
+      if (this.opts.callback) {
+        this.opts.callback(this.isFullscreen);
+      }
+      return Promise.resolve();
+    }
+    return screenfull_default.exit();
+  }
+};
+api.support = api.isEnabled;
+api.getState = () => api.isFullscreen;
+api.enter = api.request;
+var apis_default = api;
+const index$1 = "";
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+  if (it)
+    return (it = it.call(o)).next.bind(it);
+  if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+    if (it)
+      o = it;
+    var i = 0;
+    return function() {
+      if (i >= o.length)
+        return { done: true };
+      return { done: false, value: o[i++] };
+    };
+  }
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function getUserPractic() {
-  return axios.get("/api/user/getrpractic");
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o)
+    return;
+  if (typeof o === "string")
+    return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor)
+    n = o.constructor.name;
+  if (n === "Map" || n === "Set")
+    return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+    return _arrayLikeToArray(o, minLen);
 }
-function getUserTrain() {
-  return axios.get("/api/user/getrtrain");
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length)
+    len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++)
+    arr2[i] = arr[i];
+  return arr2;
 }
-function getUserChange(data) {
-  return axios.post("/api/user/getselect", data);
+var _export_sfc = function _export_sfc2(sfc, props) {
+  var target = sfc.__vccOpts || sfc;
+  for (var _iterator = _createForOfIteratorHelperLoose(props), _step; !(_step = _iterator()).done; ) {
+    var _step$value = _step.value, key = _step$value[0], val = _step$value[1];
+    target[key] = val;
+  }
+  return target;
+};
+var _sfc_main$1 = defineComponent({
+  name: $prefix + "Fullscreen",
+  props: {
+    fullscreen: {
+      type: Boolean,
+      default: false
+    },
+    exitOnClickWrapper: {
+      type: Boolean,
+      default: true
+    },
+    fullscreenClass: {
+      type: String,
+      default: ""
+    },
+    pageOnly: {
+      type: Boolean,
+      default: false
+    },
+    teleport: {
+      type: Boolean,
+      default: false
+    },
+    zIndex: {
+      type: Number,
+      default: 0
+    },
+    beforeChange: Function
+  },
+  setup: function setup$1(props, context) {
+    return setup({
+      props,
+      context,
+      renderless,
+      api: api$1,
+      mono: true
+    });
+  }
+});
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _class;
+  return openBlock(), createElementBlock(
+    "div",
+    mergeProps({
+      ref: "wrapper",
+      class: "tiny-fullscreen"
+    }, _ctx.$attrs, {
+      style: _ctx.state.wrapperStyle,
+      class: (_class = {}, _class[_ctx.fullscreenClass] = _ctx.state.isFullscreen, _class),
+      onClick: _cache[0] || (_cache[0] = function($event) {
+        return _ctx.shadeClick($event);
+      }),
+      onKeyup: _cache[1] || (_cache[1] = function() {
+        return _ctx.exit && _ctx.exit.apply(_ctx, arguments);
+      })
+    }),
+    [renderSlot(_ctx.$slots, "default")],
+    16
+    /* FULL_PROPS */
+  );
 }
-const _withScopeId$4 = (n) => (pushScopeId("data-v-5b4740cd"), n = n(), popScopeId(), n);
-const _hoisted_1$4 = { class: "coach-select" };
-const _hoisted_2$4 = { class: "col" };
-const _hoisted_3$4 = { class: "left" };
-const _hoisted_4$4 = { class: "left-content" };
-const _hoisted_5$4 = { class: "num" };
-const _hoisted_6$4 = { class: "left-title" };
-const _hoisted_7$4 = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_8$4 = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("div", { class: "right" }, [
-  /* @__PURE__ */ createBaseVNode("img", { src: _imports_0 })
+var Fullscreen = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
+var version = "3.16.0";
+var apis = ["exit", "enter", "element", "getState", "isEnabled", "isFullscreen", "options", "request", "support", "toggle"];
+apis.forEach(function(api2) {
+  if (apis_default[api2] && !Fullscreen[api2]) {
+    Fullscreen[api2] = apis_default[api2];
+  }
+});
+Fullscreen.install = function(Vue) {
+  Vue.component(Fullscreen.name, Fullscreen);
+};
+Fullscreen.version = version;
+const _imports_0 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAHCAYAAAA4R3wZAAABCklEQVQoU22QP0sCcRzGP1/P/kgHDb2F9oIa8pziMq8zaAvqNQQODRI0GEJDDjU1tDS0CS3BKWGnS/wqagl6Ay2NQVEYduc3GgwTn/Hh84GHRxiSemg2FMqAKFrKu5mzQUwGi+DKFEQ4BJ6BCJhGpegvpQ/62X9i0DQ7ouwr8piMusuWlYw7El8Cc4ru5d1MqSf/iUF4UxZ0F7hPfON5nvP6CzUaD5NRolNTcFSp+G66KCIqqir15m0FdBvR65F4bDWbnX/rn9Vqteyv7viFoouqcuy7C1tSC80RUABCK5pYy+VmPocdVjUmZbc5B1ZQTiQIzZ3Ay0eKzXXHaQ+Tel21+jRqT72fArM/mhth5VHyw18AAAAASUVORK5CYII=";
+const _imports_1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAHCAYAAAA4R3wZAAABCUlEQVQoU33QPUtCARTG8f/jRcPKpS/REtTQoi1hycWEWsK1qYiGtnAqqiGq2aAgaHdoEW6LL0taw21rbYqWQOjFEG7SCSvBXugZz3l+HDjyyvVz0G2zEVvIZkcC/onv++H7h+AQMSavVD9CLIG8ZtTms4lE6y9bKFxHYkNPBRNzoBOZmbzyZV6yFaDitAdmXXf0pRcXi36/Ew1OEa6w4+fG3bI6hU98sSexBtTCb5FMKjX+2NlVq9XBlvUVMSaBfDoZX5VkH7Abr1TfRqwDVxFzXDOn/RoKzoA4sv2Z5ESu2/0GO0OvXMuBdoEboA0MC22mp+JbvUd+wS+8COyAQmZsZKYTBz8f9g5qeF7nvFWQIgAAAABJRU5ErkJggg==";
+const _imports_2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABKElEQVQoU4WST0vDQBDF36RJz7nrF9NrUlAPTYqC+VNwFzS5tamo1JiKXjzEj9SreBBE6kUEcWRXk26r4J52Z94w7zezlBUVwzhJ6JP5Xs/TMsBZEvZSU9zcs2KWAxypd1NwDGAIwijuewdEpLsKISzH3Tgn0A4zSyI60gXKRlZcjQEKGTxNAn+vLEv7+a1zA2BbidNBTyht65eZKSuup5bF9vvLQw+A1XU3T5n5SYkbeyuAqkhKSUKIz79YNIOZUAU6uGSwhRAfpmbV0qS6sIi6Ud/zpbx3HPf1jkDzJPTi1lIDnRfViIEBgMs48Ha/oe1bgLeYcJIG/lBD/+xBj5WAcRR4+42luq4788fF2a+xqnZMyNPAT9Zh9fQms5yAQ3Nxre6/r/EFIFKalUqbcTIAAAAASUVORK5CYII=";
+const _imports_3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAA60lEQVQoU52RP2vCUBTFz+ngKK4d/Ax+m+LiZAoKooIIiYI+W5Ooi0kFl7xsDg79cl2F5parRFIJxfqmyznvd/9y9ZE2sm8Znb6qjjEvJ5Q8Y8xTpVa3YPZJP7ZNCg6gHL2+0wrjNJsMHSoXRFY0DiK7B9Al4J6NME47IrIHuAbELQIAV6qRMvMGr+9n4JItcQGGGv8GAJLGG7QX6l1LF1u/BXJP9WuFsmHLtMcA3ca/W/Jju6RgetfQYZRsBByLyILkvDh0ruWb0qPsAPQA6Me3/FjFw/nbxGgihRhEaRuQ58nQWf61KYXU/wGrn32WXzmHCAAAAABJRU5ErkJggg==";
+function queryEmployeeList(params) {
+  return axios.post("/api/employee/getEmployee", params);
+}
+function deleteEmployee(id) {
+  return axios.delete(`/api/employee/delete?id=${id}`);
+}
+const _withScopeId = (n) => (pushScopeId("data-v-6e43c7c3"), n = n(), popScopeId(), n);
+const _hoisted_1 = { class: "container-list" };
+const _hoisted_2 = { class: "contain" };
+const _hoisted_3 = { class: "contain-head" };
+const _hoisted_4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("hr", null, null, -1));
+const _hoisted_5 = { class: "contain-img" };
+const _hoisted_6 = { class: "contain-text" };
+const _hoisted_7 = { class: "search-btn" };
+const _hoisted_8 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "bottom-line" }, [
+  /* @__PURE__ */ createBaseVNode("hr")
 ], -1));
-const _hoisted_9$4 = { class: "col" };
-const _hoisted_10$3 = { class: "left" };
-const _hoisted_11$3 = { class: "left-content" };
-const _hoisted_12$2 = { class: "num" };
-const _hoisted_13$1 = { class: "left-title" };
-const _hoisted_14$1 = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_15$1 = /* @__PURE__ */ _withScopeId$4(() => /* @__PURE__ */ createBaseVNode("div", { class: "right" }, [
-  /* @__PURE__ */ createBaseVNode("img", { src: _imports_1 })
-], -1));
-const _sfc_main$4 = /* @__PURE__ */ defineComponent({
-  __name: "learn-coach",
+const _hoisted_9 = { class: "tiny-fullscreen-scroll" };
+const _hoisted_10 = { class: "tiny-fullscreen-wrapper" };
+const _hoisted_11 = { class: "btn" };
+const _hoisted_12 = { class: "screen" };
+const _hoisted_13 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("span", { class: "status-dot" }, null, -1));
+const _hoisted_14 = { class: "status-text" };
+const _hoisted_15 = ["onClick"];
+const _sfc_main = /* @__PURE__ */ defineComponent$1({
+  __name: "index",
   setup(__props) {
     const state = reactive({
-      loading: null,
-      options: [],
-      project: ""
+      loading: false,
+      filterOptions: {}
     });
-    const fetchData = async () => {
-      state.loading = Loadings.service({
-        text: "loading...",
-        target: document.getElementById("container"),
-        background: "rgba(0, 0, 0, 0.7)"
-      });
-      try {
-        const { data } = await getUserData();
-        state.options = data.options;
-      } finally {
-        state.loading.close();
+    const pagerConfig = reactive({
+      component: Pager,
+      attrs: {
+        currentPage: 1,
+        pageSize: 10,
+        pageSizes: [10, 20],
+        total: 10,
+        layout: "total, prev, pager, next, jumper, sizes"
       }
-    };
-    onMounted(() => {
-      fetchData();
     });
-    let number = ref([]);
-    const fetchSelect = async (param) => {
-      const { data } = await getUserChange(param);
-      number.value = data;
-    };
-    watch(
-      state,
-      (newValue, oldValue) => {
-        fetchSelect(newValue.project);
+    let tableData = ref([]);
+    const taskGrid = ref();
+    const { loading, filterOptions } = toRefs(state);
+    const statusOptions = [
+      {
+        value: "0",
+        label: "offline"
       },
-      { immediate: true }
-    );
+      {
+        value: "1",
+        label: "online"
+      },
+      {
+        value: "2",
+        label: "doing"
+      }
+    ];
+    async function fetchData(params = {
+      pageIndex: 1,
+      pageSize: 10,
+      status: ""
+    }) {
+      const { ...rest } = filterOptions.value;
+      const queryParmas = {
+        searchInfo: rest,
+        ...params
+      };
+      state.loading = true;
+      try {
+        const { data } = await queryEmployeeList(queryParmas);
+        const { data: list, total } = data;
+        tableData.value = list;
+        return {
+          result: list,
+          page: { total }
+        };
+      } finally {
+        state.loading = false;
+      }
+    }
+    const fetchDataOption = reactive({
+      api: ({ page }) => {
+        const { currentPage, pageSize } = page;
+        return fetchData({
+          pageIndex: currentPage,
+          pageSize
+        });
+      }
+    });
+    const handleDelete = (id) => {
+      deleteEmployee(id).then((res) => {
+        TINYModal.message({
+          message: "已删除",
+          status: "success"
+        });
+      });
+    };
+    function getStatusText(status) {
+      var _a;
+      return ((_a = statusOptions.find(({ value }) => status === value)) == null ? void 0 : _a.label) || "";
+    }
+    function reloadGrid() {
+      taskGrid == null ? void 0 : taskGrid.value.handleFetch("reload");
+      fetchData();
+    }
+    function handleFormReset() {
+      state.filterOptions = {};
+      reloadGrid();
+    }
+    const setCollapse = ref(true);
+    function collapse() {
+      setCollapse.value = false;
+    }
+    function extend2() {
+      setCollapse.value = true;
+    }
+    const toCsvEvent = () => {
+      taskGrid.value.exportCsv({
+        filename: "table.csv",
+        original: true,
+        isHeader: false,
+        data: tableData.value
+      });
+    };
+    const fullscreen = ref(false);
+    const toggle2 = () => {
+      fullscreen.value = !fullscreen.value;
+    };
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        createBaseVNode("div", _hoisted_1$4, [
-          createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.coach")), 1),
-          createVNode(unref(Select), {
-            modelValue: state.project,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => state.project = $event),
-            placeholder: _ctx.$t("baseForm.form.label.placeholder"),
-            filterable: ""
-          }, {
-            default: withCtx(() => [
-              (openBlock(true), createElementBlock(Fragment, null, renderList(state.options, (item) => {
-                return openBlock(), createBlock(unref(Option), {
-                  key: item.value,
-                  label: _ctx.$t(item.label),
-                  value: item.value
-                }, null, 8, ["label", "value"]);
-              }), 128))
+      const _component_Breadcrumb = resolveComponent("Breadcrumb");
+      return openBlock(), createElementBlock("div", _hoisted_1, [
+        createVNode(_component_Breadcrumb, { items: ["menu.list", "menu.list.searchTable"] }),
+        createBaseVNode("div", _hoisted_2, [
+          createBaseVNode("div", _hoisted_3, [
+            createBaseVNode("span", null, toDisplayString(_ctx.$t("searchTable.form.create")), 1),
+            _hoisted_4,
+            createBaseVNode("div", _hoisted_5, [
+              setCollapse.value ? (openBlock(), createElementBlock("img", {
+                key: 0,
+                src: _imports_0,
+                alt: "collapse",
+                onClick: collapse
+              })) : createCommentVNode("", true),
+              !setCollapse.value ? (openBlock(), createElementBlock("img", {
+                key: 1,
+                src: _imports_1,
+                alt: "expand",
+                onClick: extend2
+              })) : createCommentVNode("", true)
             ]),
-            _: 1
-          }, 8, ["modelValue", "placeholder"])
-        ]),
-        createBaseVNode("div", null, [
-          createVNode(unref(Layout), null, {
+            createBaseVNode("div", _hoisted_6, toDisplayString(setCollapse.value ? _ctx.$t("searchTable.form.collapse") : _ctx.$t("searchTable.form.extend")), 1)
+          ]),
+          createVNode(unref(Form), {
+            model: unref(filterOptions),
+            "label-position": "right",
+            "label-width": "100px",
+            class: "filter-form",
+            size: "small"
+          }, {
             default: withCtx(() => [
               createVNode(unref(Row), {
                 flex: true,
-                justify: "center"
+                justify: "center",
+                class: "col"
               }, {
                 default: withCtx(() => [
-                  createVNode(unref(Col), { span: 8 }, {
+                  createVNode(unref(Col), {
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
                     default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_2$4, [
-                        createBaseVNode("div", _hoisted_3$4, [
-                          createBaseVNode("div", _hoisted_4$4, [
-                            createBaseVNode("span", _hoisted_5$4, toDisplayString(unref(number)[0]), 1),
-                            createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                          ]),
-                          createBaseVNode("div", _hoisted_6$4, toDisplayString(_ctx.$t("work.index.trainees")), 1)
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.name")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).name,
+                            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => unref(filterOptions).name = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
                         ]),
-                        _hoisted_7$4,
-                        _hoisted_8$4
-                      ])
+                        _: 1
+                      }, 8, ["label"])
                     ]),
                     _: 1
                   }),
-                  createVNode(unref(Col), { span: 8 }, {
+                  createVNode(unref(Col), {
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
                     default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_9$4, [
-                        createBaseVNode("div", _hoisted_10$3, [
-                          createBaseVNode("div", _hoisted_11$3, [
-                            createBaseVNode("span", _hoisted_12$2, toDisplayString(unref(number)[1]), 1),
-                            createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                          ]),
-                          createBaseVNode("div", _hoisted_13$1, toDisplayString(_ctx.$t("work.index.coachNum")), 1)
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.department"),
+                        prop: "id"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).department,
+                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => unref(filterOptions).department = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
                         ]),
-                        _hoisted_14$1,
-                        _hoisted_15$1
-                      ])
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(unref(Col), {
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.role")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).roles,
+                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => unref(filterOptions).roles = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              }),
+              setCollapse.value ? (openBlock(), createBlock(unref(Row), {
+                key: 0,
+                flex: true,
+                justify: "center",
+                class: "col"
+              }, {
+                default: withCtx(() => [
+                  createVNode(unref(Col), { span: 4 }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.workname")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).workbenchName,
+                            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => unref(filterOptions).workbenchName = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(unref(Col), {
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.enablement"),
+                        prop: "id"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).project,
+                            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => unref(filterOptions).project = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(unref(Col), {
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.type")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).type,
+                            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => unref(filterOptions).type = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })) : createCommentVNode("", true),
+              createVNode(unref(Row), {
+                flex: true,
+                justify: "end",
+                class: "col"
+              }, {
+                default: withCtx(() => [
+                  setCollapse.value ? (openBlock(), createBlock(unref(Col), {
+                    key: 0,
+                    span: 4,
+                    "label-width": "100px"
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.columns.study")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Input), {
+                            modelValue: unref(filterOptions).address,
+                            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => unref(filterOptions).address = $event),
+                            placeholder: _ctx.$t("searchTable.form.input")
+                          }, null, 8, ["modelValue", "placeholder"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true),
+                  setCollapse.value ? (openBlock(), createBlock(unref(Col), {
+                    key: 1,
+                    span: 4
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), {
+                        label: _ctx.$t("searchTable.form.status")
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(Select), {
+                            modelValue: unref(filterOptions).status,
+                            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => unref(filterOptions).status = $event),
+                            options: statusOptions
+                          }, null, 8, ["modelValue"])
+                        ]),
+                        _: 1
+                      }, 8, ["label"])
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true),
+                  createVNode(unref(Col), { span: 4 }, {
+                    default: withCtx(() => [
+                      createVNode(unref(FormItem), null, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_7, [
+                            createVNode(unref(Button), {
+                              type: "primary",
+                              onClick: reloadGrid
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(_ctx.$t("searchTable.form.search")), 1)
+                              ]),
+                              _: 1
+                            }),
+                            createVNode(unref(Button), { onClick: handleFormReset }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(_ctx.$t("searchTable.form.reset")), 1)
+                              ]),
+                              _: 1
+                            })
+                          ])
+                        ]),
+                        _: 1
+                      })
                     ]),
                     _: 1
                   })
@@ -249,483 +921,158 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
               })
             ]),
             _: 1
-          })
-        ])
-      ], 64);
-    };
-  }
-});
-const learnCoach_vue_vue_type_style_index_0_scoped_5b4740cd_lang = "";
-const learncoach = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-5b4740cd"]]);
-const _withScopeId$3 = (n) => (pushScopeId("data-v-1dcb662d"), n = n(), popScopeId(), n);
-const _hoisted_1$3 = { class: "col" };
-const _hoisted_2$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-pass" }, "6", -1));
-const _hoisted_3$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_4$3 = { class: "col" };
-const _hoisted_5$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-pass" }, "186", -1));
-const _hoisted_6$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_7$3 = { class: "col" };
-const _hoisted_8$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-pass" }, "324", -1));
-const _hoisted_9$3 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_10$2 = { class: "col" };
-const _hoisted_11$2 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createBaseVNode("span", { class: "font-pass" }, "736", -1));
-const _sfc_main$3 = /* @__PURE__ */ defineComponent({
-  __name: "learn-probation",
-  setup(__props) {
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(unref(Layout), null, {
-        default: withCtx(() => [
-          createVNode(unref(Row), {
-            flex: true,
-            justify: "center",
-            class: "margin-bottom"
+          }, 8, ["model"]),
+          _hoisted_8,
+          createVNode(unref(Fullscreen), {
+            teleport: true,
+            "page-only": true,
+            "z-index": 999,
+            fullscreen: fullscreen.value,
+            "onUpdate:fullscreen": _cache[8] || (_cache[8] = ($event) => fullscreen.value = $event)
           }, {
             default: withCtx(() => [
-              createVNode(unref(Col), { span: 3 }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_1$3, [
-                    createBaseVNode("div", null, [
-                      _hoisted_2$3,
-                      createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
+              createBaseVNode("div", _hoisted_9, [
+                createBaseVNode("div", _hoisted_10, [
+                  createVNode(unref(Grid), {
+                    ref_key: "taskGrid",
+                    ref: taskGrid,
+                    "fetch-data": fetchDataOption,
+                    pager: pagerConfig,
+                    loading: unref(loading),
+                    size: "medium",
+                    "auto-resize": true
+                  }, {
+                    toolbar: withCtx(() => [
+                      createVNode(unref(GridToolbar), null, {
+                        buttons: withCtx(() => [
+                          createBaseVNode("div", _hoisted_11, [
+                            createVNode(unref(Button), { onClick: toCsvEvent }, {
+                              default: withCtx(() => [
+                                createTextVNode(toDisplayString(_ctx.$t("searchTable.operation.import")), 1)
+                              ]),
+                              _: 1
+                            }),
+                            createBaseVNode("div", _hoisted_12, [
+                              !fullscreen.value ? (openBlock(), createElementBlock("img", {
+                                key: 0,
+                                src: _imports_2,
+                                class: "screen-image",
+                                onClick: toggle2
+                              })) : createCommentVNode("", true),
+                              fullscreen.value ? (openBlock(), createElementBlock("img", {
+                                key: 1,
+                                src: _imports_3,
+                                class: "screen-image",
+                                onClick: toggle2
+                              })) : createCommentVNode("", true),
+                              createBaseVNode("span", { onClick: toggle2 }, toDisplayString(fullscreen.value ? _ctx.$t("searchTable.collapse.restores") : _ctx.$t("searchTable.collapse.full")), 1)
+                            ])
+                          ])
+                        ]),
+                        _: 1
+                      })
                     ]),
-                    createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.unpark")), 1)
-                  ])
-                ]),
-                _: 1
-              }),
-              _hoisted_3$3,
-              createVNode(unref(Col), { span: 3 }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_4$3, [
-                    createBaseVNode("div", null, [
-                      _hoisted_5$3,
-                      createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
+                    default: withCtx(() => [
+                      createVNode(unref(Column), {
+                        field: "name",
+                        title: _ctx.$t("searchTable.columns.name"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "employeeNo",
+                        title: _ctx.$t("searchTable.columns.number"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "departmentLevel",
+                        title: _ctx.$t("searchTable.columns.filterType"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "department",
+                        title: _ctx.$t("searchTable.columns.department"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "status",
+                        title: _ctx.$t("searchTable.form.status"),
+                        align: "center"
+                      }, {
+                        default: withCtx(({ row }) => [
+                          createBaseVNode("span", {
+                            class: normalizeClass(["status", {
+                              "status-closed": row.status === "0",
+                              "status-finished": row.status === "1"
+                            }])
+                          }, [
+                            _hoisted_13,
+                            createBaseVNode("span", _hoisted_14, toDisplayString(getStatusText(row.status)), 1)
+                          ], 2)
+                        ]),
+                        _: 1
+                      }, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "workbenchName",
+                        title: _ctx.$t("searchTable.columns.workname"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "project",
+                        title: _ctx.$t("searchTable.columns.enablement"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "type",
+                        title: _ctx.$t("searchTable.columns.type"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "address",
+                        title: _ctx.$t("searchTable.columns.study"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "roles",
+                        title: _ctx.$t("searchTable.columns.role"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "lastUpdateUser",
+                        title: _ctx.$t("searchTable.columns.updatesperson"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        field: "createTime",
+                        title: _ctx.$t("searchTable.columns.createdTime"),
+                        align: "center"
+                      }, null, 8, ["title"]),
+                      createVNode(unref(Column), {
+                        title: _ctx.$t("searchTable.columns.operations"),
+                        align: "center"
+                      }, {
+                        default: withCtx((data) => [
+                          createBaseVNode("a", {
+                            class: "operation",
+                            onClick: ($event) => handleDelete(data.row.id)
+                          }, toDisplayString(_ctx.$t("searchTable.columns.operations.delete")), 9, _hoisted_15)
+                        ]),
+                        _: 1
+                      }, 8, ["title"])
                     ]),
-                    createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.entered")), 1)
-                  ])
-                ]),
-                _: 1
-              }),
-              _hoisted_6$3,
-              createVNode(unref(Col), { span: 3 }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_7$3, [
-                    createBaseVNode("div", null, [
-                      _hoisted_8$3,
-                      createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                    ]),
-                    createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.approved")), 1)
-                  ])
-                ]),
-                _: 1
-              }),
-              _hoisted_9$3,
-              createVNode(unref(Col), { span: 3 }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_10$2, [
-                    createBaseVNode("div", null, [
-                      _hoisted_11$2,
-                      createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                    ]),
-                    createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.put")), 1)
-                  ])
-                ]),
-                _: 1
-              })
+                    _: 1
+                  }, 8, ["fetch-data", "pager", "loading"])
+                ])
+              ])
             ]),
             _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const learnProbation_vue_vue_type_style_index_0_scoped_1dcb662d_lang = "";
-const learnprobation = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-1dcb662d"]]);
-const _withScopeId$2 = (n) => (pushScopeId("data-v-999aa533"), n = n(), popScopeId(), n);
-const _hoisted_1$2 = { class: "practiced-select" };
-const _hoisted_2$2 = { class: "col" };
-const _hoisted_3$2 = { class: "font-pass" };
-const _hoisted_4$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_5$2 = { class: "col" };
-const _hoisted_6$2 = { class: "font-pass" };
-const _hoisted_7$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_8$2 = { class: "col" };
-const _hoisted_9$2 = { class: "font-pass" };
-const _sfc_main$2 = /* @__PURE__ */ defineComponent({
-  __name: "learn-practiced",
-  setup(__props) {
-    const state = reactive({
-      loading: null,
-      options: [],
-      project: ""
-    });
-    const fetchData = async () => {
-      state.loading = Loadings.service({
-        text: "loading...",
-        target: document.getElementById("container"),
-        background: "rgba(0, 0, 0, 0.7)"
-      });
-      try {
-        const { data } = await getUserPractic();
-        state.options = data.options;
-      } finally {
-        state.loading.close();
-      }
-    };
-    onMounted(() => {
-      fetchData();
-    });
-    let number = ref([]);
-    const fetchSelect = async (param) => {
-      const { data } = await getUserChange(param);
-      number.value = data;
-    };
-    watch(
-      state,
-      (newValue, oldValue) => {
-        fetchSelect(newValue.project);
-      },
-      { immediate: true }
-    );
-    return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", null, [
-        createBaseVNode("div", _hoisted_1$2, [
-          createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.practiced")), 1),
-          createVNode(unref(Select), {
-            modelValue: state.project,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => state.project = $event),
-            placeholder: _ctx.$t("baseForm.form.label.placeholder"),
-            filterable: ""
-          }, {
-            default: withCtx(() => [
-              (openBlock(true), createElementBlock(Fragment, null, renderList(state.options, (item) => {
-                return openBlock(), createBlock(unref(Option), {
-                  key: item.value,
-                  label: _ctx.$t(item.label),
-                  value: item.value
-                }, null, 8, ["label", "value"]);
-              }), 128))
-            ]),
-            _: 1
-          }, 8, ["modelValue", "placeholder"])
-        ]),
-        createVNode(unref(Layout), null, {
-          default: withCtx(() => [
-            createVNode(unref(Row), {
-              flex: true,
-              justify: "center",
-              class: "margin-bottom"
-            }, {
-              default: withCtx(() => [
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_2$2, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_3$2, toDisplayString(unref(number)[0]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.allocated")), 1)
-                    ])
-                  ]),
-                  _: 1
-                }),
-                _hoisted_4$2,
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_5$2, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_6$2, toDisplayString(unref(number)[1]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.start")), 1)
-                    ])
-                  ]),
-                  _: 1
-                }),
-                _hoisted_7$2,
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_8$2, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_9$2, toDisplayString(unref(number)[2]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.practice")), 1)
-                    ])
-                  ]),
-                  _: 1
-                })
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ]);
-    };
-  }
-});
-const learnPracticed_vue_vue_type_style_index_0_scoped_999aa533_lang = "";
-const learnpracticed = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-999aa533"]]);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-cff1f1d5"), n = n(), popScopeId(), n);
-const _hoisted_1$1 = { class: "train-select" };
-const _hoisted_2$1 = { class: "col" };
-const _hoisted_3$1 = { class: "font-pass" };
-const _hoisted_4$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_5$1 = { class: "col" };
-const _hoisted_6$1 = { class: "font-pass" };
-const _hoisted_7$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_8$1 = { class: "col" };
-const _hoisted_9$1 = { class: "font-pass" };
-const _hoisted_10$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createBaseVNode("div", { class: "divider" }, null, -1));
-const _hoisted_11$1 = { class: "col" };
-const _hoisted_12$1 = { class: "font-pass" };
-const _sfc_main$1 = /* @__PURE__ */ defineComponent({
-  __name: "learn-traini",
-  setup(__props) {
-    const state = reactive({
-      loading: null,
-      options: [],
-      project: ""
-    });
-    const fetchData = async () => {
-      state.loading = Loadings.service({
-        text: "loading...",
-        target: document.getElementById("container"),
-        background: "rgba(0, 0, 0, 0.7)"
-      });
-      try {
-        const { data } = await getUserTrain();
-        state.options = data.options;
-      } finally {
-        state.loading.close();
-      }
-    };
-    onMounted(() => {
-      fetchData();
-    });
-    let number = ref([]);
-    const fetchSelect = async (param) => {
-      const { data } = await getUserChange(param);
-      number.value = data;
-    };
-    watch(
-      state,
-      (newValue, oldValue) => {
-        fetchSelect(newValue.project);
-      },
-      { immediate: true }
-    );
-    return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", null, [
-        createBaseVNode("div", _hoisted_1$1, [
-          createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.train")), 1),
-          createVNode(unref(Select), {
-            modelValue: state.project,
-            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => state.project = $event),
-            placeholder: _ctx.$t("baseForm.form.label.placeholder"),
-            filterable: ""
-          }, {
-            default: withCtx(() => [
-              (openBlock(true), createElementBlock(Fragment, null, renderList(state.options, (item) => {
-                return openBlock(), createBlock(unref(Option), {
-                  key: item.value,
-                  label: _ctx.$t(item.label),
-                  value: item.value
-                }, null, 8, ["label", "value"]);
-              }), 128))
-            ]),
-            _: 1
-          }, 8, ["modelValue", "placeholder"])
-        ]),
-        createVNode(unref(Layout), null, {
-          default: withCtx(() => [
-            createVNode(unref(Row), {
-              flex: true,
-              justify: "center",
-              class: "margin-bottom"
-            }, {
-              default: withCtx(() => [
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_2$1, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_3$1, toDisplayString(unref(number)[0]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.assign")), 1)
-                    ])
-                  ]),
-                  _: 1
-                }),
-                _hoisted_4$1,
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_5$1, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_6$1, toDisplayString(unref(number)[1]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.prepare")), 1)
-                    ])
-                  ]),
-                  _: 1
-                }),
-                _hoisted_7$1,
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_8$1, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_9$1, toDisplayString(unref(number)[2]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.open")), 1)
-                    ])
-                  ]),
-                  _: 1
-                }),
-                _hoisted_10$1,
-                createVNode(unref(Col), { span: 3 }, {
-                  default: withCtx(() => [
-                    createBaseVNode("div", _hoisted_11$1, [
-                      createBaseVNode("div", null, [
-                        createBaseVNode("span", _hoisted_12$1, toDisplayString(unref(number)[3]), 1),
-                        createBaseVNode("span", null, " / " + toDisplayString(_ctx.$t("work.index.Person")), 1)
-                      ]),
-                      createBaseVNode("span", null, toDisplayString(_ctx.$t("work.index.classes")), 1)
-                    ])
-                  ]),
-                  _: 1
-                })
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ]);
-    };
-  }
-});
-const learnTraini_vue_vue_type_style_index_0_scoped_cff1f1d5_lang = "";
-const learntrain = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-cff1f1d5"]]);
-const _withScopeId = (n) => (pushScopeId("data-v-9c8c59f2"), n = n(), popScopeId(), n);
-const _hoisted_1 = { class: "container-work" };
-const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "work-image" }, [
-  /* @__PURE__ */ createBaseVNode("img", {
-    src: _imports_0$2,
-    alt: "403",
-    class: "user-image"
-  })
-], -1));
-const _hoisted_3 = { class: "content" };
-const _hoisted_4 = { class: "left" };
-const _hoisted_5 = { class: "card" };
-const _hoisted_6 = { class: "card" };
-const _hoisted_7 = { class: "card" };
-const _hoisted_8 = { class: "card" };
-const _hoisted_9 = { class: "card" };
-const _hoisted_10 = { class: "right" };
-const _hoisted_11 = { class: "card more" };
-const _hoisted_12 = { href: "javascript:;" };
-const _hoisted_13 = { class: "card more" };
-const _hoisted_14 = { href: "javascript:;" };
-const _hoisted_15 = { class: "card less" };
-const _sfc_main = /* @__PURE__ */ defineComponent({
-  __name: "index",
-  setup(__props) {
-    const Inquiry = [
-      { label: "work.index.policy", value: "work.index.Period" },
-      { label: "work.index.Hotline", value: "work.index.service" },
-      { label: "work.index.Attendance", value: "work.index.FAQs" },
-      { label: "work.index.Payroll", value: "work.index.Tax" },
-      { label: "work.index.net", value: "work.index.netonline" }
-    ];
-    const Home = [
-      { label: "work.index.Brave", value: "work.index.Growth" },
-      { label: "work.index.Termbase", value: "work.index.lingo" },
-      { label: "work.index.Library", value: "work.index.domain" },
-      { label: "work.index.learning", value: "work.index.platform" },
-      { label: "work.index.net", value: "work.index.netonline" }
-    ];
-    return (_ctx, _cache) => {
-      const _component_Breadcrumb = resolveComponent("Breadcrumb");
-      return openBlock(), createElementBlock("div", _hoisted_1, [
-        createVNode(_component_Breadcrumb, { items: ["menu.board", "menu.work"] }),
-        _hoisted_2,
-        createBaseVNode("div", _hoisted_3, [
-          createBaseVNode("div", _hoisted_4, [
-            createBaseVNode("div", _hoisted_5, [
-              createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.learn")), 1),
-              createBaseVNode("div", null, [
-                createVNode(learnplan)
-              ])
-            ]),
-            createBaseVNode("div", _hoisted_6, [
-              createBaseVNode("div", null, [
-                createVNode(learncoach)
-              ])
-            ]),
-            createBaseVNode("div", _hoisted_7, [
-              createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.formalization")), 1),
-              createBaseVNode("div", null, [
-                createVNode(learnprobation)
-              ])
-            ]),
-            createBaseVNode("div", _hoisted_8, [
-              createBaseVNode("div", null, [
-                createVNode(learnpracticed)
-              ])
-            ]),
-            createBaseVNode("div", _hoisted_9, [
-              createBaseVNode("div", null, [
-                createVNode(learntrain)
-              ])
-            ])
-          ]),
-          createBaseVNode("div", _hoisted_10, [
-            createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.Inquiry")), 1),
-            createBaseVNode("div", _hoisted_11, [
-              (openBlock(), createElementBlock(Fragment, null, renderList(Inquiry, (item) => {
-                return createBaseVNode("dl", {
-                  key: item
-                }, [
-                  createBaseVNode("dt", null, toDisplayString(_ctx.$t(item.label)), 1),
-                  createBaseVNode("dd", null, [
-                    createBaseVNode("a", _hoisted_12, toDisplayString(_ctx.$t(item.value)), 1)
-                  ])
-                ]);
-              }), 64))
-            ]),
-            createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.Home")), 1),
-            createBaseVNode("div", _hoisted_13, [
-              (openBlock(), createElementBlock(Fragment, null, renderList(Home, (item) => {
-                return createBaseVNode("dl", {
-                  key: item
-                }, [
-                  createBaseVNode("dt", null, toDisplayString(_ctx.$t(item.label)), 1),
-                  createBaseVNode("dd", null, [
-                    createBaseVNode("a", _hoisted_14, toDisplayString(_ctx.$t(item.value)), 1)
-                  ])
-                ]);
-              }), 64))
-            ]),
-            createBaseVNode("h3", null, toDisplayString(_ctx.$t("work.index.Guide")), 1),
-            createBaseVNode("div", _hoisted_15, [
-              createBaseVNode("dl", null, [
-                createBaseVNode("dt", null, toDisplayString(_ctx.$t("work.index.Operation")), 1)
-              ])
-            ])
-          ])
+          }, 8, ["fullscreen"])
         ])
       ]);
     };
   }
 });
-const index_vue_vue_type_style_index_0_scoped_9c8c59f2_lang = "";
-const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-9c8c59f2"]]);
+const index_vue_vue_type_style_index_0_scoped_6e43c7c3_lang = "";
+const index = /* @__PURE__ */ _export_sfc$1(_sfc_main, [["__scopeId", "data-v-6e43c7c3"]]);
 export {
   index as default
 };
