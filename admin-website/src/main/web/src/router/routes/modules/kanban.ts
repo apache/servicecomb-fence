@@ -25,17 +25,5 @@ export default {
         roles: [RoleType.admin],
       },
     },
-    {
-      path: 'work',
-      name: 'Work',
-      id: 'Work',
-      label: 'Work',
-      component: () => import('@/views/board/work/index.vue'),
-      meta: {
-        locale: 'menu.board.work',
-        requiresAuth: true,
-        roles: [RoleType.admin],
-      },
-    },
   ],
 };

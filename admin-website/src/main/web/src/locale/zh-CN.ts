@@ -1,11 +1,6 @@
 import localeLogin from '@/views/login/locale/zh-CN';
 import localeTheme from '@/components/theme/locale/zh-CN';
 
-import localeDetailForm from '@/views/profile/detail/locale/zh-CN';
-
-import localeSuccess from '@/views/result/success/locale/zh-CN';
-import localeError from '@/views/result/error/locale/zh-CN';
-
 import localeUserInfo from '@/views/user/info/locale/zh-CN';
 import localeUserSetting from '@/views/user/setting/locale/zh-CN';
 
@@ -39,11 +34,8 @@ export default {
   ...localeTheme,
   ...localeSettings,
   ...localeLogin,
-  ...localeSuccess,
-  ...localeError,
   ...localeUserInfo,
   ...localeUserSetting,
-  ...localeDetailForm,
   ...localekanban,
   ...localeProblems,
   ...localeHttpError,
