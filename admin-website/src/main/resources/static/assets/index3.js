@@ -1,7 +1,7 @@
 import { d as defineComponent, u as openBlock, v as createElementBlock, l as createVNode, H as withCtx, V as unref, w as createBaseVNode, E as toDisplayString, J as createTextVNode, Y as pushScopeId, Z as popScopeId, $ as useI18n, r as ref, j as onMounted, n as nextTick, a1 as watch, i as inject, a7 as reactive, k as resolveComponent } from "./vue.js";
 import { _ as _imports_0$2, a as _imports_1, b as _imports_2, c as _imports_3 } from "./home-down.js";
 import { R as Row, C as Col, P as Pager, a as Column, G as Grid } from "./index11.js";
-import { L as Layout, _ as _export_sfc, m as useLocale } from "./index.js";
+import { L as Layout, _ as _export_sfc, g as useLocale } from "./index.js";
 import "./index10.js";
 const _imports_4 = "/ui/admin/assets/home-mainup.png";
 const _imports_5 = "/ui/admin/assets/home-main1.png";

@@ -1,8 +1,8 @@
-import { u as openBlock, v as createElementBlock, w as createBaseVNode, y as createBlock, A as normalizeClass, B as resolveDynamicComponent, z as createCommentVNode, E as toDisplayString, D as renderSlot, F as mergeProps, l as createVNode, I as withDirectives, K as vShow, r as ref, d as defineComponent$1, $ as useI18n, c as computed, a7 as reactive, H as withCtx, V as unref, a0 as useRouter, i as inject, J as createTextVNode, k as resolveComponent, p as provide, Y as pushScopeId, Z as popScopeId } from "./vue.js";
-import { s as svg, x as xss, d as defineComponent, p as props, a as setup, $ as $props, b as $prefix, c as $setup, e as popup_manager_default, o as on, f as off, i as index$5, g as index$6, h as createComponent, j as index$7, k as h, u as useUserStore, I as Input, C as Checkbox, B as Button, T as TINYModal, _ as _export_sfc$1, F as Footer, l as _imports_0 } from "./index.js";
-import { i as index$4, F as FormItem, a as Form } from "./index9.js";
+import { u as openBlock, v as createElementBlock, w as createBaseVNode, l as createVNode, I as withDirectives, K as vShow, r as ref, d as defineComponent$1, $ as useI18n, c as computed, a7 as reactive, H as withCtx, V as unref, a0 as useRouter, i as inject, J as createTextVNode, E as toDisplayString, k as resolveComponent, p as provide, Y as pushScopeId, Z as popScopeId } from "./vue.js";
+import { s as svg, p as popup_manager_default, o as on, a as off, i as index$4, b as index$5, c as createComponent, d as defineComponent, $ as $prefix, e as index$6, f as setup, h, u as useUserStore, I as Input, B as Button, T as TINYModal, _ as _export_sfc, F as Footer } from "./index.js";
+import { i as index$3, F as FormItem, a as Form } from "./index9.js";
 import "./index10.js";
-var _hoisted_1$4 = {
+var _hoisted_1$3 = {
   class: "prompt_svg__tiny-icon-prompt",
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 14 14",
@@ -11,7 +11,7 @@ var _hoisted_1$4 = {
   },
   "xml:space": "preserve"
 };
-var _hoisted_2$4 = /* @__PURE__ */ createBaseVNode(
+var _hoisted_2$2 = /* @__PURE__ */ createBaseVNode(
   "path",
   {
     d: "M7 0C3.13 0 0 3.13 0 7s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z",
@@ -24,7 +24,7 @@ var _hoisted_2$4 = /* @__PURE__ */ createBaseVNode(
   -1
   /* HOISTED */
 );
-var _hoisted_3$2 = /* @__PURE__ */ createBaseVNode(
+var _hoisted_3$1 = /* @__PURE__ */ createBaseVNode(
   "path",
   {
     d: "M7.57 6.43v4a.57.57 0 1 1-1.14 0v-4a.57.57 0 1 1 1.14 0zM7 3c-.47 0-.86.38-.86.86s.39.85.86.85.86-.38.86-.86S7.47 3 7 3z",
@@ -38,178 +38,19 @@ var _hoisted_3$2 = /* @__PURE__ */ createBaseVNode(
   -1
   /* HOISTED */
 );
-var _hoisted_4$1 = [_hoisted_2$4, _hoisted_3$2];
+var _hoisted_4$1 = [_hoisted_2$2, _hoisted_3$1];
 function render(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$4, [].concat(_hoisted_4$1));
+  return openBlock(), createElementBlock("svg", _hoisted_1$3, [].concat(_hoisted_4$1));
 }
 var Prompt = {
   render
 };
-var index$3 = function index2() {
+var index$2 = function index2() {
   return svg({
     name: "IconPrompt",
     component: Prompt
   })();
 };
-const handleClick = ({ emit, props: props2, state }) => (event) => {
-  if (!state.disabled && !props2.href) {
-    emit("click", event);
-  }
-};
-const api$1 = ["state", "handleClick"];
-const renderless$1 = (props2, { inject: inject2, reactive: reactive2, computed: computed2 }, { emit, parent }) => {
-  parent.tinyForm = parent.tinyForm || inject2("form", null);
-  const state = reactive2({
-    formDisabled: computed2(() => (parent.tinyForm || {}).disabled),
-    disabled: computed2(() => props2.disabled || state.formDisabled),
-    href: computed2(() => xss.filterUrl(props2.href))
-  });
-  return {
-    state,
-    handleClick: handleClick({ emit, props: props2, state })
-  };
-};
-function _createForOfIteratorHelperLoose(o, allowArrayLike) {
-  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-  if (it)
-    return (it = it.call(o)).next.bind(it);
-  if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-    if (it)
-      o = it;
-    var i = 0;
-    return function() {
-      if (i >= o.length)
-        return { done: true };
-      return { done: false, value: o[i++] };
-    };
-  }
-  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o)
-    return;
-  if (typeof o === "string")
-    return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor)
-    n = o.constructor.name;
-  if (n === "Map" || n === "Set")
-    return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length)
-    len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++)
-    arr2[i] = arr[i];
-  return arr2;
-}
-var _export_sfc = function _export_sfc2(sfc, props2) {
-  var target = sfc.__vccOpts || sfc;
-  for (var _iterator = _createForOfIteratorHelperLoose(props2), _step; !(_step = _iterator()).done; ) {
-    var _step$value = _step.value, key = _step$value[0], val = _step$value[1];
-    target[key] = val;
-  }
-  return target;
-};
-var _sfc_main$4 = defineComponent({
-  props: [].concat(props, ["disabled", "href", "icon", "type", "underline", "value", "size"]),
-  emits: ["click"],
-  setup: function setup$1(props2, context) {
-    return setup({
-      props: props2,
-      context,
-      renderless: renderless$1,
-      api: api$1
-    });
-  }
-});
-var _hoisted_1$3 = ["href"];
-var _hoisted_2$3 = {
-  key: 1,
-  class: "tiny-link__inner"
-};
-var _hoisted_3$1 = {
-  key: 2,
-  class: "tiny-link__inner"
-};
-function _sfc_render(_ctx, _cache, $props2, $setup2, $data, $options) {
-  return openBlock(), createElementBlock("a", mergeProps({
-    class: ["tiny-link", "tiny-link--additional", _ctx.type ? "tiny-link--" + _ctx.type : "", _ctx.state.disabled && "is-disabled", _ctx.underline && !_ctx.state.disabled && "is-underline", _ctx.size === "medium" ? "tiny-link--" + _ctx.size : "tiny-link--base"],
-    href: _ctx.state.disabled ? null : _ctx.state.href
-  }, _ctx.a(_ctx.$attrs, ["^on[A-Z]"]), {
-    rel: "noopener noreferrer",
-    onClick: _cache[0] || (_cache[0] = function() {
-      return _ctx.handleClick && _ctx.handleClick.apply(_ctx, arguments);
-    })
-  }), [_ctx.icon ? (openBlock(), createBlock(resolveDynamicComponent(_ctx.icon), {
-    key: 0,
-    class: normalizeClass(["tiny-svg-size tiny-link-svg", {
-      "tiny-link-svg-only": !(_ctx.slots.default || _ctx.value)
-    }])
-  }, null, 8, ["class"])) : createCommentVNode("v-if", true), _ctx.value ? (openBlock(), createElementBlock(
-    "span",
-    _hoisted_2$3,
-    toDisplayString(_ctx.value),
-    1
-    /* TEXT */
-  )) : _ctx.slots.default ? (openBlock(), createElementBlock("span", _hoisted_3$1, [renderSlot(_ctx.$slots, "default")])) : createCommentVNode("v-if", true), _ctx.slots.icon ? renderSlot(_ctx.$slots, "icon", {
-    key: 3
-  }) : createCommentVNode("v-if", true)], 16, _hoisted_1$3);
-}
-var pc = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render]]);
-const index$2 = "";
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-var template = function template2(mode) {
-  var _process$env;
-  typeof process === "object" ? (_process$env = {}) == null ? void 0 : _process$env.TINY_MODE : null;
-  return pc;
-};
-var linkProps = _extends({}, $props, {
-  type: {
-    type: String,
-    default: "default"
-  },
-  value: String,
-  underline: {
-    type: Boolean,
-    default: true
-  },
-  href: String,
-  icon: [Object, String],
-  disabled: Boolean,
-  size: String
-});
-var Link = defineComponent({
-  name: $prefix + "Link",
-  props: linkProps,
-  setup: function setup2(props2, context) {
-    return $setup({
-      props: props2,
-      context,
-      template
-    });
-  }
-});
-var version = "3.16.0";
-Link.install = function(Vue) {
-  Vue.component(Link.name, Link);
-};
-Link.version = version;
 const startTimer = ({ api: api2, state }) => () => {
   if (state.duration > 0) {
     state.timer = setTimeout(() => {
@@ -225,9 +66,9 @@ const click = ({ emit, state }) => () => {
   typeof state.onClick === "function" && (void 0).onClick();
   emit("click", "");
 };
-const close = ({ state, props: props2 }) => () => {
-  if (!props2.beforeClose || typeof props2.beforeClose === "function" && props2.beforeClose()) {
-    typeof props2.onClose === "function" && props2.onClose();
+const close = ({ state, props }) => () => {
+  if (!props.beforeClose || typeof props.beforeClose === "function" && props.beforeClose()) {
+    typeof props.onClose === "function" && props.onClose();
     state.closed = true;
   }
 };
@@ -264,27 +105,27 @@ const api = [
   "getPositionSide",
   "getZindex"
 ];
-const renderless = (props2, { computed: computed2, onBeforeUnmount, onMounted, reactive: reactive2, watch }, { emit }) => {
+const renderless = (props, { computed: computed2, onBeforeUnmount, onMounted, reactive: reactive2, watch }, { emit }) => {
   const api2 = {};
   const state = reactive2({
     timer: null,
     closed: false,
     visible: true,
-    duration: computed2(() => props2.duration),
+    duration: computed2(() => props.duration),
     showClose: true,
     verticalOffset: 0,
-    position: computed2(() => props2.position),
+    position: computed2(() => props.position),
     dangerouslyUseHTMLString: false,
     positionStyle: computed2(() => api2.getOffsetStyle(state)),
     verticalProperty: computed2(() => api2.getPositionSide(state)),
-    customClass: computed2(() => props2.customClass)
+    customClass: computed2(() => props.customClass)
   });
   Object.assign(api2, {
     state,
     getZindex,
     getOffsetStyle,
     getPositionSide,
-    close: close({ state, props: props2 }),
+    close: close({ state, props }),
     click: click({ emit, state }),
     clearTimer: clearTimer(state),
     bindEvent: bindEvent({ api: api2, state }),
@@ -599,7 +440,7 @@ var _sfc_main$3 = /* @__PURE__ */ defineComponent({
     closeIcon: {
       type: Object,
       default: function _default() {
-        return index$7();
+        return index$6();
       }
     },
     customClass: [String, Object],
@@ -625,9 +466,9 @@ var _sfc_main$3 = /* @__PURE__ */ defineComponent({
     title: [String, Function],
     type: String
   },
-  setup: function setup$12(props2, context) {
+  setup: function setup$1(props, context) {
     return setup({
-      props: props2,
+      props,
       context,
       renderless,
       api,
@@ -696,10 +537,10 @@ var _sfc_main$3 = /* @__PURE__ */ defineComponent({
 var seed = 1;
 var instances = [];
 var IconMap = {
-  warning: index$4(),
-  error: index$5(),
-  info: index$3(),
-  success: index$6()
+  warning: index$3(),
+  error: index$4(),
+  info: index$2(),
+  success: index$5()
 };
 var durationMap = {
   info: 5e3,
@@ -830,6 +671,7 @@ Notify.closeAll = function() {
     instance.close();
   });
 };
+const _imports_0 = "/ui/admin/assets/servicecomb.png";
 function useLoading(initValue = false) {
   const loading = ref(initValue);
   const setLoading = (value) => {
@@ -845,7 +687,6 @@ function useLoading(initValue = false) {
   };
 }
 const _hoisted_1$2 = { class: "login-form-container" };
-const _hoisted_2$2 = { class: "login-form-options" };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
   __name: "login-mail",
   setup(__props) {
@@ -877,10 +718,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
       mailpassword: "changeMyPassword",
       rememberPassword: true
     });
-    const handle = inject("handle");
-    const typeChange = () => {
-      handle(true);
-    };
+    inject("handle");
     function handleSubmit() {
       var _a;
       (_a = loginFormMail.value) == null ? void 0 : _a.validate(async (valid) => {
@@ -960,40 +798,6 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
               ]),
               _: 1
             }),
-            createBaseVNode("div", _hoisted_2$2, [
-              createVNode(unref(Checkbox), null, {
-                default: withCtx(() => [
-                  createTextVNode(toDisplayString(_ctx.$t("login.form.rememberPassword")), 1)
-                ]),
-                _: 1
-              }),
-              createBaseVNode("div", null, [
-                createVNode(unref(Link), { type: "primary" }, {
-                  default: withCtx(() => [
-                    createTextVNode(toDisplayString(_ctx.$t("login.form.forgetPassword")), 1)
-                  ]),
-                  _: 1
-                }),
-                createVNode(unref(Link), {
-                  type: "primary",
-                  class: "divide-line"
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode("|")
-                  ]),
-                  _: 1
-                }),
-                createVNode(unref(Link), {
-                  type: "primary",
-                  onClick: typeChange
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(toDisplayString(_ctx.$t("login.form.registration")), 1)
-                  ]),
-                  _: 1
-                })
-              ])
-            ]),
             createVNode(unref(FormItem), { size: "medium" }, {
               default: withCtx(() => [
                 createVNode(unref(Button), {
@@ -1017,8 +821,8 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
     };
   }
 });
-const loginMail_vue_vue_type_style_index_0_scoped_985986a4_lang = "";
-const LoginMail = /* @__PURE__ */ _export_sfc$1(_sfc_main$2, [["__scopeId", "data-v-985986a4"]]);
+const loginMail_vue_vue_type_style_index_0_scoped_6b96aa02_lang = "";
+const LoginMail = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-6b96aa02"]]);
 const _hoisted_1$1 = { class: "login-form-container" };
 const _hoisted_2$1 = { class: "login-form-language" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
@@ -1044,8 +848,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
   }
 });
 const loginForm_vue_vue_type_style_index_0_scoped_74841660_lang = "";
-const LoginForm = /* @__PURE__ */ _export_sfc$1(_sfc_main$1, [["__scopeId", "data-v-74841660"]]);
-const _withScopeId = (n) => (pushScopeId("data-v-fe79e3e5"), n = n(), popScopeId(), n);
+const LoginForm = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-74841660"]]);
+const _withScopeId = (n) => (pushScopeId("data-v-eca38c15"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "container-login" };
 const _hoisted_2 = { class: "content" };
 const _hoisted_3 = { class: "login" };
@@ -1053,10 +857,9 @@ const _hoisted_4 = { class: "login-header" };
 const _hoisted_5 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("div", { class: "login-logo" }, [
   /* @__PURE__ */ createBaseVNode("img", {
     class: "login-logo-img",
-    alt: "Tiny Design",
+    alt: "servicecomb",
     src: _imports_0
-  }),
-  /* @__PURE__ */ createBaseVNode("span", { class: "login-logo-text" }, "TinyPro of Vue")
+  })
 ], -1));
 const _hoisted_6 = { class: "login-desc" };
 const _hoisted_7 = { class: "footer" };
@@ -1081,9 +884,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent$1({
     };
   }
 });
-const index_vue_vue_type_style_index_0_scoped_fe79e3e5_lang = "";
-const index_vue_vue_type_style_index_1_scoped_fe79e3e5_lang = "";
-const index = /* @__PURE__ */ _export_sfc$1(_sfc_main, [["__scopeId", "data-v-fe79e3e5"]]);
+const index_vue_vue_type_style_index_0_scoped_eca38c15_lang = "";
+const index_vue_vue_type_style_index_1_scoped_eca38c15_lang = "";
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-eca38c15"]]);
 export {
   index as default
 };
