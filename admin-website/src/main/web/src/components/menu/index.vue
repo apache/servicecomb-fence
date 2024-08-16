@@ -25,7 +25,7 @@
   import { computed, watch, ref, onMounted } from 'vue';
   import { RouteRecordNormalized } from 'vue-router';
   import {
-    IconDownloadCloud,
+    IconMaintainInspectionRecords,
     IconFiles,
     IconSetting,
     IconSuccessful,
@@ -39,7 +39,7 @@
   import { useUserStore } from '@/store';
 
   // icon图标
-  const iconDownloadCloud = IconDownloadCloud();
+  const iconMaintainInspectionRecords = IconMaintainInspectionRecords();
   const iconFiles = IconFiles();
   const iconSetting = IconSetting();
   const iconSuccessful = IconSuccessful();
@@ -65,7 +65,7 @@
     {
       value: 'Maintenance',
       name: 'menu.maintenance',
-      icon: iconDownloadCloud,
+      icon: iconMaintainInspectionRecords,
       bold: 'main-title',
     },
    {
