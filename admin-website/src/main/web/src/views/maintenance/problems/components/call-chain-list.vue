@@ -2,7 +2,8 @@
 <template>
   <tiny-grid ref="listRef" resizable seq-serial :data="state.traceData">
     <template #toolbar>
-      <tiny-grid-toolbar> <span>{{ listTypes === ListType.TYPE_LOGS ? '日志' : '调用链' }}列表</span></tiny-grid-toolbar>
+      <tiny-grid-toolbar> <span>{{ listTypes === ListType.TYPE_LOGS ?
+          $t('maintenance.problems.chain.logList') : $t('maintenance.problems.chain.callList') }}</span></tiny-grid-toolbar>
     </template>
     <tiny-grid-column type="index" width="60"></tiny-grid-column>
     <tiny-grid-column width="60"></tiny-grid-column>

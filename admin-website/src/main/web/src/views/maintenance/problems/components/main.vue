@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main-title">
       <span></span>
-      <p>调用链搜索</p>
+      <p>{{ $t('maintenance.problems.main.callChainSearch') }}</p>
     </div>
     <div class="main-content">
       <div class="main-content-form">
@@ -15,12 +15,12 @@
            class="demo-form">
           <tiny-row>
             <tiny-col :span="6">
-              <tiny-form-item label="Trace-Id:" prop="traceId">
+              <tiny-form-item :label="$t('maintenance.problems.main.traceId')" prop="traceId">
                 <tiny-input v-model="state.filterOptions.traceId" clearable></tiny-input>
               </tiny-form-item>
             </tiny-col>
             <tiny-col :span="6">
-              <tiny-form-item label="大概时间:" prop="startTime">
+              <tiny-form-item :label="$t('maintenance.problems.main.time')" prop="startTime">
                 <tiny-date-picker v-model="state.filterOptions.startTime" type="datetime"></tiny-date-picker>
               </tiny-form-item>
             </tiny-col>
@@ -29,11 +29,11 @@
 
       </div>
       <div class="main-content-search">
-        <tiny-button type="primary" @click="searchCallChain">搜索</tiny-button>
+        <tiny-button type="primary" @click="searchCallChain">{{ $t('maintenance.problems.main.search') }}</tiny-button>
       </div>
     </div>
     <div class="clear-expand">
-      <tiny-button @click="clearExpand">手动清空展开行状态</tiny-button>
+      <tiny-button @click="clearExpand">{{ $t('maintenance.problems.main.collapse') }}</tiny-button>
     </div>
     <div class="main-list">
       <call-chain-list ref="chainRef" :timestamp="state.timestamp" :trace-data="state.traceData" />
