@@ -24,7 +24,7 @@ export default {
   'setting.loginout': '登出成功',
   'setting.copy': '复制成功',
   'setting.input.search': '请输入关键词',
-  'setting.foot.title': 'OpenTiny 出品',
+  'setting.foot.title': 'OpenTiny提供技术支持',
   'setting.mode.navbar': '收起页头，页尾',
   'setting.mode.menu': '收起菜单',
   'setting.mode.footer': '收起页脚',
