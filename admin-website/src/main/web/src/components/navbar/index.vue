@@ -2,15 +2,11 @@
   <div class="navbar">
     <div class="left-side">
       <div style="display: flex; align-items: center">
-        <img
-          src="@/assets/images/opentiny-logo.png"
-          alt="logo"
-          @click="jumpUrl"
-        />
-        <h5 @click="jumpUrl">OpenTiny</h5>
-        <div class="divider"></div>
-        <img class="vue-icon" alt="logo" src="@/assets/images/pro.png" />
-        <h4>TinyPro of Vue</h4>
+        <a href="https://servicecomb.apache.org/references/java-chassis/zh_CN/index.html"
+          target="_blank" rel="noopener noreferrer">
+          <img src="@/assets/images/ServiceComb-logo-3.jpg" alt="logo" width="50" height="50"/>
+        </a>
+        <div>ServiceComb</div>
       </div>
     </div>
     <ul class="right-side">
@@ -40,11 +36,9 @@
       </li>
 
       <li>
-        <span @click="help">{{ $t('settings.navbar.help') }}</span>
-      </li>
-      <li>
         <span @click="setVisible">{{ $t('settings.title') }}</span>
       </li>
+
       <li class="navbar-user">
         <tiny-user-head type="icon" round min>
           <div class="user-image">
@@ -58,10 +52,7 @@
             :value="item.label"
             @click="switchUser(item.value)"
           >
-            <iconReplace v-if="item.value === 1"></iconReplace>
-            <iconUser v-if="item.value === 2"></iconUser>
-            <iconWriting v-if="item.value === 3"></iconWriting>
-            <iconCheckOut v-if="item.value === 4"></iconCheckOut>
+            <iconCheckOut v-if="item.value === 1"></iconCheckOut>
             {{ $t(item.label) }}
           </li>
         </div>
@@ -103,10 +94,6 @@
   const changeLan = () => {
     lan.value = !lan.value;
   };
-  // 帮助中心
-  const help = () => {
-    window.location.href = `${window.location.protocol}//${window.location.host}/vue-pro/docs/start`;
-  };
 
   // 设置页面显示
   const setVisible = () => {
@@ -115,10 +102,7 @@
 
   // 用户设置
   const userlist = [
-    { label: 'messageBox.switchRoles', value: 1 },
-    { label: 'messageBox.userCenter', value: 2 },
-    { label: 'messageBox.userSettings', value: 3 },
-    { label: 'messageBox.logout', value: 4 },
+    { label: 'messageBox.logout', value: 1 },
   ];
 
   const switchRoles = async () => {
@@ -133,25 +117,11 @@
   const switchUser = (e: number) => {
     switch (e) {
       case 1:
-        switchRoles();
-        break;
-      case 2:
-        router.push({ name: 'Info' });
-        break;
-      case 3:
-        router.push({ name: 'Setting' });
-        break;
-      case 4:
         logout();
         break;
       default:
       // eslint-disable-next-line no-console
     }
-  };
-
-  // 点击图标跳转首页
-  const jumpUrl = () => {
-    window.location.href = `${window.location.protocol}//${window.location.host}`;
   };
 </script>
 
@@ -284,7 +254,7 @@
 
     .trigger-user {
       position: absolute;
-      bottom: -102px;
+      bottom: -25px;
       display: none;
       width: 100px;
       margin-left: -43px;

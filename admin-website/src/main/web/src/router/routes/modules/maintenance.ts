@@ -14,7 +14,7 @@ export default {
   },
   children: [
     {
-      path: 'Problems',
+      path: 'problems',
       name: 'Problems',
       id: 'Problems',
       label: 'Problems',
