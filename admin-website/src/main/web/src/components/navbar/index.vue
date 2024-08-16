@@ -2,24 +2,14 @@
   <div class="navbar">
     <div class="left-side">
       <div style="display: flex; align-items: center">
+        <div>
         <a href="https://servicecomb.apache.org/references/java-chassis/zh_CN/index.html"
           target="_blank" rel="noopener noreferrer">
           <img src="@/assets/images/ServiceComb-logo-3.jpg" alt="logo" width="50" height="50"/>
-        </a>
-        <div>ServiceComb</div>
+        </a></div>
       </div>
     </div>
     <ul class="right-side">
-      <li>
-        <input
-          id="navbar-search"
-          class="input-icon"
-          :placeholder="$t('setting.input.search')"
-        />
-      </li>
-      <li>
-        <div class="divider"></div>
-      </li>
       <li @click="changeLan">
         <span v-if="i18.locale.value === 'zhCN'">中文</span>
         <span v-else>English</span>

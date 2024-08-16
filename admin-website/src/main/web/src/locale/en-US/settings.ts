@@ -24,7 +24,7 @@ export default {
   'setting.loginout': 'Logout succeeded',
   'setting.copy': 'Copying succeeded',
   'setting.input.search': 'Enter a keyword',
-  'setting.foot.title': 'Produced by OpenTiny',
+  'setting.foot.title': 'Powered by OpenTiny',
   'setting.mode.navbar': 'Collapse Header, Footer',
   'setting.mode.menu': 'Collapse menu',
   'setting.mode.footer': 'Collapse Footer',

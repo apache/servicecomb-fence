@@ -42,5 +42,5 @@ export default {
   'login.tip.info': '用户名：admin，密码 admin',
   'login.tip.mail': "用户名：admin{'@'}example.com，密码 admin",
   'login.tip.right': '请输入正确的用户名密码',
-  'login.main.text': 'TinyPro 中后台前端解决方案',
+  'login.main.text': '云原生应用开发套件',
 };

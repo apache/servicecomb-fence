@@ -3,7 +3,7 @@
     <div>{{ $t('setting.foot.title') }}</div>
     <div class="divider"></div>
     <a href="https://opentiny.design/" target="_blank" rel="noopener noreferrer">
-      <img src="@/assets/images/github.png" alt="github" />
+      <img src="@/assets/images/opentiny-logo.png" alt="github" />
     </a>
   </div>
 </template>

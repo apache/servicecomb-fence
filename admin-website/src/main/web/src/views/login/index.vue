@@ -6,10 +6,9 @@
           <div class="login-logo">
             <img
               class="login-logo-img"
-              alt="Tiny Design"
-              src="@/assets/images/pro.png"
+              alt="servicecomb"
+              src="@/assets/images/servicecomb.png"
             />
-            <span class="login-logo-text">TinyPro of Vue</span>
           </div>
           <div class="login-desc">{{ $t('login.main.text') }}</div>
         </div>
