@@ -4,7 +4,7 @@ import localeTheme from '@/components/theme/locale/zh-CN';
 import localeUserInfo from '@/views/user/info/locale/zh-CN';
 import localeUserSetting from '@/views/user/setting/locale/zh-CN';
 
-import localeKanban from '@/views/board/locale/zh-CN';
+import localeManagement from '@/views/management/locale/zh-CN';
 
 import localeProblems from '@/views/maintenance/problems/locale/zh-CN';
 
@@ -13,8 +13,8 @@ import localeSettings from './zh-CN/settings';
 import localeHttpError from './zh-CN/httpError';
 
 export default {
-  'menu.board': '看板',
-  'menu.home': '监控页',
+  'menu.management': '服务管理',
+  'menu.management.home': '注册发现',
   'menu.visualization': '数据可视化',
   'menu.user': '个人中心',
   'navbar.docs': '文档中心',
@@ -29,7 +29,7 @@ export default {
   ...localeLogin,
   ...localeUserInfo,
   ...localeUserSetting,
-  ...localeKanban,
+  ...localeManagement,
   ...localeProblems,
   ...localeHttpError,
 };

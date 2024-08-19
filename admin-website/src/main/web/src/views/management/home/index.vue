@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.board', 'menu.home']" />
+    <Breadcrumb :items="['menu.management', 'menu.management.home']" />
     <div class="contain">
       <Main></Main>
       <Curve></Curve>

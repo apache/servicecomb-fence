@@ -1,13 +1,13 @@
 import { RoleType } from '@/types/roleType';
 
 export default {
-  path: 'board',
-  name: 'Board',
-  id: 'Board',
-  label: 'Board',
-  component: () => import('@/views/board/index.vue'),
+  path: 'management',
+  name: 'Management',
+  id: 'Management',
+  label: 'Management',
+  component: () => import('@/views/management/index.vue'),
   meta: {
-    locale: 'menu.board',
+    locale: 'menu.management',
     requiresAuth: true,
     order: 1,
     roles: [RoleType.admin],
@@ -18,9 +18,9 @@ export default {
       name: 'Home',
       id: 'Home',
       label: 'Home',
-      component: () => import('@/views/board/home/index.vue'),
+      component: () => import('@/views/management/home/index.vue'),
       meta: {
-        locale: 'menu.board.home',
+        locale: 'menu.management.home',
         requiresAuth: true,
         roles: [RoleType.admin],
       },
