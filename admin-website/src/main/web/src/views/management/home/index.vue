@@ -1,22 +1,14 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.management', 'menu.management.home']" />
     <div class="contain">
-      <Main></Main>
-      <Curve></Curve>
-      <Falls></Falls>
-      <Round></Round>
-      <Region></Region>
+      <Breadcrumb :items="['menu.management', 'menu.management.home']" />
+      <Service></Service>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import Main from './components/main.vue';
-  import Curve from './components/curve.vue';
-  import Falls from './components/falls.vue';
-  import Round from './components/round.vue';
-  import Region from './components/region.vue';
+  import Service from './components/service.vue';
 </script>
 
 <style scoped lang="less">
