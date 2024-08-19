@@ -51,14 +51,14 @@
   const expandeArr = ref();
   const routerTitle = [
     {
-      value: 'Board',
-      name: 'menu.board',
+      value: 'Management',
+      name: 'menu.management',
       icon: iconApplication,
       bold: 'main-title',
     },
     {
       value: 'Home',
-      name: 'menu.home',
+      name: 'menu.management.home',
       icon: null,
       bold: 'title',
     },

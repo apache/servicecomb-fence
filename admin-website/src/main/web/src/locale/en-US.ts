@@ -4,7 +4,7 @@ import localeTheme from '@/components/theme/locale/en-US';
 import localeUserInfo from '@/views/user/info/locale/en-US';
 import localeUserSetting from '@/views/user/setting/locale/en-US';
 
-import localeKanban from '@/views/board/locale/en-US';
+import localeManagement from '@/views/management/locale/en-US';
 
 import localeProblems from '@/views/maintenance/problems/locale/en-US';
 
@@ -13,8 +13,8 @@ import localeSettings from './en-US/settings';
 import localeHttpError from './en-US/httpError';
 
 export default {
-  'menu.board': 'Dashboard Page',
-  'menu.home': 'Monitoring page',
+  'menu.management': 'System Management',
+  'menu.management.home': 'Service Discovery and Registration',
   'menu.visualization': 'Data Visualization',
   'menu.user': 'User Center',
   'navbar.docs': 'Docs',
@@ -29,7 +29,7 @@ export default {
   ...localeLogin,
   ...localeUserInfo,
   ...localeUserSetting,
-  ...localeKanban,
+  ...localeManagement,
   ...localeProblems,
   ...localeHttpError,
 };
