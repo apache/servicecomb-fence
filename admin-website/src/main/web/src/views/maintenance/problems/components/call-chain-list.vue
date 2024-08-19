@@ -46,13 +46,9 @@
     <tiny-grid-column title="操作" width="150">
       <template #default="data">
         <div>
-          <span 
-          class="list-operation"
-         @click="downloadLog(data.row.serviceName, data.row.instanceId)">查看日志</span>&nbsp;|&nbsp;
-         <span
-          class="list-operation"
-           @click="downloadMetrics(data.row.serviceName, data.row.instanceId)"
-          >查看Metrics</span>
+          <span class="list-operation" @click="downloadLog(data.row.serviceName, data.row.instanceId)">下载日志</span>
+          &nbsp;|&nbsp;
+          <span class="list-operation" @click="downloadMetrics(data.row.serviceName, data.row.instanceId)">下载指标</span>
         </div>
       </template>
     </tiny-grid-column>
