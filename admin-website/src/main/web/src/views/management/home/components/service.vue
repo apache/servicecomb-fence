@@ -24,7 +24,10 @@
           </tiny-col>
           <tiny-col :span="6">
             <tiny-form-item label="服务名称">
-              <tiny-select v-model="state.filterOptions.serviceName" :options="state.filterOptions.serviceLists"></tiny-select>
+              <div>
+              <tiny-select v-model="state.filterOptions.serviceName"
+              :options="state.filterOptions.serviceLists" @change="handleFindServiceInstances"></tiny-select></div>
+              <div><tiny-icon-refres @click="handleRefreshService"></tiny-icon-refres></div>
             </tiny-form-item>
           </tiny-col>
         </tiny-row>
@@ -39,6 +42,8 @@
       <tiny-grid-column field="version" title="版本号"></tiny-grid-column>
       <tiny-grid-column field="endpoints" title="协议列表"></tiny-grid-column>
       <tiny-grid-column field="instanceId" title="实例ID"></tiny-grid-column>
+      <tiny-grid-column field="registryName" title="注册中心"></tiny-grid-column>
+      <tiny-grid-column field="status" title="状态"></tiny-grid-column>
       <tiny-grid-column title="操作" width="150">
         <template #default="data">
           <div>
@@ -63,24 +68,73 @@ import { Grid as TinyGrid,
   Col as TinyCol,
   GridColumn as TinyGridColumn,
   Select as TinySelect, Option as TinyOption} from '@opentiny/vue';
-
+import { iconRefres } from '@opentiny/vue-icon';
 import { reactive } from 'vue';
-import { getLogs, getMetrics } from '@/api/problems';
+import { findServices, findServiceInstances, getLogs, getMetrics } from '@/api/problems';
 import { timesHandle } from '@/utils/time';
+
+const TinyIconRefres = iconRefres();
 
 const state = reactive({
   filterOptions: {
-    environment: 'Production',
-    application: 'Application',
-    serviceLists: [{value: 'serviceA', label: 'serviceA'}, {value: 'serviceB', label: 'serviceB'}],
-    serviceName: 'serviceA'
+    environment: '',
+    application: '',
+    serviceLists: [],
+    serviceName: ''
   },
-  instanceLists: [
-     {serviceName: 'serviceA', version: '2.0.0', endpoints: ['rest://localhost:9090'],
-       instanceId: 'instanceId1'},
-     {serviceName: 'serviceB', version: '2.0.0', endpoints: ['rest://localhost:9080'],
-       instanceId: 'instanceId2'}]
+  instanceLists: []
 });
+
+const handleRefreshService = ()  => {
+  findServices().then((response) => {
+    let serviceLists = [];
+    response.services.forEach(item => {
+       let temp = {value: '', label: ''};
+       temp.value = item;
+       temp.label = item;
+       serviceLists.push(temp);
+    });
+    state.filterOptions.serviceLists = serviceLists;
+    state.filterOptions.application = response.application;
+    state.filterOptions.environment = response.environment;
+    if(Array.isArray(serviceLists) && serviceLists.length) {
+      state.filterOptions.serviceName = serviceLists[0].value;
+    }
+  })
+};
+
+const handleFindServiceInstances = ()  => {
+  if(!state.filterOptions.serviceName) {
+    return;
+  }
+  findServiceInstances(state.filterOptions.serviceName).then((response) => {
+    state.instanceLists = response.instances;
+  })
+};
+
+const firstInit = async () => {
+  let response = await findServices();
+  const serviceLists = [];
+  response.services.forEach(item => {
+     let temp = {value: '', label: ''};
+     temp.value = item;
+     temp.label = item;
+     serviceLists.push(temp);
+  });
+  state.filterOptions.serviceLists = serviceLists;
+  state.filterOptions.application = response.application;
+  state.filterOptions.environment = response.environment;
+  if(Array.isArray(serviceLists) && serviceLists.length) {
+    state.filterOptions.serviceName = serviceLists[0].value;
+  };
+  if(!state.filterOptions.serviceName) {
+    return;
+  }
+  response = await findServiceInstances(state.filterOptions.serviceName);
+  state.instanceLists = response.instances;
+}
+
+firstInit();
 
 const fileHandle = (data:any, type:string) => {
   const url = window.URL.createObjectURL(new Blob([data], {type: 'text/plain'}))
@@ -116,6 +170,7 @@ const downloadMetrics = (serviceName: string, instanceId: string) => {
     fileHandle(response,'Metrics.txt')
   })
 };
+
 </script>
 
 <style scoped lang="less"></style>

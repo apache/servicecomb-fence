@@ -75,3 +75,18 @@ export function getMetrics(params: LogType) {
     params,
   })
 }
+
+export function findServices() {
+  return axios({
+      url:'/api/admin/v1/scb/admin/discovery/findServices',
+  })
+}
+
+export function findServiceInstances(serviceName: string) {
+  let params = {};
+  params.serviceName = serviceName;
+  return axios({
+      url:'/api/admin/v1/scb/admin/discovery/findServiceInstances',
+        params,
+  })
+}
