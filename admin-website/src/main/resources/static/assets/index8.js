@@ -1,8 +1,11 @@
 import { d as defineComponent, $ as useI18n, a7 as reactive, u as openBlock, v as createElementBlock, w as createBaseVNode, l as createVNode, H as withCtx, V as unref, E as toDisplayString, J as createTextVNode, Y as pushScopeId, Z as popScopeId } from "./vue.js";
-import { _ as _imports_0, a as _imports_1, b as _imports_2, c as _imports_3 } from "./home-down.js";
 import { P as Pager, R as Row, C as Col, a as Column, G as Grid } from "./index11.js";
 import { L as Layout, _ as _export_sfc } from "./index.js";
 import "./index10.js";
+const _imports_0 = "/ui/admin/assets/home-main1.png";
+const _imports_1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABP0lEQVQoU32Rv0vDQBzF38spTRBBcGtNcbKLOjgJCqJTJ3XwH9DNooJuOjm5qUhsRx07Ce3qqEMnEcRJHIpRwR+DIG0abPKV1CbEVrzl7t7d5/u+944iIAlBezSOUyNCVaJ4i/ra012ohzPjQM0yk5pCBWAaQNX3ZKpv3X6OQww3cjg80Eh4lwBHIw1yY7hqhpvVj8ghWNgHQ8ZgQjsnMd3ZAkQu3l3JmluPTnDWcqjnzRLJha7LbYHAmZ57WIqARiGZodajIDLuC4sxcEfTUJam1wwDiN7QciqkJglVifr1vUxnUr+AmmXOa4rlH0BujZw91hVrXHAK6W0Ae21gxcjZp/8C9Xz6isREkIz+Zs9yF34caP1ZKDiWuQzFEwLXX3Sz/asvr53VI+DTSs31KrXvi180PP2IG/fuXxEHwDfMeXQKr4imkAAAAABJRU5ErkJggg==";
+const _imports_2 = "/ui/admin/assets/home-main2.png";
+const _imports_3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABOUlEQVQoU33RPS9DURgH8P9z7hWRGMylL5MOwmAit1rdGomLRux8CyaTyeQDMDaRCKeNGCzNzaUTEjGJoVokTDaanHseOVfKdaM908l5/r/z8hxiBhVq6SKAXSZUhq2BvbOFhw56DDKACJyrJdcFi30AN0p9li7Lr2//GYou5qvpKwDTAHvedauIbeg4+gPmZGaTiHdMSJPe8BfbB31BXiZdkJDfIb7z3NZkX+BUMzMWuNENaaWyfvn5PorCKzkykRVsW7B5irSodAPMvAWGZB2oLgxBvpaSYHJ7tRLAkec+rpp6CGYPx4bsQXFORE4cMbOnOrrUWHv6+AFmMn+cGQks7RNoIoJuRUCF+krzPWyD+bPojo5MJgSJBgEpAM2AtXOx1H75fVMMmELudHRcBPaJVmo53iFzwhc8eHkK6yuMVQAAAABJRU5ErkJggg==";
 const _withScopeId = (n) => (pushScopeId("data-v-b51475b6"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "preview-main" };
 const _hoisted_2 = { class: "preview-card" };

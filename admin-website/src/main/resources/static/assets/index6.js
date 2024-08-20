@@ -1,6 +1,7 @@
 import { u as openBlock, v as createElementBlock, w as createBaseVNode, l as createVNode, I as withDirectives, K as vShow, r as ref, d as defineComponent$1, $ as useI18n, c as computed, a7 as reactive, H as withCtx, V as unref, a0 as useRouter, i as inject, J as createTextVNode, E as toDisplayString, k as resolveComponent, p as provide, Y as pushScopeId, Z as popScopeId } from "./vue.js";
 import { s as svg, p as popup_manager_default, o as on, a as off, i as index$4, b as index$5, c as createComponent, d as defineComponent, $ as $prefix, e as index$6, f as setup, h, u as useUserStore, I as Input, B as Button, T as TINYModal, _ as _export_sfc, F as Footer } from "./index.js";
-import { i as index$3, F as FormItem, a as Form } from "./index9.js";
+import { F as FormItem, a as Form } from "./index9.js";
+import { i as index$3 } from "./warning-triangle.js";
 import "./index10.js";
 var _hoisted_1$3 = {
   class: "prompt_svg__tiny-icon-prompt",
