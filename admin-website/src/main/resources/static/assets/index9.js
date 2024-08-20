@@ -1,55 +1,6 @@
-import { s as svg, aQ as merge, d as defineComponent, Y as Tooltip, j as props, f as setup, l as $props, $ as $prefix, m as $setup, H as isNull, a$ as VALIDATE_STATE, b0 as POSITION, A as debounce_default, r as omitText, h, b1 as parseVnode, X as index$5 } from "./index.js";
-import { u as openBlock, v as createElementBlock, w as createBaseVNode, k as resolveComponent, D as renderSlot, y as createBlock, z as createCommentVNode, A as normalizeClass, O as withModifiers, l as createVNode, t as Text, H as withCtx, G as normalizeStyle, J as createTextVNode, E as toDisplayString, I as withDirectives, K as vShow } from "./vue.js";
+import { ar as merge, d as defineComponent, ak as Tooltip, g as props, f as setup, k as $props, $ as $prefix, l as $setup, aM as isNull, a_ as VALIDATE_STATE, a$ as POSITION, Y as debounce_default, aE as omitText, h, b0 as parseVnode, am as index$4 } from "./index.js";
+import { k as resolveComponent, u as openBlock, v as createElementBlock, D as renderSlot, y as createBlock, z as createCommentVNode, A as normalizeClass, O as withModifiers, l as createVNode, t as Text, H as withCtx, G as normalizeStyle, w as createBaseVNode, J as createTextVNode, E as toDisplayString, I as withDirectives, K as vShow } from "./vue.js";
 import { v as validate_default } from "./index10.js";
-var _hoisted_1$1 = {
-  class: "warning-triangle_svg__tiny-icon-warning-triangle",
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 14 14",
-  style: {
-    "enable-background": "new 0 0 14 14"
-  },
-  "xml:space": "preserve"
-};
-var _hoisted_2$1 = /* @__PURE__ */ createBaseVNode(
-  "path",
-  {
-    d: "m7.84 1 6.05 11.13c.25.46.07 1.02-.39 1.27-.14.07-.29.11-.45.11H.95a.963.963 0 0 1-.95-.95c0-.15.04-.31.11-.44L6.16 1c.25-.46.83-.63 1.29-.39.17.09.3.22.39.39z",
-    style: {
-      "fill-rule": "evenodd",
-      "clip-rule": "evenodd"
-    }
-  },
-  null,
-  -1
-  /* HOISTED */
-);
-var _hoisted_3$1 = /* @__PURE__ */ createBaseVNode(
-  "path",
-  {
-    d: "M7.75 10.75c0 .41-.34.75-.75.75s-.75-.34-.75-.75S6.59 10 7 10s.75.34.75.75zM7 9c.28 0 .5-.22.5-.5V5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v3.5c0 .28.22.5.5.5z",
-    style: {
-      "fill-rule": "evenodd",
-      "clip-rule": "evenodd",
-      "fill": "#fff"
-    }
-  },
-  null,
-  -1
-  /* HOISTED */
-);
-var _hoisted_4 = [_hoisted_2$1, _hoisted_3$1];
-function render(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$1, [].concat(_hoisted_4));
-}
-var WarningTriangle = {
-  render
-};
-var index$4 = function index2() {
-  return svg({
-    name: "IconWarningTriangle",
-    component: WarningTriangle
-  })();
-};
 const watchRules = ({ api: api2, props: props2, state }) => (newRules = {}, oldRules = {}) => {
   const newValidFields = Object.keys(newRules);
   const oldValidFields = Object.keys(oldRules);
@@ -176,23 +127,23 @@ const validateField = (state) => (props2, cb) => {
   });
 };
 const getLabelWidthIndex = (state) => (width) => {
-  const index3 = state.potentialLabelWidthArr.indexOf(width);
-  if (index3 === -1) {
+  const index2 = state.potentialLabelWidthArr.indexOf(width);
+  if (index2 === -1) {
     throw new Error("unpected width ", width);
   }
-  return index3;
+  return index2;
 };
 const registerLabelWidth = ({ api: api2, state }) => (val, oldVal) => {
   if (val && oldVal) {
-    const index3 = api2.getLabelWidthIndex(oldVal);
-    state.potentialLabelWidthArr.splice(index3, 1, val);
+    const index2 = api2.getLabelWidthIndex(oldVal);
+    state.potentialLabelWidthArr.splice(index2, 1, val);
   } else if (val) {
     state.potentialLabelWidthArr.push(val);
   }
 };
 const deregisterLabelWidth = ({ api: api2, state }) => (val) => {
-  const index3 = api2.getLabelWidthIndex(val);
-  state.potentialLabelWidthArr.splice(index3, 1);
+  const index2 = api2.getLabelWidthIndex(val);
+  state.potentialLabelWidthArr.splice(index2, 1);
 };
 const bindDialogEvent = ({ api: api2, dialog, state }) => {
   let unbindDialogEvent = () => {
@@ -833,13 +784,13 @@ const getPropByPath = (obj, path, strict) => {
   let findObj = obj;
   path = path.replace(/\[(\w+)\]/g, ".$1");
   path = path.replace(/^\./, "");
-  let index3 = 0;
+  let index2 = 0;
   let keys = path.split(".");
-  for (let len = keys.length; index3 < len - 1; ++index3) {
+  for (let len = keys.length; index2 < len - 1; ++index2) {
     if (!findObj && !strict) {
       break;
     }
-    let key = keys[index3];
+    let key = keys[index2];
     if (findObj && key in findObj) {
       findObj = findObj[key];
     } else {
@@ -851,8 +802,8 @@ const getPropByPath = (obj, path, strict) => {
   }
   return {
     o: findObj,
-    k: keys[index3],
-    v: findObj ? findObj[keys[index3]] : null
+    k: keys[index2],
+    v: findObj ? findObj[keys[index2]] : null
   };
 };
 const computedFieldValue = ({ props: props2, state }) => () => {
@@ -1201,7 +1152,7 @@ var labelWrap = defineComponent({
     isMobileFirst: Boolean
   }),
   inject: ["form", "formItem"],
-  render: function render2() {
+  render: function render() {
     var slotsDefault = this.slots.default && this.slots.default();
     var classPrefix = this.isMobile ? "tiny-mobile-" : "tiny-";
     if (!slotsDefault)
@@ -1378,7 +1329,7 @@ var _sfc_main$1 = /* @__PURE__ */ defineComponent({
       api
     });
   },
-  render: function render3() {
+  render: function render2() {
     var _this = this, _class, _class2, _class3, _class4, _class5;
     var state = this.state, required = this.required, slots = this.slots, label = this.label, scopedSlots = this.scopedSlots, showMessage = this.showMessage;
     this.inlineMessage;
@@ -1600,7 +1551,7 @@ var _sfc_main = defineComponent({
   components: {
     LabelWrap: labelWrap,
     TinyTooltip: Tooltip,
-    IconHelpCircle: index$5()
+    IconHelpCircle: index$4()
   },
   props: _extends$1({}, $props, {
     _constants: {
@@ -1861,6 +1812,5 @@ FormItem.install = function(Vue) {
 };
 export {
   FormItem as F,
-  Form as a,
-  index$4 as i
+  Form as a
 };
