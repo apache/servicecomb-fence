@@ -42,12 +42,11 @@ axios.interceptors.response.use(
   (response: AxiosResponse<HttpResponse>) => {
     const res = response.data;
     if (response.status !== 200) {
-      res.errMsg &&
-        Modal.message({
-          message: res.errMsg,
+        Modal.alert({
+          message: `status code=${response.status}, trace id=${response.headers['x-b3-traceid']}`,
           status: 'error',
         });
-      return Promise.reject(new Error(res.errMsg || 'Error'));
+      return Promise.reject(new Error('Error'));
     }
     return res;
   },
@@ -57,17 +56,15 @@ axios.interceptors.response.use(
       clearToken();
       router.replace({ name: 'login' });
       Modal.message({
-        message: locale.t('http.error.TokenExpire'),
-        status: 'error',
+        message: `status code=${error.response.status}, trace id=${error.response.headers['x-b3-traceid']}`,
+        status: info,
       });
     } else {
-      data.errMsg &&
-        Modal.message({
-          message: locale.t(`http.error.${data.errMsg}`),
-          status: 'error',
-        });
+      Modal.alert({
+        message: `status code=${error.response.status}, trace id=${error.response.headers['x-b3-traceid']}`,
+        status: 'error',
+      });
     }
-
     return Promise.reject(error);
   }
 );

@@ -64,7 +64,7 @@ public class AuthenticationEdgeFilter extends AbstractFilter implements EdgeFilt
     String token = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION);
     String tokenType = invocation.getContext(CommonConstants.CONTEXT_HEADER_AUTHORIZATION_TYPE);
     if (token == null) {
-      return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+      return CompletableFuture.failedFuture(new InvocationException(Status.UNAUTHORIZED,
           new CommonExceptionData("not authenticated")));
     }
 
@@ -73,7 +73,7 @@ public class AuthenticationEdgeFilter extends AbstractFilter implements EdgeFilt
     if (CommonConstants.AUTHORIZATION_TYPE_ID_TOKEN.equals(tokenType)) {
       JWTToken jwtToken = openIDTokenStore.createIDTokenByValue(token);
       if (jwtToken == null || jwtToken.isExpired()) {
-        return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+        return CompletableFuture.failedFuture(new InvocationException(Status.UNAUTHORIZED,
             new CommonExceptionData("token expired or not valid")));
       }
 
@@ -85,7 +85,7 @@ public class AuthenticationEdgeFilter extends AbstractFilter implements EdgeFilt
       CompletableFuture<Void> result = new CompletableFuture<>();
       openIDTokenFuture.whenComplete((res, ex) -> {
         if (openIDTokenFuture.isCompletedExceptionally() || res == null || res.isExpired()) {
-          result.completeExceptionally(new InvocationException(Status.FORBIDDEN,
+          result.completeExceptionally(new InvocationException(Status.UNAUTHORIZED,
               new CommonExceptionData("not authenticated")));
           return;
         }
@@ -96,7 +96,7 @@ public class AuthenticationEdgeFilter extends AbstractFilter implements EdgeFilt
       });
       return result.thenCompose((v) -> nextNode.onFilter(invocation));
     } else {
-      return CompletableFuture.failedFuture(new InvocationException(Status.FORBIDDEN,
+      return CompletableFuture.failedFuture(new InvocationException(Status.UNAUTHORIZED,
           new CommonExceptionData("not authenticated")));
     }
   }

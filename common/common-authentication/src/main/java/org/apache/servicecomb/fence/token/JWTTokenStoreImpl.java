@@ -56,9 +56,9 @@ public class JWTTokenStoreImpl implements JWTTokenStore {
   }
 
   public JWTToken createTokenByValue(String value) {
-    Jwt jwt = JwtHelper.decode(value);
     JWTClaims claims;
     try {
+      Jwt jwt = JwtHelper.decode(value);
       jwt.verifySignature(signatureVerifier);
       claims = JsonParser.parse(jwt.getClaims(), JWTClaims.class);
     } catch (Exception e) {
