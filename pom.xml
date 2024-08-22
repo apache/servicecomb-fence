@@ -41,6 +41,7 @@
     <module>admin-service</module>
     <module>admin-website</module>
     <module>integration-tests</module>
+    <module>scaffolding</module>
   </modules>
 
   <dependencyManagement>
