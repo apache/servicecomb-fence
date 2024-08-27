@@ -48,7 +48,7 @@ public class ConfigBasedAuthorizationAuthFilter implements AuthFilter {
           }
         }
         if (!valid) {
-          throw new InvocationException(403, "forbidden", "not authenticated");
+          throw new InvocationException(403, "forbidden", "not permitted");
         }
       }
     }

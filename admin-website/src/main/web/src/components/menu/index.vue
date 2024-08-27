@@ -74,6 +74,18 @@
       icon: null,
       bold: 'title',
     },
+   {
+      value: 'Examples',
+      name: 'menu.examples',
+      icon: iconFiletext,
+      bold: 'main-title',
+    },
+   {
+      value: 'TestMethodAuth',
+      name: 'menu.examples.testMethodAuth',
+      icon: null,
+      bold: 'title',
+    },
     {
       value: 'User',
       name: 'menu.user',
