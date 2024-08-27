@@ -8,6 +8,8 @@ import localeManagement from '@/views/management/locale/zh-CN';
 
 import localeProblems from '@/views/maintenance/problems/locale/zh-CN';
 
+import localeExamples from '@/views/examples/locale/zh-CN';
+
 import localeSettings from './zh-CN/settings';
 
 import localeHttpError from './zh-CN/httpError';
@@ -30,6 +32,7 @@ export default {
   ...localeUserInfo,
   ...localeUserSetting,
   ...localeManagement,
+  ...localeExamples,
   ...localeProblems,
   ...localeHttpError,
 };

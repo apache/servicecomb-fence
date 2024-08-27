@@ -8,6 +8,8 @@ import localeManagement from '@/views/management/locale/en-US';
 
 import localeProblems from '@/views/maintenance/problems/locale/en-US';
 
+import localeExamples from '@/views/examples/locale/en-US';
+
 import localeSettings from './en-US/settings';
 
 import localeHttpError from './en-US/httpError';
@@ -30,6 +32,7 @@ export default {
   ...localeUserInfo,
   ...localeUserSetting,
   ...localeManagement,
+  ...localeExamples,
   ...localeProblems,
   ...localeHttpError,
 };

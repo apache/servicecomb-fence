@@ -35,6 +35,6 @@ public class AccessDeniedExceptionExceptionConverter
 
   @Override
   public InvocationException convert(Invocation invocation, AccessDeniedException throwable, StatusType genericStatus) {
-    return new InvocationException(Status.FORBIDDEN, new CommonExceptionData("not authenticated"));
+    return new InvocationException(Status.FORBIDDEN, new CommonExceptionData("not permitted"));
   }
 }
