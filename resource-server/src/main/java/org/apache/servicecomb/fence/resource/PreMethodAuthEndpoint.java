@@ -30,13 +30,13 @@ public class PreMethodAuthEndpoint implements PreMethodAuthService {
   }
 
   @Override
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasRole('GUEST')")
   public String guestSayHello(String name) {
     return name;
   }
 
   @Override
-  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  @PreAuthorize("hasAnyRole('GUEST','ADMIN')")
   public String guestOrAdminSayHello(String name) {
     return name;
   }
