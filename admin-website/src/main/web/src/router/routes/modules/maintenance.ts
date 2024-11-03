@@ -25,5 +25,17 @@ export default {
         roles: [],
       },
     },
+    {
+      path: 'restApi',
+      name: 'RestApi',
+      id: 'RestApi',
+      label: 'RestApi',
+      component: () => import('@/views/maintenance/restApi/index.vue'),
+      meta: {
+        locale: 'menu.maintenance.restapi',
+        requiresAuth: true,
+        roles: [],
+      },
+    },
   ],
 };
