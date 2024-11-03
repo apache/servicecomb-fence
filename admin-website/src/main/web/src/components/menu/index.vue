@@ -75,6 +75,12 @@
       bold: 'title',
     },
    {
+      value: 'RestApi',
+      name: 'menu.maintenance.restapi',
+      icon: null,
+      bold: 'title',
+    },
+   {
       value: 'Examples',
       name: 'menu.examples',
       icon: iconFiletext,

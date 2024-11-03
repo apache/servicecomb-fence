@@ -1,22 +1,26 @@
-import { mergeConfig, loadEnv } from 'vite';
-import eslint from 'vite-plugin-eslint';
+import { mergeConfig } from 'vite';
 import baseConfig from './vite.config.base';
+import configCompressPlugin from './plugin/compress';
+import configVisualizerPlugin from './plugin/visualizer';
 
 export default mergeConfig(
   {
-    mode: 'development',
-    server: {
-      open: true,
-      fs: {
-        strict: true,
+    mode: 'production',
+    plugins: [configCompressPlugin('gzip'), configVisualizerPlugin()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vue: ['vue', 'vue-router', 'pinia', '@vueuse/core', 'vue-i18n'],
+          },
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].js',
+          assetFileNames: 'assets/[name].[ext]'
+        },
       },
+      chunkSizeWarningLimit: 2000,
+      minify: false,
     },
-    plugins: [
-      eslint({
-        include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.vue'],
-        exclude: ['node_modules'],
-      }),
-    ],
   },
   baseConfig
 );
