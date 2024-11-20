@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-backend
+spec:
+  selector:
+    app: admin-backend-pods
+  ports:
+    - protocol: TCP
+      port: 9096
+      targetPort: 9096
+  type: NodePort
+  

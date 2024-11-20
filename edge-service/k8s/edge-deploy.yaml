@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge
+  labels:
+    app: edge-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-pods
+  template:
+    metadata:
+      name: edge
+      labels:
+        app: edge-pods
+    spec:
+      containers:
+        - name: edge-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/edge-service:0.0.1
+          env:
+            - name: ZK_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: edge
+                  key: ZK_SERVER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
+      

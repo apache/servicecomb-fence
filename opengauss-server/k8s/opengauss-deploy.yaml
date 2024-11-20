@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opengauss
+  labels:
+    app: opengauss-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opengauss-pods
+  template:
+    metadata:
+      name: opengauss-pod
+      labels:
+        app: opengauss-pods
+    spec:
+      containers:
+        - name: opengauss-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/opengauss:3.1.0
+          env:
+            - name: GS_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_PASSWORD
+                  name: opengauss
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+      restartPolicy: Always
+      

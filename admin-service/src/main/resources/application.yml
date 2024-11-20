@@ -15,34 +15,28 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 ## ---------------------------------------------------------------------------
+server:
+  port: 9098
+  servlet:
+    context-path: /ui/admin
+
 servicecomb:
   service:
     application: scb-fence
-    name: admin-service
+    name: admin-website
     version: 0.0.1
 
   registry:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
   config:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
 
   rest:
-    address: 0.0.0.0:9096
-  # HTTP container url prefix, or ROOT
-  http:
-    dispatcher:
-      rest:
-        pattern: "/admin/(.*)"
+    address: 0.0.0.0:${APP_PORT:9098} # same as server.port, for registration only
 
-  authentication:
-    access:
-      needAuth: true
-      scb-admin-observability:
-        roles: ADMIN
-      # java chassis internal schema and health api, should not authenticate
-      scb-management:
-        needAuth: false
+    servlet:
+      urlPattern: "/admin/*"  # Java chassis servlet. And spring mvc DispatcherServlet will be `/`

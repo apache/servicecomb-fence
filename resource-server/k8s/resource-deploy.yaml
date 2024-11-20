@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource
+  labels:
+    app: resource-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resource-pods
+  template:
+    metadata:
+      name: resource
+      labels:
+        app: resource-pods
+    spec:
+      containers:
+        - name: resource-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/resource-server:0.0.1
+          env:
+            - name: ZK_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  key: ZK_SERVER
+                  name: edge
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+              protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
+      

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-web
+  labels:
+    app: admin-web-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-web-pods
+  template:
+    metadata:
+      name: admin-web
+      labels:
+        app: admin-web-pods
+    spec:
+      containers:
+        - name: admin-web-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/admin-website:0.0.1
+          env:
+            - name: ZK_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: edge
+                  key: ZK_SERVER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9098
+              protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
+      

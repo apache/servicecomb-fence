@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper-pods
+  template:
+    metadata:
+      name: zookeeper-pod
+      labels:
+        app: zookeeper-pods
+    spec:
+      containers:
+        - name: zookeeper-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/zookeeper:3.9.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2181
+              protocol: TCP
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
+      

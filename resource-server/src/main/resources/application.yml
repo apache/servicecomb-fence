@@ -24,14 +24,14 @@ servicecomb:
   registry:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
   config:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
 
   rest:
-    address: 0.0.0.0:9092
+    address: 0.0.0.0:${APP_PORT:9092}
   # HTTP container url prefix, or ROOT
   http:
     dispatcher:

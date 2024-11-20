@@ -16,6 +16,8 @@
 ## limitations under the License.
 ## ---------------------------------------------------------------------------
 servicecomb:
+  tracing:
+    enabled: true # 是否启用调用链追踪功能，默认为 true
   service:
     application: scb-fence
     name: edge-service
@@ -24,14 +26,14 @@ servicecomb:
   registry:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
   config:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
 
   rest:
-    address: 0.0.0.0:9090
+    address: 0.0.0.0:${APP_PORT:9090}
 
   matchGroup:
     allOperation: |

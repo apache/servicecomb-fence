@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication
+  labels:
+    app: authentication-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-pods
+  template:
+    metadata:
+      name: authentication
+      labels:
+        app: authentication-pods
+    spec:
+      containers:
+        - name: authentication-container
+          image: swr.cn-north-4.myhuaweicloud.com/wmwei/authentication-server:0.0.1
+          env:
+            - name: ZK_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: edge
+                  key: ZK_SERVER
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_PASSWORD
+                  name: mysql
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_URL
+                  name: mysql
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9061
+              protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
+      

@@ -29,14 +29,14 @@ servicecomb:
   registry:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
   config:
     zk:
       enabled: true
-      connectString: 127.0.0.1:2181
+      connectString: ${ZK_SERVER:127.0.0.1:2181}
 
   rest:
-    address: 0.0.0.0:9098 # same as server.port, for registration only
+    address: 0.0.0.0:${APP_PORT:9098} # same as server.port, for registration only
 
     servlet:
       urlPattern: "/admin/*"  # Java chassis servlet. And spring mvc DispatcherServlet will be `/`
