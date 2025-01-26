@@ -33,7 +33,7 @@
     "@types/mockjs": "^1.0.9",
     "@vueuse/core": "^10.5.0",
     "@vueuse/head": "^2.0.0",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.1",
     "echarts4": "npm:echarts@4.9.0",
